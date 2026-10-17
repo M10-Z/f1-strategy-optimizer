@@ -1,0 +1,284 @@
+{
+  "source": "Original synthetic constrained four-car study; user scenario weights, no empirical probabilities",
+  "ego": "EGO",
+  "state": {
+    "completed_laps": 45,
+    "total_laps": 53,
+    "track_status": "GREEN",
+    "weather": "DRY",
+    "track_temp": 35.0,
+    "cars": [
+      {
+        "driver": "LEADER",
+        "base_lap_time": 99.0,
+        "compound": "MEDIUM",
+        "tyre_age": 14,
+        "gap_seconds": 0.0,
+        "tyre_inventory": {
+          "SOFT": 1,
+          "MEDIUM": 1,
+          "HARD": 1,
+          "INTERMEDIATE": 1
+        },
+        "pit_stops": 1,
+        "used_compounds": [
+          "SOFT",
+          "MEDIUM"
+        ],
+        "team": "Team B"
+      },
+      {
+        "driver": "EGO",
+        "base_lap_time": 99.5,
+        "compound": "SOFT",
+        "tyre_age": 16,
+        "gap_seconds": 0.9,
+        "tyre_inventory": {
+          "SOFT": 1,
+          "MEDIUM": 1,
+          "HARD": 1,
+          "INTERMEDIATE": 1
+        },
+        "pit_stops": 1,
+        "used_compounds": [
+          "SOFT",
+          "MEDIUM"
+        ],
+        "team": "Team A"
+      },
+      {
+        "driver": "FAST",
+        "base_lap_time": 98.9,
+        "compound": "HARD",
+        "tyre_age": 12,
+        "gap_seconds": 2.2,
+        "tyre_inventory": {
+          "SOFT": 1,
+          "MEDIUM": 1,
+          "HARD": 1,
+          "INTERMEDIATE": 1
+        },
+        "pit_stops": 1,
+        "used_compounds": [
+          "SOFT",
+          "MEDIUM"
+        ],
+        "team": "Team B"
+      },
+      {
+        "driver": "TRAFFIC",
+        "base_lap_time": 100.8,
+        "compound": "HARD",
+        "tyre_age": 5,
+        "gap_seconds": 4.0,
+        "tyre_inventory": {
+          "SOFT": 1,
+          "MEDIUM": 1,
+          "HARD": 1,
+          "INTERMEDIATE": 1
+        },
+        "pit_stops": 1,
+        "used_compounds": [
+          "SOFT",
+          "MEDIUM"
+        ],
+        "team": "Team A"
+      }
+    ],
+    "season": 2026,
+    "event": "SYNTHETIC-RESOURCE-STUDY"
+  },
+  "tyres": {
+    "SOFT": {
+      "base_time": 100.0,
+      "degradation": 0.18
+    },
+    "MEDIUM": {
+      "base_time": 100.35,
+      "degradation": 0.1
+    },
+    "HARD": {
+      "base_time": 100.7,
+      "degradation": 0.06
+    },
+    "INTERMEDIATE": {
+      "base_time": 104.0,
+      "degradation": 0.08
+    }
+  },
+  "physics": {
+    "reference_lap_time": 100.0,
+    "pit_loss": 20.0,
+    "following_gap": 0.2,
+    "passing_advantage": 0.8,
+    "passing_cost": 0.3,
+    "sc_pace_factor": 1.4,
+    "vsc_pace_factor": 1.25,
+    "sc_pit_factor": 0.5,
+    "vsc_pit_factor": 0.7,
+    "sc_gap": 1.0,
+    "sc_catchup_per_lap": 5.0,
+    "wet_penalties": {
+      "SOFT": 12.0,
+      "MEDIUM": 13.0,
+      "HARD": 14.0,
+      "INTERMEDIATE": 0.0
+    },
+    "pit_service_time": 3.0
+  },
+  "opponents": {
+    "LEADER": {
+      "kind": "reactive",
+      "rival": "EGO",
+      "compound": "HARD",
+      "planned_lap": 49,
+      "window_start": 45,
+      "window_end": 51,
+      "mode": "cover_undercut",
+      "response_gap": 25.0
+    },
+    "FAST": {
+      "kind": "reactive",
+      "rival": "EGO",
+      "compound": "MEDIUM",
+      "planned_lap": 49,
+      "window_start": 45,
+      "window_end": 51,
+      "mode": "overcut",
+      "overcut_laps": 1,
+      "response_gap": 25.0
+    },
+    "TRAFFIC": {
+      "kind": "fixed",
+      "stops": [
+        {
+          "after_lap": 50,
+          "compound": "SOFT"
+        }
+      ]
+    }
+  },
+  "scenarios": [
+    {
+      "name": "green-dry-assumption",
+      "weight": 1,
+      "available_at_lap": 45,
+      "events": []
+    },
+    {
+      "name": "illustrative-sc",
+      "weight": 1,
+      "available_at_lap": 45,
+      "events": [
+        {
+          "lap": 48,
+          "track_status": "SC"
+        },
+        {
+          "lap": 50,
+          "track_status": "GREEN"
+        }
+      ]
+    },
+    {
+      "name": "illustrative-vsc",
+      "weight": 1,
+      "available_at_lap": 45,
+      "events": [
+        {
+          "lap": 46,
+          "track_status": "VSC"
+        },
+        {
+          "lap": 48,
+          "track_status": "GREEN"
+        }
+      ]
+    },
+    {
+      "name": "illustrative-rain",
+      "weight": 1,
+      "available_at_lap": 45,
+      "events": [
+        {
+          "lap": 49,
+          "weather": "WET"
+        }
+      ]
+    }
+  ],
+  "candidates": {
+    "pit_laps": [
+      45,
+      47,
+      49,
+      51
+    ],
+    "compounds": [
+      "MEDIUM",
+      "HARD",
+      "INTERMEDIATE"
+    ],
+    "max_stops": 2,
+    "max_candidates": 100,
+    "max_rollouts": 400
+  },
+  "risk_top_k": 2,
+  "rules": {
+    "season": 2026,
+    "event": "SYNTHETIC-RESOURCE-STUDY",
+    "version": "research-constraints-v2",
+    "source": "Explicit synthetic study assumptions; min_stops=2 is not asserted as a FIA event rule",
+    "source_status": "configurable_assumption",
+    "min_dry_compounds": 2,
+    "min_stops": 2,
+    "allowed_compounds": [
+      "SOFT",
+      "MEDIUM",
+      "HARD",
+      "INTERMEDIATE"
+    ],
+    "mandatory_dry_compounds": [
+      "MEDIUM",
+      "HARD"
+    ],
+    "wet_compounds": [
+      "INTERMEDIATE"
+    ],
+    "wet_waives_dry_requirement": true,
+    "max_tyre_age": {
+      "SOFT": 28,
+      "MEDIUM": 35,
+      "HARD": 40,
+      "INTERMEDIATE": 20
+    }
+  },
+  "objective": {
+    "mode": "team_rank_sum",
+    "team": "Team A"
+  },
+  "rolling": {
+    "pit_offsets": [
+      0,
+      2,
+      4
+    ],
+    "max_decisions": 8,
+    "total_rollout_budget": 2000,
+    "realization": {
+      "name": "synthetic-vsc-realization",
+      "weight": 1,
+      "available_at_lap": 45,
+      "events": [
+        {
+          "lap": 48,
+          "track_status": "VSC"
+        },
+        {
+          "lap": 50,
+          "track_status": "GREEN"
+        }
+      ]
+    }
+  }
+}

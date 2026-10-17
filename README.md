@@ -25,8 +25,12 @@ JSON and Markdown outputs rank candidates by scenario-weighted finish position, 
 position, and expose the position distribution, downside share and every opponent response.
 
 **Scenario weights and physics are assumptions, not calibrated probabilities or guaranteed
-optimal race advice.** This first version handles same-lap cars and one planned ego stop;
-it does not enforce tyre inventory or sporting legality. The current terminal menu remains
+optimal race advice.** The planner handles same-lap cars, optional finite fresh tyre stock,
+explicit race-specific rule subsets, up to two future stops per search, rolling replanning,
+same-team pit-box waits and an optional team rank-sum objective. It is not a full sporting
+compliance checker. Try `examples/competition-resources.json` with the same command and a new
+output directory; see [resources and replanning](docs/resources-and-replanning.md).
+The current terminal menu remains
 the single-car research interface. See [architecture, timing semantics and limits](docs/competition.md)
 and the [blocked real-data attempt](docs/real-validation-2026-10-17.md).
 

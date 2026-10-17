@@ -4,6 +4,10 @@
 
 ## 0.1.0 — unreleased
 
+- Add optional finite fresh tyre inventory, versioned season/event rule subsets, bounded
+  two-stop search and rolling replanning with persistent resources/history. Add same-team
+  pit-box waits and team rank-sum scoring; retain the first planner API. Export infeasibility,
+  search counts/timing and partial controller status. All weights remain user assumptions.
 - Add an offline position-oriented multi-car planner (`f1-race-plan`) with heterogeneous
   vehicle pace, restricted passing, fixed and reactive opponents, SC/VSC/weather scenarios,
   position distributions and downside reporting. Scenario weights are explicit uncalibrated

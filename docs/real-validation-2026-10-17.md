@@ -43,3 +43,10 @@ python -m f1_strategy_optimizer backtest --track Bahrain --start 2022 --end 2024
 
 Network access to an approved timing source, or a trusted local cache/normalized CSV with
 provenance, is required. No permissions were changed and no prior was calibrated.
+
+For an administrator reviewing environment egress configuration, the failed HTTPS CONNECT
+targets were `livetiming.formula1.com:443`, `livetiming-mirror.fastf1.dev:443` (FastF1's built-in
+alternative), and `api.jolpi.ca:443` (results metadata). `raw.githubusercontent.com:443` already
+served the calendar. This is a configuration handoff, not an access change or a bypass request;
+the resource/planning iteration did not retry the denied hosts. A permitted local cache/CSV
+with provenance remains an alternative that does not require network changes.

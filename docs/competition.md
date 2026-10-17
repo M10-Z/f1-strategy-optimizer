@@ -15,7 +15,8 @@ hypotheses; it is not a game-theoretic optimum, calibrated forecast or race-read
 | Opponent decision | `OpponentPolicy.choose(observation, driver)` | Fixed schedules or observed-undercut/overcut responses; no future scenario object |
 | Event assumptions | `Scenario`, `RaceEvent` | Explicit weighted hypothetical SC/VSC/weather/temperature paths |
 | Competition physics | `Physics`, `simulate` | Simultaneous pit decisions, paid time losses, tyre aging, constrained passing and neutralization |
-| Position objective | `candidate_actions`, `plan_positions` | Stay-out and one-stop candidates; common action compared across every scenario |
+| Position objective | `candidate_actions`, `candidate_plans`, `plan_positions` | Legacy one-stop API plus bounded two-stop plans; position or team rank-sum objective |
+| Resources and control | `CompetitionRules`, `rolling_plan` | Explicit stock/rule feasibility, same-team queues, one observed lap at a time |
 | Offline entry point | `race_planner`, `f1-race-plan` | JSON input, recorded assumptions/hash/versions, ranked JSON and readable Markdown |
 
 The deterministic solver remains a baseline for isolated model-relative time optimization.
@@ -57,15 +58,20 @@ future events as hypotheses would still be hindsight leakage. That adapter is no
   This is an explicit heuristic, not a DRS/aerodynamics or continuous-distance simulation.
 - SC/VSC prohibit on-track passing. SC closes gaps by a bounded amount per lap, never beyond
   green-equivalent travel; VSC has no deliberate bunching. Slower pace and reduced net pit
-  losses are independently supplied factors. Pit queues and actual pit-lane geometry are absent.
+  losses are independently supplied factors. Same-boundary team pit-box queues use arrival gaps;
+  actual pit-lane geometry is absent.
 - Rain changes explicit per-compound penalties, allowing tyre-choice tradeoffs. Every modeled
   compound needs a declared wet penalty in a wet scenario; unknown wet response is not guessed.
 - Weights are normalized user assumptions, not measured frequencies. Outputs include weighted
   mean finish position, full rank distribution, worst position, standard deviation and weighted
   share outside the configured top k. Ranking uses mean rank, then worst rank; exact ties prefer
   staying out, then the stable action label. It does not minimize total elapsed time.
-- The ego currently commits to one stop (or none) within each rollout. To revise a plan, call the
-  planner again with a new visible snapshot. Full adaptive multi-stop policy search is future work.
+- Each search compares zero/one/two-stop plans. The rolling controller executes only the
+  current action, advances one observed lap and rebuilds the remaining plan with persistent
+  stock/history. This is bounded receding-horizon search, not an optimal adaptive policy tree.
+- Optional team rank-sum scoring changes the ego's plan while teammate policies remain fixed
+  or reactive. [Resource and rule semantics](resources-and-replanning.md) describe feasibility,
+  candidate budgets, queues and the distinction between checked subsets and full regulations.
 
 ## Reproducible synthetic example
 
@@ -100,8 +106,8 @@ Public lap pace mixes vehicle performance, traffic, fuel, tyres, track evolution
 behavior. It must not be presented as an identified causal vehicle-performance parameter.
 
 Immediate next work is trusted data access plus snapshot/replay validation and physical checks
-on observed gaps, passes, pit losses and opponent responses. Then add tyre inventory, used sets,
-legal compound constraints and adaptive multiple stops. Failures, penalties, pit queues/double
-stacking, lapped traffic, red flags and team cooperation need separate event/state representations
-and evidence before their distributions can be calibrated. No module claims to enumerate every
+on observed gaps, passes, pit losses and opponent responses. Fresh-set inventory, explicit
+rule subsets, rolling two-stop planning and simple team queues are now implemented; used-set
+reuse, joint teammate planning, failures, penalties, lapped traffic and red flags remain open.
+Event distributions require evidence before calibration. No module claims to enumerate every
 factor that can affect a race. The [roadmap](roadmap.md) records these priorities.

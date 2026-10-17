@@ -3,7 +3,7 @@
 import argparse
 import hashlib
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 
 from .artifacts import _versions, write_json
@@ -13,14 +13,18 @@ from .competition import (
     Physics,
     PitAction,
     PitRecord,
+    PlanningObjective,
     RaceEvent,
     RaceState,
     ReactivePolicy,
     Scenario,
     candidate_actions,
+    candidate_plans,
     plan_positions,
 )
 from .config import finite_number, positive_int
+from .race_constraints import CompetitionRules
+from .rolling import rolling_plan
 
 
 @dataclass(frozen=True)
@@ -69,7 +73,8 @@ def plan_from_document(document: dict) -> dict:
         "scenarios",
         "candidates",
     }
-    if required - set(document) or set(document) - required - {"risk_top_k", "observed_pits"}:
+    optional = {"risk_top_k", "observed_pits", "rules", "objective", "rolling"}
+    if required - set(document) or set(document) - required - optional:
         raise ValueError(
             "Scenario document needs source/state/physics/tyres/ego/opponents/scenarios/candidates"
         )
@@ -106,11 +111,30 @@ def plan_from_document(document: dict) -> dict:
         events = tuple(RaceEvent(**event) for event in scenario.pop("events", []))
         scenarios.append(Scenario(events=events, **scenario))
     candidates = document["candidates"]
-    if set(candidates) != {"compounds", "pit_laps"}:
-        raise ValueError("Candidate settings accept compounds and pit_laps")
-    actions = candidate_actions(
-        state, tuple(candidates["compounds"]), tuple(candidates["pit_laps"])
-    )
+    if {"compounds", "pit_laps"} - set(candidates) or set(candidates) - {
+        "compounds",
+        "pit_laps",
+        "max_stops",
+        "max_candidates",
+        "max_rollouts",
+    }:
+        raise ValueError("Candidate settings require compounds/pit_laps and optional search limits")
+    compounds = tuple(candidates["compounds"])
+    max_stops = candidates.get("max_stops", 1)
+    max_candidates = candidates.get("max_candidates", 500)
+    max_rollouts = candidates.get("max_rollouts", 2000)
+    if "max_stops" in candidates:
+        actions = candidate_plans(
+            state, compounds, tuple(candidates["pit_laps"]), max_stops, max_candidates
+        )
+    else:
+        actions = candidate_actions(state, compounds, tuple(candidates["pit_laps"]))
+        positive_int(max_candidates, "max_candidates")
+        if len(actions) > max_candidates:
+            raise ValueError("Candidate grid exceeds max_candidates")
+    rules = CompetitionRules(**document.get("rules", {}))
+    objective = PlanningObjective(**document.get("objective", {}))
+    history = tuple(PitRecord(**p) for p in document.get("observed_pits", []))
     result = plan_positions(
         model,
         state,
@@ -120,8 +144,50 @@ def plan_from_document(document: dict) -> dict:
         actions,
         tuple(scenarios),
         document.get("risk_top_k", 3),
-        tuple(PitRecord(**p) for p in document.get("observed_pits", [])),
+        history,
+        rules,
+        objective,
+        max_rollouts,
     )
+    if "rolling" in document:
+        settings = dict(document["rolling"])
+        realized = dict(settings.pop("realization"))
+        realized_events = tuple(RaceEvent(**event) for event in realized.pop("events", []))
+        realization = Scenario(events=realized_events, **realized)
+        if set(settings) - {"pit_offsets", "max_decisions", "total_rollout_budget"}:
+            raise ValueError("Unknown rolling controller settings")
+
+        def beliefs(observation):
+            # Predeclared assumptions only. Never read realization.events here.
+            lap = observation.state.completed_laps
+            return tuple(
+                replace(s, events=tuple(e for e in s.events if e.lap > lap)) for s in scenarios
+            )
+
+        result["rolling_simulation"] = asdict(
+            rolling_plan(
+                model,
+                state,
+                physics,
+                document["ego"],
+                opponents,
+                beliefs,
+                realization,
+                compounds,
+                max_stops=max_stops,
+                max_candidates=max_candidates,
+                max_rollouts=max_rollouts,
+                observed_pits=history,
+                rules=rules,
+                objective=objective,
+                risk_top_k=document.get("risk_top_k", 3),
+                **settings,
+            )
+        )
+        result["rolling_notice"] = (
+            "Only the current action is executed; beliefs are predeclared user assumptions, "
+            "not inferred from the realized future"
+        )
     result["source"] = document["source"]
     result["initial_order"] = list(state.order)
     result["initial_gaps_seconds"] = state.gaps()
@@ -174,21 +240,43 @@ def main(argv=None):
             f"Source: {report['source']}",
             f"Driver: {report['ego']}",
             f"Decision after lap: {report['decision_lap']}",
+            f"Objective: {report['objective_config']['mode']}",
+            f"Status: {report['status']}",
+            f"Search: {report['search']}",
             "",
-            "Ranking uses scenario-weighted position, then worst position. "
+            "Ranking uses the scenario-weighted configured objective, then worst objective. "
             "Weights are assumptions.",
             "",
-            "| Plan | Weighted position | Worst position | Position SD | Share outside top k |",
-            "|---|---:|---:|---:|---:|",
+            "| Plan | Weighted objective | Weighted position | Worst position | "
+            "Position SD | Share outside top k |",
+            "|---|---:|---:|---:|---:|---:|",
         ]
         for row in report["ranking"]:
             lines.append(
-                f"| {row['label']} | {row['expected_finish_position']:.3f} | "
+                f"| {row['label']} | {row['expected_objective']:.3f} | "
+                f"{row['expected_finish_position']:.3f} | "
                 f"{row['worst_finish_position']} | {row['position_std']:.3f} | "
                 f"{row['weighted_share_outside_top_k']:.3f} |"
             )
         lines += ["", f"k = {report['risk_top_k']}", "", report["pace_notice"], "", "## Limits", ""]
         lines += [f"- {limit}" for limit in report["limits"]]
+        if "rolling_simulation" in report:
+            rolling = report["rolling_simulation"]
+            lines += [
+                "",
+                "## Rolling simulation",
+                "",
+                f"Status: {rolling['status']}",
+                f"Rollouts: {rolling['rollouts_executed']}; "
+                f"seconds: {rolling['elapsed_seconds']:.6f}",
+                report["rolling_notice"],
+                "",
+                "| Decision after lap | Selected stops (only current stop executed) |",
+                "|---|---|",
+            ]
+            lines += [
+                f"| {d['after_lap']} | {d['recommended_stops']} |" for d in rolling["decisions"]
+            ]
         lines += [
             "",
             "Per-scenario finish orders, opponent responses and visible-state traces: "
@@ -196,15 +284,23 @@ def main(argv=None):
             "",
         ]
         (output / "race-plan.md").write_text("\n".join(lines), encoding="utf-8")
-        best = report["ranking"][0]
-        print(
-            f"Scenario-ranked plan: {best['label']} | "
-            f"weighted position: {best['expected_finish_position']:.3f}"
-        )
+        if report["ranking"]:
+            best = report["ranking"][0]
+            print(
+                f"Scenario-ranked plan: {best['label']} | "
+                f"weighted position: {best['expected_finish_position']:.3f}"
+            )
+        else:
+            print("No feasible candidate; inspect rejected_candidates in race-plan.json")
         print(report["claim"])
         print(report["feasibility"])
         print(f"Results: {output.resolve()}")
-        return 0
+        return (
+            0
+            if report["ranking"]
+            and report.get("rolling_simulation", {}).get("status", "finished") == "finished"
+            else 2
+        )
     except (ValueError, TypeError, KeyError, OSError, RuntimeError) as exc:
         parser.exit(2, f"error: {exc}\n")
 

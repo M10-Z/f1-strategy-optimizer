@@ -36,3 +36,8 @@ python -m f1_strategy_optimizer backtest --track Bahrain --start 2022 --end 2024
 
 需要环境允许一个可信计时来源，或提供含来源记录的本地缓存/规范化 CSV。
 本轮未改变权限，未校准任何先验。
+
+供管理员核查网络配置：失败的 HTTPS CONNECT 目标为 `livetiming.formula1.com:443`、
+`livetiming-mirror.fastf1.dev:443`（FastF1 内置备选）及 `api.jolpi.ca:443`（成绩元数据）。
+`raw.githubusercontent.com:443` 已能提供赛历。此处仅交接配置需求，资源/规划迭代未重试
+被拒绝的主机，也未改变权限或绕过限制；含来源记录的合法本地缓存/CSV 仍是替代路径。
