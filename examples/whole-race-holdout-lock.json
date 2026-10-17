@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "locked_at_utc": "2026-10-17T19:31:52Z",
+  "locked_before_development_iteration": "conservative-forecast-and-exploration-v1",
+  "parent_code_commit": "3bc354a8be2989e7f894c5310662fdcd5236ab9b",
+  "development_events": [{"season": 2023, "event": "Bahrain Grand Prix"}],
+  "holdout_events": [
+    {"season": 2024, "event": "Monaco Grand Prix", "selection_reason": "street circuit with constrained passing"},
+    {"season": 2024, "event": "British Grand Prix", "selection_reason": "high-speed circuit geometry"},
+    {"season": 2024, "event": "Italian Grand Prix", "selection_reason": "low-downforce circuit geometry"}
+  ],
+  "selection_uses": "calendar identity and circuit characteristics, not acquired results or observed model errors",
+  "results_accessed_for_this_lock": false,
+  "evaluation_status": "reserved_not_evaluated",
+  "unlock_gate": "Freeze candidate code commit, policy, feature contract and scoring manifest before acquiring any holdout outcome data",
+  "sampling": {
+    "reference": "official scheduled race start UTC; obtain schedule metadata only after model freeze",
+    "offset_seconds": [600, 900, 1200, 1500, 1800, 2100, 2400, 2700, 3000, 3300, 3600, 3900, 4200, 4500, 4800, 5100, 5400, 5700, 6000, 6300, 6600, 6900, 7200],
+    "driver_denominator": "all registered race drivers at every predeclared cutoff",
+    "partition_unit": "entire event, never shuffled neighboring laps"
+  },
+  "metrics": {
+    "lap": "unconditional future full-lap duration MAE and coverage",
+    "gap": "fresh last-available interval-report MAE at a fixed horizon, not synchronized physical gap",
+    "paired_comparison": "same targets for each method; report per-race metrics and equal-race aggregate",
+    "strategy": "no causal benefit claim; unknown action-matched evidence remains unscored"
+  },
+  "tuning_policy": "Bahrain-only development may inform defaults; holdout errors must not inform this frozen version. Any subsequent tuning requires a newly reserved whole-event test set.",
+  "fallback_policy": "If a selected race lacks a required source, report unavailable coverage without substituting a race after viewing outcomes"
+}
