@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "purpose": "Reserve next independent event before any result acquisition; prior four events are development only",
+  "baseline_commit": "a7bb350612cfbdb43a151cf431173b87b512291b",
+  "event": {"season": 2024, "slug": "belgian", "name": "Belgian Grand Prix", "circuit": "spa", "country": "Belgium", "openf1_circuit": "Spa-Francorchamps"},
+  "selection_reason": "Different long/high-speed circuit characteristics; not selected from prediction errors or observed outcomes",
+  "no_substitution": true,
+  "sampling": {"anchor": "official scheduled race start UTC", "offset_seconds": {"first": 600, "last": 7200, "step": 300}, "drivers": "all same-race registered drivers", "no_outcome_based_retiming": true},
+  "baseline": {"lap": "unchanged prefix_median", "gap": "unchanged persistence"},
+  "candidate": "Explainable visible-prefix segment median with stale/transition abstention; source and parameters frozen before acquisition",
+  "metrics": {
+    "primary": "candidate vs prefix_median lap MAE on exactly paired scored targets",
+    "coverage": "candidate scored / applicable registered-driver cutoff slots; also retain original full fixed denominator",
+    "categories": "post-event not-applicable, data/target missing, publication-boundary rejection, candidate abstention, scored; report each separately",
+    "post_event": "after latest recorded positive-duration lap completion; only a posthoc event-end proxy, never supplied as a prediction feature",
+    "gap": "unchanged baseline MAE plus freshness exclusions; no claim of prediction improvement",
+    "no_probability_claims": true
+  },
+  "acceptance_thresholds": {
+    "paired_lap_mae_ratio_at_most": 0.90,
+    "candidate_scored_fraction_of_applicable_slots_at_least": 0.50,
+    "paired_scored_targets_at_least": 100,
+    "future_prefix_violations": 0,
+    "predictions_using_stale_lap_evidence": 0,
+    "interpretation": "All thresholds required for a positive event-specific candidate result. Otherwise report failure/inconclusive, never select another race or retune on this event. One event cannot validate live or causal strategy benefit."
+  },
+  "sources": ["https://api.openf1.org", "https://api.jolpi.ca"],
+  "acquisition": "ordinary bounded GET with saved raw body/headers/receipts, no retry or alternate host; source failure is reported and event remains fixed",
+  "freeze_order": ["commit this selection", "develop only on previously observed four races", "commit candidate code/parameters/metrics and hashes", "acquire reserved event", "persist all decisions", "score once without tuning"]
+}
