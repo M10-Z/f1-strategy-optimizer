@@ -98,7 +98,10 @@ def main():
             "paired_available": sum(x["paired"] for x in rows),
             "top_choice_changed": sum(x["top_choice_changed"] is True for x in rows),
             "top3_order_changed": sum(x["top3_order_changed"] is True for x in rows),
-            "claim": "Sensitivity of hypothetical subset simulation only; no causal strategy benefit or actual race rank",
+            "claim": (
+                "Sensitivity of hypothetical subset simulation only; "
+                "no causal strategy benefit or actual race rank"
+            ),
         },
     )
     print(output.read_text())
