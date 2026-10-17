@@ -34,8 +34,8 @@ def main():
         shutil.copy2(repo / name, stage / name)
     if args.profile == "horizon":
         (stage / "recovery").mkdir()
-        subprocess.run(["git", "bundle", "create", str((stage / "recovery/source.bundle").resolve()),
-                        "--all"], cwd=repo, check=True)
+        bundle = (stage / "recovery/source.bundle").resolve()
+        subprocess.run(["git", "bundle", "create", str(bundle), "--all"], cwd=repo, check=True)
         shutil.copytree(repo / "docs", stage / "docs")
         (stage / "examples").mkdir()
         shutil.copy2(repo / "examples/observation-envelope.json", stage / "examples")
