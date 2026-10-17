@@ -1,0 +1,25 @@
+{
+  "events": [
+    "bahrain",
+    "monaco",
+    "british",
+    "italian"
+  ],
+  "fixed_case_indices": {
+    "bahrain": [
+      0,
+      1,
+      2
+    ],
+    "others": [
+      0,
+      7,
+      12
+    ]
+  },
+  "ego": "leclerc",
+  "comparison": "shipped_v1 vs selected_v2, same template/nearby field/scenarios/pit losses/opponents; only pace input changes",
+  "missing": "report unavailable, never change snapshot to obtain desired ranking",
+  "not_used_for_candidate_selection": true,
+  "no_causal_claim": true
+}
