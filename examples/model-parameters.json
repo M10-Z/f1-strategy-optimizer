@@ -1,0 +1,7 @@
+{
+  "fuel_gain_per_lap": 0.035,
+  "reference_temp": 35.0,
+  "temperature_coefficient": 0.003,
+  "min_degradation": {"SOFT": 0.08, "MEDIUM": 0.04, "HARD": 0.02},
+  "compound_gap": 0.0
+}

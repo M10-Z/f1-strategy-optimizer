@@ -1,0 +1,4 @@
+{
+  "pit_loss_overrides": {"25": 12.0, "26": 12.0},
+  "compound_age_limits": {"SOFT": 25, "MEDIUM": 35, "HARD": 45}
+}

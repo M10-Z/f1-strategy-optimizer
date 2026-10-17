@@ -1,0 +1,9 @@
+{
+  "name": "simplified-dry",
+  "season": 2025,
+  "event": "Bahrain research example",
+  "version": "research-v1",
+  "source": "Historical motivation: 2025 FIA Sporting Regulations Article 30.5; only configured minimum compound count is implemented, not full compliance",
+  "min_compounds": 2,
+  "min_stints": 1
+}

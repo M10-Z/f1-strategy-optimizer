@@ -1,0 +1,2 @@
+# Compatibility installation including optional real-data support.
+-e .[data]

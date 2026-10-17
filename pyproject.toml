@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "f1-strategy-optimizer"
+version = "0.1.0"
+description = "Reproducible, model-relative F1 pit strategy research with dynamic programming"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{name = "F1 Strategy Optimizer Contributors"}]
+dependencies = ["numpy>=1.24,<3", "pandas>=2.0,<3", "matplotlib>=3.7,<4"]
+
+[project.optional-dependencies]
+data = ["fastf1>=3.8,<4"]
+dev = ["pytest>=8,<9", "build>=1,<2", "ruff>=0.11,<1"]
+
+[project.scripts]
+f1-strategy = "f1_strategy_optimizer.cli:main"
+f1-driver-analysis = "f1_strategy_optimizer.driver_analysis:main"
+f1-menu = "f1_strategy_optimizer.terminal:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

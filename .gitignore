@@ -1,0 +1,55 @@
+# fastf1 缓存（体积大，可重新拉取）
+cache/
+
+# 生成的图表输出
+output/
+
+# FIA 规则 PDF（本地保留，不追踪）
+*.pdf
+
+# Python 编译缓存
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 虚拟环境
+f1_strategy/
+.venv/
+venv/
+env/
+.env
+
+# 分发 / 构建产物
+dist/
+build/
+*.egg-info/
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local agent configuration, personal materials and generated runs
+.claude/
+outputs/
+发送到微信/
+report.html
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.log
+
+# Private local material / 私人本地资料
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.codex/
+report.md
+AGENTS.md

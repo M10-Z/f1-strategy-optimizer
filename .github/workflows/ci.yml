@@ -1,0 +1,33 @@
+name: tests-and-package
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.10', '3.13']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m ruff check src tests main.py _compat.py data_engine.py degradation_model.py dp_solver.py environment.py
+      - run: python -m ruff format --check src tests main.py _compat.py data_engine.py degradation_model.py dp_solver.py environment.py
+      - run: python -m pytest -q
+      - run: python -m build
+      - name: Install wheel outside source tree and smoke test
+        shell: python
+        run: |
+          import pathlib, subprocess, sys, tempfile
+          wheel = next(pathlib.Path('dist').glob('*.whl')).resolve()
+          subprocess.run([sys.executable, '-m', 'pip', 'install', '--force-reinstall', '--no-deps', str(wheel)], check=True)
+          with tempfile.TemporaryDirectory() as folder:
+              subprocess.run([sys.executable, '-m', 'f1_strategy_optimizer', 'demo', '--laps', '12', '--compare', '--output-dir', 'results'], cwd=folder, check=True)

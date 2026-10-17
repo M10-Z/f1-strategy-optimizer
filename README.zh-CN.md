@@ -1,0 +1,135 @@
+# F1 进站策略优化器
+
+[English](README.md)
+
+面向研究与可复现实验的 Python 工具：轮胎衰减拟合、动态规划求解、跨年份验证、
+参数敏感性分析和策略可视化。结果表示**给定模型及约束下的最优策略**。
+本项目独立开发，不代表 FIA、Formula 1 或 Pirelli。
+
+## 终端操作界面（推荐）
+
+在项目目录双击 `start.cmd`，或使用已有环境执行：
+
+```powershell
+python main.py menu
+```
+
+新安装的用户可运行 `f1-menu` 或 `f1-strategy menu`。
+启动时选择 **1 中文 / 2 English**，然后按菜单编号操作：离线演示、赛事分析、
+车手分析、年份留出验证、已有结果、输出及缓存目录设置。菜单中可随时切换语言。
+直接回车使用默认值，`b` 返回上一步修改（保留更早的填写内容），`q` 取消填写并返回主菜单，
+`0` 退出；Ctrl+C 取消当前操作。交互终端一屏显示一个问题，只保留选项和默认值；
+输入 `?` 查看详细说明，输错时显示纠正提示。分析结束后按回车返回菜单。
+车手分析的历史数据范围直接显示具体年份，例如 `2023–2024`，也可选择自定义起始年份；
+无需理解或手算“年份窗口”。预测自动排除目标年，复盘可包含目标年。
+结果自动保存到带时间戳的新目录。真实数据默认只读本地缓存，也可明确选择联网获取。
+车手名称和赛道仍使用 FastF1 英文名称；底层引擎日志可能包含英文。
+路径设置只对当前菜单会话有效；结果列表显示当前输出目录下最近 20 个运行结果。
+
+## 安装与离线演示
+
+建议使用 Python 3.10–3.13，在仓库目录执行：
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install .
+.\.venv\Scripts\f1-strategy.exe demo --compare --holdout-year 2025 --output-dir output/demo
+```
+
+安装完成后，演示不需要网络，使用固定种子生成的合成数据。使用新的输出目录运行，
+程序不会覆盖已有结果。也可使用 `python main.py demo ...` 兼容入口。
+
+输出包括策略 JSON/CSV、圈速 CSV、模型曲线、策略对比图和运行清单。
+运行清单包含数据来源、SHA-256、依赖版本、规则、先验参数、拟合诊断和外推标记。
+指定 `--holdout-year 2025` 后还会输出年份留出验证结果。
+
+![合成数据策略情景对比](docs/assets/synthetic-strategies.png)
+
+上图来自固定种子 42 的离线演示，表示模型情景，不是真实比赛结果。
+
+## 获取历史赛事数据
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install ".[data]"
+.\.venv\Scripts\f1-strategy.exe optimize --track Bahrain --start 2022 --end 2025 --laps 57 --cache-dir cache --output-dir output/bahrain
+```
+
+只在明确调用真实数据路径时通过 FastF1 获取数据并初始化缓存。默认遇到缺失年份就报错；
+`--allow-partial` 允许继续，但会记录缺失年份。已有清洗后 CSV 可以通过 `--csv` 离线读取。
+添加 `--offline` 可强制只读取现有 FastF1 缓存，不发送数据请求。
+
+清洗保留有效的干地绿旗圈，按进出站标记、计时准确性、赛道状态剔除不合适的记录。
+数据必须包含 `Year, Driver, Stint, LapNumber, TyreLife, Compound, LapTimeSeconds`，
+一个数据集对应一个赛道；不支持用固定映射把 C1–C5 转为软中硬胎。
+
+## 指定车队与车手
+
+```powershell
+.\.venv\Scripts\f1-driver-analysis.exe --track Bahrain --team Ferrari --driver LEC --year 2025 --output-dir output/leclerc-2025
+```
+
+车手模块共用核心模型和求解器，支持身份核验、显式数据降级、历史复盘与排除目标赛事的预测模式。
+详细参数和边界见 [车手分析说明](docs/driver-analysis.zh-CN.md)。
+
+## 已完成的能力
+
+- 终点直接结算，不允许终点换胎满足双配方约束；支持最大胎龄边界。
+- 显式传入模型和比赛配置；多个拟合结果互不干扰。
+- 最少配方数、最少赛段数、起始配方、全局及分配方胎龄限制。
+- 指定圈结束时的进站损失覆盖值，用于确定性安全车损失情景研究。
+- 按年份/车手/stint 组内拟合衰减，保留模型诊断和观测胎龄范围。
+- 只用更早年份训练的留出验证，报告 MAE、RMSE、偏差及外推样本数。
+- 进站损失、温度、衰减先验和起始配方的敏感性比较。
+- 穷举对照测试、跨平台 CI 配置、可安装包、贡献与迁移文档。
+
+## 结果边界
+
+固定燃油修正、温度系数和衰减下限均为可配置先验，不是已验证的官方常数。
+默认不强制软胎一定比硬胎更快；图中分别展示原始拟合与实际用于优化的曲线。
+低 R² 不代表增加先验后就获得了可靠预测。
+
+规则配置记录赛季、赛事、版本与来源说明，但只实现明确列出的研究约束。
+雨战、红旗、轮胎库存、旧胎起步、交通、超车及随机安全车决策暂未实现。
+已知进站损失情景不能等同完整安全车模拟，圈速留出验证也不能证明某策略实际能赢多少秒。
+
+## 开发与验证
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -e ".[data,dev]"
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m build
+```
+
+更多说明见 [方法](docs/methodology.zh-CN.md)、[数据与规则](docs/data-and-rules.zh-CN.md)、
+[迁移](docs/migration.zh-CN.md)、[贡献](CONTRIBUTING.zh-CN.md)和[路线图](docs/roadmap.zh-CN.md)。
+本次测试及真实缓存回测证据见 [验证记录](docs/validation.zh-CN.md)。
+源代码与项目生成的合成示例数据使用 MIT 许可；第三方数据、规则原文和商标不随代码重新授权。
+
+## Python API 与离线 CSV
+
+```python
+from f1_strategy_optimizer import RaceConfig, fit_model, solve
+from f1_strategy_optimizer.models import synthetic_laps
+
+model = fit_model(synthetic_laps(seed=42))
+strategy = solve(model, RaceConfig(total_laps=57, pit_loss=24.0))
+print(strategy)
+```
+
+模型需提供 `compounds` 和 `predict(compound, age, track_temp)`。模型显式传入，
+导入或拟合不会创建缓存、图或输出目录；绘图位于独立的 plotting 模块。
+
+```sh
+f1-strategy optimize --csv output/demo/laps.csv --laps 57 --output-dir output/from-csv
+f1-strategy backtest --csv output/demo/laps.csv --holdout-year 2025 --output-dir output/from-csv-validation
+f1-strategy demo --rules examples/rules/simplified-dry.json --scenario examples/scenarios/reduced-pit-loss.json --model-parameters examples/model-parameters.json --compare --output-dir output/scenario
+```
+
+可选列为 `Event, TrackTemp`，单位为秒和摄氏度，圈数/赛段为正整数。
+重复的车手/年份/圈键及非有限观测会被拒绝。情景比较在同一情景下对原策略和新策略计价；
+强制起始配方的额外成本是约束代价。轮胎供应无限、固定相对速度和范围外外推都是简化假设。
+
+格式检查可执行 `python -m ruff check .` 和 `python -m ruff format --check src tests main.py _compat.py data_engine.py degradation_model.py dp_solver.py environment.py`。
+
+全部文档见 [文档索引](docs/README.md)，更新见 [更新日志](CHANGELOG.zh-CN.md)，
+许可含 [中文参考译文](LICENSE.zh-CN.md)。

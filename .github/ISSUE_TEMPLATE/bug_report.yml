@@ -1,0 +1,22 @@
+name: Bug report / 缺陷报告
+description: A reproducible failure or incorrect result / 可复现的故障或错误结果
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Command and minimal reproduction / 命令与最小复现
+      description: Prefer synthetic data; exclude secrets and private data. / 优先使用合成数据，不含密钥或私人信息。
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual result / 预期与实际结果
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Python, operating system and package versions / Python、操作系统与依赖版本
+    validations:
+      required: true
