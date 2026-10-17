@@ -80,6 +80,7 @@ class Provider:
         data["PitOutTime"] = pd.NaT
         data["IsAccurate"] = True
         data["TrackStatus"] = "1"
+        data["Deleted"] = False
         return SimpleNamespace(laps=data, results=roster())
 
 
@@ -172,3 +173,18 @@ def test_omitted_year_chooses_latest_eligible_calendar():
     request = AnalysisRequest("Example", "Example Team", "SYN0")
     report, _ = analyze_driver(request, Provider(), now="2025-01-01T00:00:00Z")
     assert report["event"]["year"] == 2024
+
+
+def test_fastf1_driver_provider_loads_race_control_messages(tmp_path):
+    import sys
+    from unittest.mock import Mock, patch
+
+    from f1_strategy_optimizer.driver_analysis import FastF1Provider
+
+    api = Mock()
+    with patch.dict(sys.modules, {"fastf1": api}):
+        provider = FastF1Provider(tmp_path / "cache", offline=True)
+        provider.load(2024, 1)
+    api.get_session.return_value.load.assert_called_once_with(
+        laps=True, telemetry=False, weather=True, messages=True
+    )

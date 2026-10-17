@@ -96,3 +96,36 @@ def test_parameters_validated_and_no_forced_order_by_default():
     with pytest.raises(ValueError):
         replace(ModelParameters(), fuel_gain_per_lap=float("nan"))
     assert ModelParameters().compound_gap == 0
+
+
+def test_backtest_compares_against_training_only_compound_median():
+    import pandas as pd
+
+    data = pd.DataFrame(
+        {
+            "Year": [2023] * 3 + [2024] * 3,
+            "Driver": ["A"] * 6,
+            "Stint": [1] * 6,
+            "LapNumber": [1, 2, 3] * 2,
+            "TyreLife": [1, 2, 3] * 2,
+            "Compound": ["SOFT"] * 6,
+            "LapTimeSeconds": [90.0, 91.0, 92.0, 90.0, 91.0, 94.0],
+        }
+    )
+    parameters = ModelParameters(fuel_gain_per_lap=0, min_degradation={})
+    report = backtest(data, 2024, parameters)
+    metric = report["compounds"]["SOFT"]
+    assert metric["mae_seconds"] == pytest.approx(2 / 3)
+    assert metric["baseline"] == pytest.approx(
+        {
+            "prediction_seconds": 91,
+            "mae_seconds": 4 / 3,
+            "rmse_seconds": np.sqrt(10 / 3),
+            "bias_seconds": -2 / 3,
+        }
+    )
+    assert metric["mae_difference_vs_baseline_seconds"] == pytest.approx(-2 / 3)
+    data.loc[data.Year == 2024, "LapTimeSeconds"] += 100
+    perturbed = backtest(data, 2024, parameters)
+    assert perturbed["compounds"]["SOFT"]["baseline"]["prediction_seconds"] == 91
+    assert perturbed["model"] == report["model"]

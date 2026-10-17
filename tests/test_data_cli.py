@@ -26,6 +26,7 @@ def raw_laps():
             "PitOutTime": pd.to_timedelta([None] * 6),
             "IsAccurate": [True] * 6,
             "TrackStatus": ["1"] * 6,
+            "Deleted": [False] * 6,
         }
     )
     data.loc[1, "PitInTime"] = pd.Timedelta(seconds=1)
@@ -237,3 +238,65 @@ def test_backtest_invalid_split_leaves_no_outputs(tmp_path, year):
         )
     assert exc.value.code == 2
     assert not output.exists()
+
+
+@pytest.mark.parametrize("metadata", ["missing", "unknown"])
+def test_cleaning_requires_known_deleted_flags(metadata):
+    data = raw_laps()
+    if metadata == "unknown":
+        data["Deleted"] = pd.Series([False] * len(data), dtype="boolean")
+        data.loc[0, "Deleted"] = pd.NA
+    elif "Deleted" in data:
+        data = data.drop(columns="Deleted")
+    with pytest.raises(ValueError, match="race control messages"):
+        clean_session_laps(data, 2024, "Test")
+
+
+def test_fetch_loads_messages_for_deleted_lap_detection(tmp_path):
+    session = Mock()
+    session.laps = raw_laps()
+    session.laps["Deleted"] = False
+    session.laps.loc[0, "Deleted"] = True
+    api = Mock()
+    api.get_session.return_value = session
+    with patch.dict(sys.modules, {"fastf1": api}):
+        result = fetch_cycle_data(2024, 2024, cache_dir=tmp_path / "cache")
+    session.load.assert_called_once_with(laps=True, telemetry=False, weather=True, messages=True)
+    assert result.LapNumber.tolist() == [6]
+
+
+def test_cleaning_reports_overlapping_metadata_and_separate_numeric_exclusions():
+    data = raw_laps()
+    extra = data.iloc[[0]].copy()
+    extra["LapNumber"] = 7
+    data = pd.concat([data, extra], ignore_index=True)
+    data.loc[0, "LapTime"] = pd.NaT
+    data.loc[1, "Deleted"] = True  # Already excluded as pit-in; do not double count removed_rows.
+    result = clean_session_laps(data, 2024, "Test")
+    assert result.LapNumber.tolist() == [6, 7]
+    cleaning = result.attrs["cleaning"]
+    assert cleaning["input_rows"] == 7
+    assert cleaning["kept_rows"] == 2
+    assert cleaning["removed_rows"] == 5
+    assert cleaning["excluded_by_metadata_reason"] == {
+        "pit_in": 1,
+        "pit_out": 1,
+        "inaccurate_or_unknown": 1,
+        "non_green_or_unknown": 1,
+        "unsupported_compound": 0,
+        "deleted": 1,
+    }
+    assert cleaning["invalid_numeric_after_metadata"] == 1
+    assert cleaning["deleted_flags_verified"] is True
+
+
+def test_fetch_reports_unknown_deleted_flags_as_failed_year(tmp_path):
+    unavailable, available = Mock(), Mock()
+    unavailable.laps = raw_laps().drop(columns="Deleted")
+    available.laps = raw_laps()
+    api = Mock()
+    api.get_session.side_effect = [unavailable, available]
+    with patch.dict(sys.modules, {"fastf1": api}):
+        data = fetch_cycle_data(2023, 2024, cache_dir=tmp_path / "cache", allow_partial=True)
+    assert data.attrs["loaded_years"] == [2024]
+    assert "race control messages" in data.attrs["failed_years"]["2023"]

@@ -4,6 +4,11 @@
 
 ## 0.1.0 — unreleased
 
+- Load race control messages in both FastF1 adapters and reject unknown deleted-lap flags.
+  Report overlapping metadata exclusions and subsequent numeric exclusions. Backtests now
+  compare against a training-only per-compound median baseline on the same held-out laps.
+- Record the bounded Bahrain real-validation attempt and network denial; real accuracy and
+  parameter calibration remain unmeasured.
 - Fixed standalone backtests failing on sparse compounds seen only in the held-out year.
   Their manifest/plot now use the prior-year validation model; exploration commands retain
   the all-input model, with explicit model roles. Added split/coverage reporting and ensured

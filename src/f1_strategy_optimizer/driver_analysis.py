@@ -137,7 +137,7 @@ class FastF1Provider:
 
     def load(self, year, round_number, kind="R"):
         session = self.api.get_session(year, int(round_number), kind)
-        session.load(laps=True, telemetry=False, weather=True, messages=False)
+        session.load(laps=True, telemetry=False, weather=True, messages=True)
         return session
 
 

@@ -9,6 +9,14 @@ from .models import ModelParameters, TyreModel, fit_model, validate_laps
 from .solver import evaluate_strategy, solve
 
 
+def _prediction_errors(error) -> dict:
+    return {
+        "mae_seconds": float(np.abs(error).mean()),
+        "rmse_seconds": float(np.sqrt(np.mean(error**2))),
+        "bias_seconds": float(error.mean()),
+    }
+
+
 def backtest(
     df, holdout_year: int | None = None, parameters: ModelParameters | None = None
 ) -> dict:
@@ -39,13 +47,21 @@ def backtest(
             ]
         )
         error = predictions - target
+        prior = train[train.Compound == compound]
+        baseline_prediction = float(
+            (
+                prior.LapTimeSeconds + model.parameters.fuel_gain_per_lap * (prior.LapNumber - 1)
+            ).median()
+        )
+        baseline_errors = _prediction_errors(baseline_prediction - target)
         curve = model.curves[compound]
         metrics[compound] = {
             "status": "evaluated",
             "samples": len(part),
-            "mae_seconds": float(np.abs(error).mean()),
-            "rmse_seconds": float(np.sqrt(np.mean(error**2))),
-            "bias_seconds": float(error.mean()),
+            **_prediction_errors(error),
+            "baseline": {"prediction_seconds": baseline_prediction, **baseline_errors},
+            "mae_difference_vs_baseline_seconds": float(np.abs(error).mean())
+            - baseline_errors["mae_seconds"],
             "outside_training_age_range": int(
                 (
                     (part.TyreLife < curve.min_observed_age)
@@ -70,6 +86,8 @@ def backtest(
             "evaluated_samples": evaluated_samples,
             "unmodeled_samples": len(test) - evaluated_samples,
         },
+        "baseline_method": "Per-compound median fuel-adjusted lap time from training years "
+        "only; no tyre-age response; same held-out laps and fuel prior as the fitted model",
         "compounds": metrics,
         "model": model.to_dict(),
         "interpretation": "Held-out lap prediction errors at reference temperature with "

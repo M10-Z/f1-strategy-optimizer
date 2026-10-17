@@ -67,6 +67,11 @@ The report's `data_split` records training/holdout sample counts and ignored fut
 counts/years. `coverage` records evaluated and unmodeled held-out laps. Per-compound errors
 apply only to evaluated samples; absent training compounds do not contribute zero errors.
 A report with zero evaluated samples is a coverage result, not measured prediction accuracy.
+For each evaluated compound, a constant baseline uses the median fuel-adjusted lap time of
+that compound in the training years only. It has no tyre-age response and is scored on the
+same held-out samples with the same fuel prior. Baseline MAE/RMSE/bias and
+`mae_difference_vs_baseline_seconds` are reported; a negative difference favors the fitted
+model. This baseline comparison does not calibrate the fuel prior or establish causal effects.
 The exported `laps.csv` retains all normalized input rows, while the source-file hash remains
 separate from the normalized-data hash. It is not a training-only dataset.
 

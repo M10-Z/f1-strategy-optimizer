@@ -26,24 +26,30 @@ def clean_session_laps(laps: pd.DataFrame, year: int, event: str) -> pd.DataFram
     }
     if required - set(laps.columns):
         raise ValueError(f"FastF1 lap metadata missing: {sorted(required - set(laps.columns))}")
+    if "Deleted" not in laps or laps.Deleted.isna().any():
+        raise ValueError(
+            "Deleted lap flags are unavailable; load race control messages (messages=True)"
+        )
     data = laps.copy()
     data["Compound"] = data.Compound.astype("string").str.strip().str.upper()
     # Drop explicit pit laps and non-green/uncertain timing; no timing-threshold guess.
-    mask = (
-        data.PitInTime.isna()
-        & data.PitOutTime.isna()
-        & data.IsAccurate.eq(True)
-        & data.TrackStatus.astype(str).eq("1")
-        & data.Compound.isin(DRY_COMPOUNDS)
-    )
-    if "Deleted" in data:
-        mask &= ~data.Deleted.astype("boolean").fillna(False)
+    excluded = {
+        "pit_in": data.PitInTime.notna(),
+        "pit_out": data.PitOutTime.notna(),
+        "inaccurate_or_unknown": ~data.IsAccurate.eq(True).fillna(False),
+        "non_green_or_unknown": ~data.TrackStatus.astype(str).eq("1"),
+        "unsupported_compound": ~data.Compound.isin(DRY_COMPOUNDS),
+        "deleted": data.Deleted.astype("boolean"),
+    }
+    mask = ~pd.DataFrame(excluded).any(axis=1)
     data = data.loc[mask].copy()
     data["LapTimeSeconds"] = data.LapTime.dt.total_seconds()
     numeric = ["LapTimeSeconds", "LapNumber", "TyreLife", "Stint"]
     for column in numeric:
         data[column] = pd.to_numeric(data[column], errors="coerce")
-    data = data.loc[np.isfinite(data[numeric]).all(axis=1) & data[numeric].gt(0).all(axis=1)].copy()
+    valid_numeric = np.isfinite(data[numeric]).all(axis=1) & data[numeric].gt(0).all(axis=1)
+    invalid_numeric_rows = int((~valid_numeric).sum())
+    data = data.loc[valid_numeric].copy()
     data["Year"], data["Event"] = year, event
     if "TrackTemp" not in data:
         data["TrackTemp"] = np.nan
@@ -64,6 +70,10 @@ def clean_session_laps(laps: pd.DataFrame, year: int, event: str) -> pd.DataFram
         "input_rows": len(laps),
         "kept_rows": len(result),
         "removed_rows": len(laps) - len(result),
+        "excluded_by_metadata_reason": {key: int(value.sum()) for key, value in excluded.items()},
+        "invalid_numeric_after_metadata": invalid_numeric_rows,
+        "counting_note": "Metadata reasons overlap; numeric exclusions apply after metadata",
+        "deleted_flags_verified": True,
     }
     return result
 
@@ -101,7 +111,7 @@ def fetch_cycle_data(
     for year in range(start_year, end_year + 1):
         try:
             session = fastf1.get_session(year, track, "R")
-            session.load(laps=True, telemetry=False, weather=True, messages=False)
+            session.load(laps=True, telemetry=False, weather=True, messages=True)
             laps = session.laps.copy()
             # FastF1 computes weather per lap. Retain missing values explicitly.
             if hasattr(session.laps, "get_weather_data"):

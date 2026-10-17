@@ -11,6 +11,7 @@ Every guide has English and Chinese editions. / 每份指南均提供英文和�
 | Migration / 迁移 | [Migration](migration.md) | [迁移说明](migration.zh-CN.md) |
 | Roadmap / 路线图 | [Roadmap](roadmap.md) | [路线图](roadmap.zh-CN.md) |
 | Validation / 验证 | [Validation](validation.md) | [验证记录](validation.zh-CN.md) |
+| Real validation attempt / 真实验证尝试 | [Attempt and blockers](real-validation-2026-10-17.md) | [尝试与阻塞](real-validation-2026-10-17.zh-CN.md) |
 | Contributions / 贡献 | [Contributing](../CONTRIBUTING.md) | [贡献指南](../CONTRIBUTING.zh-CN.md) |
 | Changes / 更新 | [Changelog](../CHANGELOG.md) | [更新日志](../CHANGELOG.zh-CN.md) |
 | License / 许可 | [MIT](../LICENSE) | [中文参考译文](../LICENSE.zh-CN.md) |

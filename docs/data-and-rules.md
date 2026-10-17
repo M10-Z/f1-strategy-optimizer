@@ -10,11 +10,19 @@
   sporting regulation version and event documents before constructing a rules configuration.
 
 The adapter expects FastF1 3.8.x-compatible metadata. Retain only non-pit, accurate, green
-track laps with explicit dry compound labels and positive finite observations. Deleted laps
-are excluded when the field exists. Missing temperature is retained as missing; the current
+track laps with explicit dry compound labels and positive finite observations. Both FastF1
+entry points load race control messages so that deleted-lap flags can be populated. Missing
+or unknown `Deleted` flags fail the session instead of treating unknown laps as valid;
+`--allow-partial` can explicitly skip a failed year in the cycle adapter. Old offline caches
+without race control messages need an explicit online refill before they can pass this check.
+Deleted laps are excluded. Missing temperature is retained as missing; the current
 fit and held-out evaluation use reference temperature rather than pretending to estimate
 temperature response from those observations. Cleaned-out counts and requested/loaded years
-are recorded. Duplicates fail validation.
+are recorded. Metadata exclusion counts overlap (one lap can have several reasons); numeric
+exclusions are counted after metadata filtering. Duplicates fail validation.
+
+See the [bounded real-validation attempt](real-validation-2026-10-17.md) for the actual
+network blockers and the reproducible train/holdout protocol; no real accuracy was measured.
 
 ## Scope of rules
 
