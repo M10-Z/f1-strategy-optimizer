@@ -1,0 +1,1098 @@
+{
+  "development_comparison": {
+    "results": {
+      "guarded_last": {
+        "bahrain": {
+          "fixed_slots": 60,
+          "applicable_slots": 60,
+          "categories": {
+            "scored": 43,
+            "target_missing": 4,
+            "prefix_abstention": 13
+          },
+          "coverage": 0.7166666666666667,
+          "v1_coverage": 0.6166666666666667,
+          "baseline_coverage": 0.9333333333333333,
+          "all_scored": {
+            "n": 43,
+            "mae": 0.9284883720930218,
+            "median": 0.29300000000000637,
+            "p90": 1.0693999999999992,
+            "p95": 2.565499999999999,
+            "max": 20.089
+          },
+          "paired_candidate": {
+            "n": 43,
+            "mae": 0.9284883720930218,
+            "median": 0.29300000000000637,
+            "p90": 1.0693999999999992,
+            "p95": 2.565499999999999,
+            "max": 20.089
+          },
+          "paired_baseline": {
+            "n": 43,
+            "mae": 1.1069767441860434,
+            "median": 0.4619999999999891,
+            "p90": 1.5089999999999957,
+            "p95": 2.674050000000001,
+            "max": 20.367999999999995
+          },
+          "stay_action_matched": {
+            "n": 40,
+            "mae": 0.35672499999999874,
+            "median": 0.2890000000000015,
+            "p90": 0.5722999999999987,
+            "p95": 1.0071499999999998,
+            "max": 1.6789999999999878
+          },
+          "planned_pit_matched": {
+            "n": 2,
+            "mae": 4.896500000000003,
+            "median": 4.896500000000003,
+            "p90": 7.021699999999998,
+            "p95": 7.287349999999997,
+            "max": 7.552999999999997
+          },
+          "planned_pit_paired_candidate": {
+            "n": 2,
+            "mae": 4.896500000000003,
+            "median": 4.896500000000003,
+            "p90": 7.021699999999998,
+            "p95": 7.287349999999997,
+            "max": 7.552999999999997
+          },
+          "planned_pit_paired_baseline_same_prior": {
+            "n": 2,
+            "mae": 5.027500000000003,
+            "median": 5.027500000000003,
+            "p90": 7.257499999999999,
+            "p95": 7.536249999999998,
+            "max": 7.814999999999998
+          },
+          "planned_pit_action_match_count": 2,
+          "post_pit_reasons": {
+            "no_prefix_confirmed_completed_outlap": 22,
+            "immediate_post_outlap_target_already_started": 38
+          },
+          "abstention_reasons": {
+            "stale_clean_lap": 13
+          },
+          "max_consecutive_sampled_abstentions": 2,
+          "max_sampled_abstention_span_seconds": 2100.0,
+          "boundary_to_first_sampled_availability_seconds": {
+            "n": 44,
+            "mae": 672.63,
+            "median": 846.683,
+            "p90": 861.5,
+            "p95": 861.5,
+            "max": 1019.753
+          },
+          "boundary_wait_right_censored": 15,
+          "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+          "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+        },
+        "monaco": {
+          "fixed_slots": 460,
+          "applicable_slots": 460,
+          "categories": {
+            "target_missing": 204,
+            "prefix_abstention": 16,
+            "target_already_started": 15,
+            "scored": 225
+          },
+          "coverage": 0.4891304347826087,
+          "v1_coverage": 0.4326086956521739,
+          "baseline_coverage": 0.46304347826086956,
+          "all_scored": {
+            "n": 225,
+            "mae": 1.2605999999999997,
+            "median": 0.5439999999999969,
+            "p90": 2.3203999999999962,
+            "p95": 4.5706000000000016,
+            "max": 31.34400000000001
+          },
+          "paired_candidate": {
+            "n": 212,
+            "mae": 1.1227169811320752,
+            "median": 0.517000000000003,
+            "p90": 1.7850000000000008,
+            "p95": 2.900899999999999,
+            "max": 31.34400000000001
+          },
+          "paired_baseline": {
+            "n": 212,
+            "mae": 1.0337382075471693,
+            "median": 0.7330000000000041,
+            "p90": 1.8475999999999975,
+            "p95": 2.3255249999999994,
+            "max": 17.2235
+          },
+          "stay_action_matched": {
+            "n": 221,
+            "mae": 1.1069502262443436,
+            "median": 0.5360000000000014,
+            "p90": 2.051000000000002,
+            "p95": 4.185999999999993,
+            "max": 31.34400000000001
+          },
+          "planned_pit_matched": {
+            "n": 2,
+            "mae": 1.7484999999999786,
+            "median": 1.7484999999999786,
+            "p90": 2.5200999999999683,
+            "p95": 2.6165499999999664,
+            "max": 2.7129999999999654
+          },
+          "planned_pit_paired_candidate": {
+            "n": 2,
+            "mae": 1.7484999999999786,
+            "median": 1.7484999999999786,
+            "p90": 2.5200999999999683,
+            "p95": 2.6165499999999664,
+            "max": 2.7129999999999654
+          },
+          "planned_pit_paired_baseline_same_prior": {
+            "n": 2,
+            "mae": 3.137999999999977,
+            "median": 3.137999999999977,
+            "p90": 3.737999999999977,
+            "p95": 3.8129999999999766,
+            "max": 3.887999999999977
+          },
+          "planned_pit_action_match_count": 2,
+          "post_pit_reasons": {
+            "no_prefix_confirmed_completed_outlap": 220,
+            "immediate_post_outlap_target_already_started": 240
+          },
+          "abstention_reasons": {
+            "missing_prefix": 15,
+            "stale_clean_lap": 1
+          },
+          "max_consecutive_sampled_abstentions": 23,
+          "max_sampled_abstention_span_seconds": 6600.0,
+          "boundary_to_first_sampled_availability_seconds": {
+            "n": 25,
+            "mae": 172.57864,
+            "median": 171.386,
+            "p90": 214.49720000000005,
+            "p95": 277.9251999999998,
+            "max": 365.405
+          },
+          "boundary_wait_right_censored": 56,
+          "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+          "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+        },
+        "british": {
+          "fixed_slots": 460,
+          "applicable_slots": 320,
+          "categories": {
+            "scored": 268,
+            "target_missing": 32,
+            "target_already_started": 12,
+            "prefix_abstention": 8,
+            "post_event_na": 140
+          },
+          "coverage": 0.8375,
+          "v1_coverage": 0.4875,
+          "baseline_coverage": 0.8625,
+          "all_scored": {
+            "n": 268,
+            "mae": 3.2893022388059703,
+            "median": 0.8860000000000028,
+            "p90": 9.133299999999995,
+            "p95": 17.492099999999997,
+            "max": 35.37100000000001
+          },
+          "paired_candidate": {
+            "n": 268,
+            "mae": 3.2893022388059703,
+            "median": 0.8860000000000028,
+            "p90": 9.133299999999995,
+            "p95": 17.492099999999997,
+            "max": 35.37100000000001
+          },
+          "paired_baseline": {
+            "n": 268,
+            "mae": 5.004839552238806,
+            "median": 1.6185000000000045,
+            "p90": 13.016400000000003,
+            "p95": 16.072574999999997,
+            "max": 34.953500000000005
+          },
+          "stay_action_matched": {
+            "n": 241,
+            "mae": 1.9487344398340252,
+            "median": 0.6830000000000069,
+            "p90": 6.179000000000002,
+            "p95": 8.61800000000001,
+            "max": 12.256
+          },
+          "planned_pit_matched": {
+            "n": 9,
+            "mae": 11.936666666666675,
+            "median": 12.048499999999962,
+            "p90": 16.07780000000002,
+            "p95": 17.605400000000014,
+            "max": 19.13300000000001
+          },
+          "planned_pit_paired_candidate": {
+            "n": 9,
+            "mae": 11.936666666666675,
+            "median": 12.048499999999962,
+            "p90": 16.07780000000002,
+            "p95": 17.605400000000014,
+            "max": 19.13300000000001
+          },
+          "planned_pit_paired_baseline_same_prior": {
+            "n": 9,
+            "mae": 12.601222222222223,
+            "median": 12.07650000000001,
+            "p90": 22.91999999999997,
+            "p95": 24.14399999999998,
+            "max": 25.367999999999995
+          },
+          "planned_pit_action_match_count": 9,
+          "post_pit_reasons": {
+            "no_prefix_confirmed_completed_outlap": 164,
+            "immediate_post_outlap_target_already_started": 296
+          },
+          "abstention_reasons": {
+            "stale_clean_lap": 8
+          },
+          "max_consecutive_sampled_abstentions": 16,
+          "max_sampled_abstention_span_seconds": 4500.0,
+          "boundary_to_first_sampled_availability_seconds": {
+            "n": 129,
+            "mae": 240.9277441860465,
+            "median": 231.264,
+            "p90": 407.46,
+            "p95": 407.46,
+            "max": 2517.77
+          },
+          "boundary_wait_right_censored": 11,
+          "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+          "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+        },
+        "italian": {
+          "fixed_slots": 460,
+          "applicable_slots": 280,
+          "categories": {
+            "scored": 254,
+            "target_already_started": 8,
+            "target_missing": 13,
+            "prefix_abstention": 5,
+            "post_event_na": 180
+          },
+          "coverage": 0.9071428571428571,
+          "v1_coverage": 0.8071428571428572,
+          "baseline_coverage": 0.925,
+          "all_scored": {
+            "n": 254,
+            "mae": 1.853712598425197,
+            "median": 0.33800000000000097,
+            "p90": 4.198499999999998,
+            "p95": 10.65819999999993,
+            "max": 33.637
+          },
+          "paired_candidate": {
+            "n": 254,
+            "mae": 1.853712598425197,
+            "median": 0.33800000000000097,
+            "p90": 4.198499999999998,
+            "p95": 10.65819999999993,
+            "max": 33.637
+          },
+          "paired_baseline": {
+            "n": 254,
+            "mae": 1.8010905511811022,
+            "median": 0.5145000000000053,
+            "p90": 1.7716999999999963,
+            "p95": 9.989699999999923,
+            "max": 33.637
+          },
+          "stay_action_matched": {
+            "n": 236,
+            "mae": 0.6661864406779661,
+            "median": 0.31400000000000716,
+            "p90": 1.323999999999998,
+            "p95": 2.5022500000000036,
+            "max": 6.628999999999991
+          },
+          "planned_pit_matched": {
+            "n": 5,
+            "mae": 2.307100000000014,
+            "median": 1.4184999999999945,
+            "p90": 5.220600000000008,
+            "p95": 6.460799999999999,
+            "max": 7.700999999999993
+          },
+          "planned_pit_paired_candidate": {
+            "n": 5,
+            "mae": 2.307100000000014,
+            "median": 1.4184999999999945,
+            "p90": 5.220600000000008,
+            "p95": 6.460799999999999,
+            "max": 7.700999999999993
+          },
+          "planned_pit_paired_baseline_same_prior": {
+            "n": 5,
+            "mae": 1.9711000000000127,
+            "median": 0.7630000000000052,
+            "p90": 4.594800000000005,
+            "p95": 5.672900000000003,
+            "max": 6.751000000000005
+          },
+          "planned_pit_action_match_count": 5,
+          "post_pit_reasons": {
+            "no_prefix_confirmed_completed_outlap": 108,
+            "immediate_post_outlap_target_already_started": 352
+          },
+          "abstention_reasons": {
+            "stale_clean_lap": 5
+          },
+          "max_consecutive_sampled_abstentions": 12,
+          "max_sampled_abstention_span_seconds": 3300.0,
+          "boundary_to_first_sampled_availability_seconds": {
+            "n": 59,
+            "mae": 248.1942033898305,
+            "median": 260.124,
+            "p90": 385.588,
+            "p95": 385.588,
+            "max": 385.588
+          },
+          "boundary_wait_right_censored": 0,
+          "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+          "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+        }
+      },
+      "shrunk_local_trend": {
+        "bahrain": {
+          "fixed_slots": 60,
+          "applicable_slots": 60,
+          "categories": {
+            "scored": 43,
+            "target_missing": 4,
+            "prefix_abstention": 13
+          },
+          "coverage": 0.7166666666666667,
+          "v1_coverage": 0.6166666666666667,
+          "baseline_coverage": 0.9333333333333333,
+          "all_scored": {
+            "n": 43,
+            "mae": 0.8774554523117373,
+            "median": 0.23243750000000318,
+            "p90": 1.0563567708333357,
+            "p95": 2.671207812499996,
+            "max": 19.99150781249999
+          },
+          "paired_candidate": {
+            "n": 43,
+            "mae": 0.8774554523117373,
+            "median": 0.23243750000000318,
+            "p90": 1.0563567708333357,
+            "p95": 2.671207812499996,
+            "max": 19.99150781249999
+          },
+          "paired_baseline": {
+            "n": 43,
+            "mae": 1.1069767441860434,
+            "median": 0.4619999999999891,
+            "p90": 1.5089999999999957,
+            "p95": 2.674050000000001,
+            "max": 20.367999999999995
+          },
+          "stay_action_matched": {
+            "n": 40,
+            "mae": 0.30358902529761805,
+            "median": 0.2277786458333253,
+            "p90": 0.5015085937499919,
+            "p95": 0.9553509114583381,
+            "max": 1.6789999999999878
+          },
+          "planned_pit_matched": {
+            "n": 2,
+            "mae": 5.102890625000015,
+            "median": 5.102890625000015,
+            "p90": 7.250903124999996,
+            "p95": 7.519404687499994,
+            "max": 7.787906249999992
+          },
+          "planned_pit_paired_candidate": {
+            "n": 2,
+            "mae": 5.102890625000015,
+            "median": 5.102890625000015,
+            "p90": 7.250903124999996,
+            "p95": 7.519404687499994,
+            "max": 7.787906249999992
+          },
+          "planned_pit_paired_baseline_same_prior": {
+            "n": 2,
+            "mae": 5.027500000000003,
+            "median": 5.027500000000003,
+            "p90": 7.257499999999999,
+            "p95": 7.536249999999998,
+            "max": 7.814999999999998
+          },
+          "planned_pit_action_match_count": 2,
+          "post_pit_reasons": {
+            "no_prefix_confirmed_completed_outlap": 22,
+            "immediate_post_outlap_target_already_started": 38
+          },
+          "abstention_reasons": {
+            "stale_clean_lap": 13
+          },
+          "max_consecutive_sampled_abstentions": 2,
+          "max_sampled_abstention_span_seconds": 2100.0,
+          "boundary_to_first_sampled_availability_seconds": {
+            "n": 44,
+            "mae": 672.63,
+            "median": 846.683,
+            "p90": 861.5,
+            "p95": 861.5,
+            "max": 1019.753
+          },
+          "boundary_wait_right_censored": 15,
+          "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+          "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+        },
+        "monaco": {
+          "fixed_slots": 460,
+          "applicable_slots": 460,
+          "categories": {
+            "target_missing": 204,
+            "prefix_abstention": 16,
+            "target_already_started": 15,
+            "scored": 225
+          },
+          "coverage": 0.4891304347826087,
+          "v1_coverage": 0.4326086956521739,
+          "baseline_coverage": 0.46304347826086956,
+          "all_scored": {
+            "n": 225,
+            "mae": 1.369151367394179,
+            "median": 0.6613906250000099,
+            "p90": 2.538287500000004,
+            "p95": 4.606956249999995,
+            "max": 31.34400000000001
+          },
+          "paired_candidate": {
+            "n": 212,
+            "mae": 1.237924800300426,
+            "median": 0.6073046875000045,
+            "p90": 2.158292187499995,
+            "p95": 3.2525593749999966,
+            "max": 31.34400000000001
+          },
+          "paired_baseline": {
+            "n": 212,
+            "mae": 1.0337382075471693,
+            "median": 0.7330000000000041,
+            "p90": 1.8475999999999975,
+            "p95": 2.3255249999999994,
+            "max": 17.2235
+          },
+          "stay_action_matched": {
+            "n": 221,
+            "mae": 1.220300388184119,
+            "median": 0.6295781249999948,
+            "p90": 2.3844531250000074,
+            "p95": 4.564999999999998,
+            "max": 31.34400000000001
+          },
+          "planned_pit_matched": {
+            "n": 2,
+            "mae": 2.3748281249999934,
+            "median": 2.3748281249999934,
+            "p90": 2.5842656249999836,
+            "p95": 2.6104453124999822,
+            "max": 2.636624999999981
+          },
+          "planned_pit_paired_candidate": {
+            "n": 2,
+            "mae": 2.3748281249999934,
+            "median": 2.3748281249999934,
+            "p90": 2.5842656249999836,
+            "p95": 2.6104453124999822,
+            "max": 2.636624999999981
+          },
+          "planned_pit_paired_baseline_same_prior": {
+            "n": 2,
+            "mae": 3.137999999999977,
+            "median": 3.137999999999977,
+            "p90": 3.737999999999977,
+            "p95": 3.8129999999999766,
+            "max": 3.887999999999977
+          },
+          "planned_pit_action_match_count": 2,
+          "post_pit_reasons": {
+            "no_prefix_confirmed_completed_outlap": 220,
+            "immediate_post_outlap_target_already_started": 240
+          },
+          "abstention_reasons": {
+            "missing_prefix": 15,
+            "stale_clean_lap": 1
+          },
+          "max_consecutive_sampled_abstentions": 23,
+          "max_sampled_abstention_span_seconds": 6600.0,
+          "boundary_to_first_sampled_availability_seconds": {
+            "n": 25,
+            "mae": 172.57864,
+            "median": 171.386,
+            "p90": 214.49720000000005,
+            "p95": 277.9251999999998,
+            "max": 365.405
+          },
+          "boundary_wait_right_censored": 56,
+          "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+          "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+        },
+        "british": {
+          "fixed_slots": 460,
+          "applicable_slots": 320,
+          "categories": {
+            "scored": 268,
+            "target_missing": 32,
+            "target_already_started": 12,
+            "prefix_abstention": 8,
+            "post_event_na": 140
+          },
+          "coverage": 0.8375,
+          "v1_coverage": 0.4875,
+          "baseline_coverage": 0.8625,
+          "all_scored": {
+            "n": 268,
+            "mae": 3.5545842009261728,
+            "median": 0.9377500000000083,
+            "p90": 9.227968750000013,
+            "p95": 18.322701562499997,
+            "max": 35.37100000000001
+          },
+          "paired_candidate": {
+            "n": 268,
+            "mae": 3.5545842009261728,
+            "median": 0.9377500000000083,
+            "p90": 9.227968750000013,
+            "p95": 18.322701562499997,
+            "max": 35.37100000000001
+          },
+          "paired_baseline": {
+            "n": 268,
+            "mae": 5.004839552238806,
+            "median": 1.6185000000000045,
+            "p90": 13.016400000000003,
+            "p95": 16.072574999999997,
+            "max": 34.953500000000005
+          },
+          "stay_action_matched": {
+            "n": 241,
+            "mae": 2.1111261037220905,
+            "median": 0.647750000000002,
+            "p90": 6.667999999999992,
+            "p95": 8.586585937500004,
+            "max": 13.128546874999998
+          },
+          "planned_pit_matched": {
+            "n": 9,
+            "mae": 13.210481564153437,
+            "median": 12.789000000000016,
+            "p90": 19.429774999999996,
+            "p95": 20.1498875,
+            "max": 20.870000000000005
+          },
+          "planned_pit_paired_candidate": {
+            "n": 9,
+            "mae": 13.210481564153437,
+            "median": 12.789000000000016,
+            "p90": 19.429774999999996,
+            "p95": 20.1498875,
+            "max": 20.870000000000005
+          },
+          "planned_pit_paired_baseline_same_prior": {
+            "n": 9,
+            "mae": 12.601222222222223,
+            "median": 12.07650000000001,
+            "p90": 22.91999999999997,
+            "p95": 24.14399999999998,
+            "max": 25.367999999999995
+          },
+          "planned_pit_action_match_count": 9,
+          "post_pit_reasons": {
+            "no_prefix_confirmed_completed_outlap": 164,
+            "immediate_post_outlap_target_already_started": 296
+          },
+          "abstention_reasons": {
+            "stale_clean_lap": 8
+          },
+          "max_consecutive_sampled_abstentions": 16,
+          "max_sampled_abstention_span_seconds": 4500.0,
+          "boundary_to_first_sampled_availability_seconds": {
+            "n": 129,
+            "mae": 240.9277441860465,
+            "median": 231.264,
+            "p90": 407.46,
+            "p95": 407.46,
+            "max": 2517.77
+          },
+          "boundary_wait_right_censored": 11,
+          "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+          "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+        },
+        "italian": {
+          "fixed_slots": 460,
+          "applicable_slots": 280,
+          "categories": {
+            "scored": 254,
+            "target_already_started": 8,
+            "target_missing": 13,
+            "prefix_abstention": 5,
+            "post_event_na": 180
+          },
+          "coverage": 0.9071428571428571,
+          "v1_coverage": 0.8071428571428572,
+          "baseline_coverage": 0.925,
+          "all_scored": {
+            "n": 254,
+            "mae": 1.8653220451935704,
+            "median": 0.37733333333333263,
+            "p90": 4.223699999999999,
+            "p95": 10.664470833333262,
+            "max": 34.297375
+          },
+          "paired_candidate": {
+            "n": 254,
+            "mae": 1.8653220451935704,
+            "median": 0.37733333333333263,
+            "p90": 4.223699999999999,
+            "p95": 10.664470833333262,
+            "max": 34.297375
+          },
+          "paired_baseline": {
+            "n": 254,
+            "mae": 1.8010905511811022,
+            "median": 0.5145000000000053,
+            "p90": 1.7716999999999963,
+            "p95": 9.989699999999923,
+            "max": 33.637
+          },
+          "stay_action_matched": {
+            "n": 236,
+            "mae": 0.692309410310735,
+            "median": 0.3414583333333283,
+            "p90": 1.3216718749999998,
+            "p95": 2.995968750000003,
+            "max": 6.628999999999991
+          },
+          "planned_pit_matched": {
+            "n": 5,
+            "mae": 2.4972260416666927,
+            "median": 1.6206250000000182,
+            "p90": 5.368597916666699,
+            "p95": 6.441335416666679,
+            "max": 7.514072916666663
+          },
+          "planned_pit_paired_candidate": {
+            "n": 5,
+            "mae": 2.4972260416666927,
+            "median": 1.6206250000000182,
+            "p90": 5.368597916666699,
+            "p95": 6.441335416666679,
+            "max": 7.514072916666663
+          },
+          "planned_pit_paired_baseline_same_prior": {
+            "n": 5,
+            "mae": 1.9711000000000127,
+            "median": 0.7630000000000052,
+            "p90": 4.594800000000005,
+            "p95": 5.672900000000003,
+            "max": 6.751000000000005
+          },
+          "planned_pit_action_match_count": 5,
+          "post_pit_reasons": {
+            "no_prefix_confirmed_completed_outlap": 108,
+            "immediate_post_outlap_target_already_started": 352
+          },
+          "abstention_reasons": {
+            "stale_clean_lap": 5
+          },
+          "max_consecutive_sampled_abstentions": 12,
+          "max_sampled_abstention_span_seconds": 3300.0,
+          "boundary_to_first_sampled_availability_seconds": {
+            "n": 59,
+            "mae": 248.1942033898305,
+            "median": 260.124,
+            "p90": 385.588,
+            "p95": 385.588,
+            "max": 385.588
+          },
+          "boundary_wait_right_censored": 0,
+          "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+          "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+        }
+      }
+    },
+    "selection": {
+      "guarded_last": {
+        "macro_paired_mae_ratio": 0.9028190880849964,
+        "macro_paired_p95_ratio": 1.0905155051155373,
+        "pooled_coverage": 0.7053571428571429,
+        "checks": {
+          "no_event_coverage_loss_vs_v1": true,
+          "pooled_coverage_at_least_half": true,
+          "macro_p95_ratio_at_most_1_10": true,
+          "macro_mae_not_worse": true
+        },
+        "eligible": true
+      },
+      "shrunk_local_trend": {
+        "macro_paired_mae_ratio": 0.9340184580210242,
+        "macro_paired_p95_ratio": 1.1512790288845578,
+        "pooled_coverage": 0.7053571428571429,
+        "checks": {
+          "no_event_coverage_loss_vs_v1": true,
+          "pooled_coverage_at_least_half": true,
+          "macro_p95_ratio_at_most_1_10": false,
+          "macro_mae_not_worse": true
+        },
+        "eligible": false
+      }
+    },
+    "selected": "guarded_last",
+    "candidate_budget_exhausted": true
+  },
+  "final_evaluation": {
+    "candidate": "guarded_last",
+    "freeze_commit": "388a328",
+    "results": {
+      "spanish": {
+        "fixed_slots": 460,
+        "applicable_slots": 340,
+        "categories": {
+          "target_already_started": 18,
+          "scored": 314,
+          "prefix_abstention": 8,
+          "post_event_na": 120
+        },
+        "coverage": 0.9235294117647059,
+        "v1_coverage": 0.7529411764705882,
+        "baseline_coverage": 0.9470588235294117,
+        "all_scored": {
+          "n": 314,
+          "mae": 1.6272547770700634,
+          "median": 0.39699999999999847,
+          "p90": 3.913899999999998,
+          "p95": 6.715950000000002,
+          "max": 19.833
+        },
+        "paired_candidate": {
+          "n": 314,
+          "mae": 1.6272547770700634,
+          "median": 0.39699999999999847,
+          "p90": 3.913899999999998,
+          "p95": 6.715950000000002,
+          "max": 19.833
+        },
+        "paired_baseline": {
+          "n": 314,
+          "mae": 1.567730891719745,
+          "median": 0.4507500000000064,
+          "p90": 2.4175000000000004,
+          "p95": 5.095424999999983,
+          "max": 20.194000000000003
+        },
+        "stay_action_matched": {
+          "n": 287,
+          "mae": 0.7241602787456444,
+          "median": 0.35200000000000387,
+          "p90": 1.5902000000000023,
+          "p95": 3.5452999999999895,
+          "max": 6.779000000000011
+        },
+        "planned_pit_matched": {
+          "n": 12,
+          "mae": 1.6125833333333308,
+          "median": 1.4394999999999953,
+          "p90": 2.488550000000018,
+          "p95": 4.02142499999999,
+          "max": 5.8069999999999595
+        },
+        "planned_pit_paired_candidate": {
+          "n": 12,
+          "mae": 1.6125833333333308,
+          "median": 1.4394999999999953,
+          "p90": 2.488550000000018,
+          "p95": 4.02142499999999,
+          "max": 5.8069999999999595
+        },
+        "planned_pit_paired_baseline_same_prior": {
+          "n": 12,
+          "mae": 1.4148333333333294,
+          "median": 0.9444999999999766,
+          "p90": 2.4938500000000263,
+          "p95": 4.028925000000013,
+          "max": 5.819999999999993
+        },
+        "planned_pit_action_match_count": 12,
+        "post_pit_reasons": {
+          "no_prefix_confirmed_completed_outlap": 75,
+          "immediate_post_outlap_target_already_started": 385
+        },
+        "abstention_reasons": {
+          "stale_clean_lap": 8
+        },
+        "max_consecutive_sampled_abstentions": 1,
+        "max_sampled_abstention_span_seconds": 0.0,
+        "boundary_to_first_sampled_availability_seconds": {
+          "n": 75,
+          "mae": 174.78538666666665,
+          "median": 141.777,
+          "p90": 340.0000000000001,
+          "p95": 369.3486,
+          "max": 382.457
+        },
+        "boundary_wait_right_censored": 0,
+        "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+        "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+      },
+      "hungarian": {
+        "fixed_slots": 460,
+        "applicable_slots": 380,
+        "categories": {
+          "scored": 340,
+          "prefix_abstention": 12,
+          "target_already_started": 13,
+          "target_missing": 15,
+          "post_event_na": 80
+        },
+        "coverage": 0.8947368421052632,
+        "v1_coverage": 0.7868421052631579,
+        "baseline_coverage": 0.9236842105263158,
+        "all_scored": {
+          "n": 340,
+          "mae": 1.2443382352941177,
+          "median": 0.4170000000000016,
+          "p90": 2.5259999999999936,
+          "p95": 5.0039999999999925,
+          "max": 17.739999999999995
+        },
+        "paired_candidate": {
+          "n": 339,
+          "mae": 1.2445339233038348,
+          "median": 0.4159999999999968,
+          "p90": 2.5269999999999953,
+          "p95": 5.009999999999988,
+          "max": 17.739999999999995
+        },
+        "paired_baseline": {
+          "n": 339,
+          "mae": 1.2137418879056052,
+          "median": 0.48099999999999454,
+          "p90": 2.2131000000000056,
+          "p95": 3.5019000000000013,
+          "max": 17.79249999999999
+        },
+        "stay_action_matched": {
+          "n": 322,
+          "mae": 0.7984875776397516,
+          "median": 0.39699999999999847,
+          "p90": 1.6887000000000059,
+          "p95": 3.6515500000000043,
+          "max": 10.204999999999998
+        },
+        "planned_pit_matched": {
+          "n": 9,
+          "mae": 2.3970000000000007,
+          "median": 1.3909999999999911,
+          "p90": 4.5672000000000255,
+          "p95": 4.929600000000027,
+          "max": 5.29200000000003
+        },
+        "planned_pit_paired_candidate": {
+          "n": 9,
+          "mae": 2.3970000000000007,
+          "median": 1.3909999999999911,
+          "p90": 4.5672000000000255,
+          "p95": 4.929600000000027,
+          "max": 5.29200000000003
+        },
+        "planned_pit_paired_baseline_same_prior": {
+          "n": 9,
+          "mae": 2.5908888888888777,
+          "median": 1.4085000000000036,
+          "p90": 5.4175999999999815,
+          "p95": 5.448799999999972,
+          "max": 5.479999999999961
+        },
+        "planned_pit_action_match_count": 9,
+        "post_pit_reasons": {
+          "no_prefix_confirmed_completed_outlap": 77,
+          "immediate_post_outlap_target_already_started": 383
+        },
+        "abstention_reasons": {
+          "stale_clean_lap": 12
+        },
+        "max_consecutive_sampled_abstentions": 10,
+        "max_sampled_abstention_span_seconds": 2700.0,
+        "boundary_to_first_sampled_availability_seconds": {
+          "n": 74,
+          "mae": 281.93478378378376,
+          "median": 242.2745,
+          "p90": 421.45,
+          "p95": 421.45,
+          "max": 2999.0
+        },
+        "boundary_wait_right_censored": 0,
+        "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+        "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+      },
+      "dutch": {
+        "fixed_slots": 460,
+        "applicable_slots": 360,
+        "categories": {
+          "scored": 320,
+          "target_already_started": 15,
+          "prefix_abstention": 5,
+          "target_missing": 20,
+          "post_event_na": 100
+        },
+        "coverage": 0.8888888888888888,
+        "v1_coverage": 0.8305555555555556,
+        "baseline_coverage": 0.9027777777777778,
+        "all_scored": {
+          "n": 320,
+          "mae": 0.8684968749999998,
+          "median": 0.2540000000000049,
+          "p90": 1.8252000000000106,
+          "p95": 3.560050000000007,
+          "max": 19.967000000000013
+        },
+        "paired_candidate": {
+          "n": 320,
+          "mae": 0.8684968749999998,
+          "median": 0.2540000000000049,
+          "p90": 1.8252000000000106,
+          "p95": 3.560050000000007,
+          "max": 19.967000000000013
+        },
+        "paired_baseline": {
+          "n": 320,
+          "mae": 0.8560484375000001,
+          "median": 0.31075000000000585,
+          "p90": 1.450150000000001,
+          "p95": 2.914500000000001,
+          "max": 19.98750000000001
+        },
+        "stay_action_matched": {
+          "n": 307,
+          "mae": 0.5188306188925078,
+          "median": 0.23699999999999477,
+          "p90": 1.1356000000000035,
+          "p95": 2.1172999999999957,
+          "max": 5.146999999999991
+        },
+        "planned_pit_matched": {
+          "n": 8,
+          "mae": 1.0748125000000037,
+          "median": 1.1924999999999955,
+          "p90": 1.9077499999999985,
+          "p95": 1.9593750000000112,
+          "max": 2.011000000000024
+        },
+        "planned_pit_paired_candidate": {
+          "n": 8,
+          "mae": 1.0748125000000037,
+          "median": 1.1924999999999955,
+          "p90": 1.9077499999999985,
+          "p95": 1.9593750000000112,
+          "max": 2.011000000000024
+        },
+        "planned_pit_paired_baseline_same_prior": {
+          "n": 8,
+          "mae": 0.8495625000000011,
+          "median": 0.6200000000000045,
+          "p90": 1.8660999999999943,
+          "p95": 2.0330500000000056,
+          "max": 2.200000000000017
+        },
+        "planned_pit_action_match_count": 8,
+        "post_pit_reasons": {
+          "no_prefix_confirmed_completed_outlap": 120,
+          "immediate_post_outlap_target_already_started": 340
+        },
+        "abstention_reasons": {
+          "stale_clean_lap": 5
+        },
+        "max_consecutive_sampled_abstentions": 1,
+        "max_sampled_abstention_span_seconds": 0.0,
+        "boundary_to_first_sampled_availability_seconds": {
+          "n": 54,
+          "mae": 312.8821111111111,
+          "median": 288.0795,
+          "p90": 407.929,
+          "p95": 407.929,
+          "max": 2999.0
+        },
+        "boundary_wait_right_censored": 0,
+        "wait_notice": "Sampled upper bounds, not exact continuous wait; Bahrain grid irregular",
+        "future_action_conditioning": "All branches frozen before matching; matched scores not unconditional accuracy or causal benefit"
+      }
+    },
+    "missing": [],
+    "macro_paired_mae_ratio": 1.0259598102991931,
+    "macro_paired_p95_ratio": 1.323394398870315,
+    "pooled_coverage": 0.9018518518518519,
+    "future_violations": 0,
+    "stale_violations": 0,
+    "checks": {
+      "all_three_events": true,
+      "macro_mae": false,
+      "macro_p95": false,
+      "per_event_regression_limit": true,
+      "coverage": true,
+      "coverage_each_vs_v1": true,
+      "paired_count": true,
+      "paired_each": true,
+      "no_future_or_stale": true
+    },
+    "acceptance": "failed_or_incomplete",
+    "interpretation": "Three-event historical observation check; no causal strategy benefit or calibrated real-time claim"
+  },
+  "prediction_freeze_receipt": {
+    "freeze_commit": "388a328",
+    "all_available_events_frozen_before_scoring": true,
+    "network_requests": 73,
+    "raw_bytes": 14324500,
+    "missing": [],
+    "files": {
+      "hungarian-frozen.json": "5c7be819e1ef953c5c48a67f25c47794c611a4175d53de38593ab84ec3725191",
+      "spanish-frozen.json": "00942c7705f534789b0b14cdbf335a46c05827f2a5eff17042e678aac15dde83",
+      "dutch-frozen.json": "878ae117a4fa51b7e8683cfe8b2a3149940e781c44b28f662f177c8f5db5ea82"
+    }
+  },
+  "ranking_summary": {
+    "fixed_cases": 12,
+    "paired_available": 5,
+    "top_choice_changed": 0,
+    "top3_order_changed": 2,
+    "claim": "Sensitivity of hypothetical subset simulation only; no causal strategy benefit or actual race rank"
+  },
+  "integrity_audit": {
+    "spanish": {
+      "paired_n": 314,
+      "mean_and_p95_independently_checked_from_saved_errors": true
+    },
+    "hungarian": {
+      "paired_n": 339,
+      "mean_and_p95_independently_checked_from_saved_errors": true
+    },
+    "dutch": {
+      "paired_n": 320,
+      "mean_and_p95_independently_checked_from_saved_errors": true
+    }
+  },
+  "original_starter_and_sealed_belgian_evaluation_unchanged": true,
+  "tests": {
+    "passed": 303,
+    "warnings": 31
+  },
+  "result_file_sha256": "da86f87ed53daf5228c4b09ecee37be6acdd1c258cf30deda4421bdff33fe6b5"
+}
