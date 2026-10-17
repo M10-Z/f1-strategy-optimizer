@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "frozen_at_utc": "2026-10-17T19:50:53.546499+00:00",
+  "candidate_commit": "d466efa50375a28d05795d46740c89e6dcf80e8a",
+  "freeze_commit_binding": "This exact manifest and source bytes must be present in the --freeze-commit supplied before any acquisition; verified through git show.",
+  "holdout_outcomes_accessed_before_this_freeze": false,
+  "reservation_file": "examples/whole-race-holdout-lock.json",
+  "reservation_sha256": "4bec84cd95a98cb35c8caf48c54ada5802f52d2188e1dd5699e69d676a2adb64",
+  "events": [
+    {
+      "slug": "monaco",
+      "name": "Monaco Grand Prix",
+      "circuit": "monaco",
+      "country": "Monaco",
+      "openf1_circuit": "Monte Carlo"
+    },
+    {
+      "slug": "british",
+      "name": "British Grand Prix",
+      "circuit": "silverstone",
+      "country": "Great Britain",
+      "openf1_circuit": "Silverstone"
+    },
+    {
+      "slug": "italian",
+      "name": "Italian Grand Prix",
+      "circuit": "monza",
+      "country": "Italy",
+      "openf1_circuit": "Monza"
+    }
+  ],
+  "sampling": {
+    "reference": "official scheduled race start UTC; obtain schedule metadata only after model freeze",
+    "offset_seconds": [
+      600,
+      900,
+      1200,
+      1500,
+      1800,
+      2100,
+      2400,
+      2700,
+      3000,
+      3300,
+      3600,
+      3900,
+      4200,
+      4500,
+      4800,
+      5100,
+      5400,
+      5700,
+      6000,
+      6300,
+      6600,
+      6900,
+      7200
+    ],
+    "driver_denominator": "all registered race drivers at every predeclared cutoff",
+    "partition_unit": "entire event, never shuffled neighboring laps"
+  },
+  "policy": {
+    "publication_delay_seconds": 2.0,
+    "timing_margin_seconds": 1.0,
+    "interval_max_age_seconds": 12.0,
+    "weather_max_age_seconds": 120.0,
+    "gap_horizon_seconds": 90.0,
+    "gap_window_seconds": 60.0,
+    "lap_window": 8,
+    "min_lap_samples": 3,
+    "max_lap_slope": 1.0,
+    "max_gap_slope": 0.2,
+    "seed": 0,
+    "lap_method": "prefix_median",
+    "gap_method": "persistence"
+  },
+  "source_sha256": {
+    "src/f1_strategy_optimizer/event_replay.py": "0a33d0f48ab7acf359df895a31a4e2d17407a6bb28912ffb30b9abd608961936",
+    "src/f1_strategy_optimizer/event_sources.py": "066d45bd9fcef9162fdb780816849a985b04947fc4c22af3b12f139c47c81b35",
+    "src/f1_strategy_optimizer/forecast_diagnostics.py": "4f7937a38f9bcf3fa7bd41d650e7e86e930eeb3e19d2a7e32c48f38457feef4a",
+    "src/f1_strategy_optimizer/replay.py": "3be8d360638d59bcdb684a0d5a5cef4eb02a9869d132a277eddea9950b53ff36",
+    "src/f1_strategy_optimizer/artifacts.py": "0abf8baf62d6de0f280b45fe6c35e4f10754ea7c13553d96774b1a1611382949",
+    "src/f1_strategy_optimizer/config.py": "c9bc44e5f34e15215fcb40d62083844b09937a4910ba175d992616071d781e86",
+    "src/f1_strategy_optimizer/competition.py": "33d8296116edc9af800d29d0880f635d89ea5792a3fd0df3d38ea884c66827d7",
+    "src/f1_strategy_optimizer/race_planner.py": "14b4649582e19c8b6dde13007c45aaf0b26b765bc703e9cf9d871f21ec5eab7b",
+    "src/f1_strategy_optimizer/race_constraints.py": "1b52d2ab882a7df1957a46750bd6131519e6082ef83285e7098938fdb851809a",
+    "src/f1_strategy_optimizer/models.py": "1e23ffffaa79397095f1a4e06254479d5aed7b8a2c3c8560ddb61806ee590334",
+    "src/f1_strategy_optimizer/solver.py": "15970a340627445d8a8bae1937ff7dff5482c75a5ffdf9ad441a1c5caa5c7805",
+    "src/f1_strategy_optimizer/joint_planner.py": "fc96292e1fc732a1c96cae891c7bf36d21d91db4b07eff294d3cd0a0db181ecd",
+    "src/f1_strategy_optimizer/rolling.py": "da256987e000ffa1bccad667b7110fabaf504604b28ae80f222d18d8a2f413ca",
+    "src/f1_strategy_optimizer/holdout_sources.py": "7b2431881e552207cc848017533d2da94bfcd706bd71c30c72f0db14aaa92ce5",
+    "src/f1_strategy_optimizer/holdout_evaluation.py": "95d96a9aacf647aebdfeca8e2b93b8815feec69a44472af10e753f6d443dde1a",
+    "tests/test_holdout_sources.py": "e18ca708242abae00cc4b5b024fc0bbf468f45cc456739baad8e3feb4bbe8665"
+  },
+  "primary_metrics": {
+    "lap": "prefix_median full future-lap duration MAE; no future condition/action exclusions",
+    "gap": "persistence MAE for last newly available nonnegative numeric interval report at fixed +90s horizon, age<=12s"
+  },
+  "secondary_metrics": "The unchanged kernel reports context_median, prefix_linear and last_eligible_completed lap comparators and prefix_linear gap on the same scored targets. No holdout-based method selection.",
+  "aggregation": {
+    "unit": "whole_event",
+    "per_race": true,
+    "macro": "equal arithmetic mean of per-event MAE, never pooled-target weights",
+    "missing_event": "retain reserved event with null MAE and disclose contributing count; complete-three-event MAE null unless all three score",
+    "coverage": "23 fixed cutoffs times all historically verified registered race drivers, no posthoc active-driver filtering"
+  },
+  "feature_contract": {
+    "driver_identity": "same-race Jolpica Results.number plus case/accent-insensitive name-token equality; permanentNumber ignored",
+    "driver_fields": [
+      "driver_number",
+      "id",
+      "team",
+      "name"
+    ],
+    "lap_completion": "unchanged kernel requires same-driver next start and delayed duration completion",
+    "prefix": "only date_start/date plus assumed publication+timing delay visible by cutoff; no archive hash/total/final result in decision features",
+    "stints": "kernel whitelists available start, compound and initial age; archival lap_end ignored",
+    "partition": "replace inner/outer development metadata with holdout, recompute visible_prefix and decision hashes before durable freeze"
+  },
+  "data_quality_policy": {
+    "failed_request": "retain body/headers/HTTP receipt and hash; no retry or alternative source",
+    "missing_endpoint": "empty stream, unknown state and disclosed missing availability; never zero-fill",
+    "missing_identity": "whole-event unscored; report denominator-only OpenF1 driver count when independently available",
+    "invalid_timestamp_or_required_row_fields": "quarantine index+reason before kernel; raw source preserved; no inferred replacement times",
+    "null_lap_duration": "retain as unfinished observation, never completed or zero-duration",
+    "duplicates_wrong_event_wrong_hash": "reject event, disclose reason and all-driver missing coverage; do not deduplicate or silently repair",
+    "jolpica_laps_and_pits": "paginated hash/URL/offset/count/total audit only, never forecast features; failure does not replace OpenF1 with CSV"
+  },
+  "acquisition_contract": {
+    "source_hosts": [
+      "api.openf1.org",
+      "api.jolpi.ca"
+    ],
+    "metadata": "2024 full schedule and OpenF1 Race sessions only after this freeze",
+    "openf1_endpoints": [
+      "drivers",
+      "laps",
+      "stints",
+      "position",
+      "intervals",
+      "weather",
+      "race_control",
+      "pit"
+    ],
+    "jolpica_endpoints": [
+      "results",
+      "laps",
+      "pitstops"
+    ],
+    "limit": 100,
+    "max_pages_per_endpoint": 40,
+    "max_requests": 150,
+    "max_response_bytes": 20000000,
+    "max_time_seconds": 60,
+    "retries": 0,
+    "spacing_seconds": 1,
+    "cache": "exact URL/body SHA256/byte count; successful and failed immutable responses cached"
+  },
+  "freeze_order": "Commit new adapter/runner/tests/manifest before any metadata or outcome GET; then acquire fixed events; durably write all 3x23 decisions before first evaluate_frozen call.",
+  "permitted_post_acquisition_changes": "Reports only. No tuning, event replacement, altered sampling or frozen-source repair for this version. Integrity/source failure remains missing.",
+  "claims_excluded": [
+    "causal strategy gain",
+    "calibrated event probabilities",
+    "historical online availability proof",
+    "synchronized physical gap accuracy",
+    "full FIA or inventory feasibility"
+  ],
+  "pre_acquisition_validation": {
+    "targeted_synthetic_tests": 16,
+    "status": "passed",
+    "ruff": "passed",
+    "real_holdout_records_used": 0
+  }
+}
