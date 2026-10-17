@@ -1,0 +1,352 @@
+{
+  "purpose": "post_observation_development_diagnostic_not_untouched_holdout",
+  "source_evaluation_sha256": "fc7965b2400a96817d4b8cd35e5ba497c80e5797af82e38f541af9cb1faf6d90",
+  "source_decisions_sha256": "4575f6b047b899dff545255890f544c58a59f8c0f72253c2def08b5218500211",
+  "latest_recorded_finish": "2024-07-07T15:27:10.149000+00:00",
+  "groups_overlap": true,
+  "groups": {
+    "all": {
+      "n": 276,
+      "mae": {
+        "prefix_linear": 4.338094905659854,
+        "prefix_median": 5.074451086956522,
+        "last_eligible_completed": 3.351579710144928,
+        "context_median": 4.921606884057971
+      },
+      "median_baseline_absolute_error_sum": 1400.5484999999999
+    },
+    "not_pit_related": {
+      "n": 249,
+      "mae": {
+        "prefix_linear": 2.870671671135513,
+        "prefix_median": 3.703548192771084,
+        "last_eligible_completed": 2.060835341365462,
+        "context_median": 3.514941767068273
+      },
+      "median_baseline_absolute_error_sum": 922.1835
+    },
+    "no_rain_report": {
+      "n": 151,
+      "mae": {
+        "prefix_linear": 2.6802612765357106,
+        "prefix_median": 3.6704337748344367,
+        "last_eligible_completed": 2.0845430463576164,
+        "context_median": 3.4292649006622518
+      },
+      "median_baseline_absolute_error_sum": 554.2354999999999
+    },
+    "prefix_no_pit_in": {
+      "n": 161,
+      "mae": {
+        "prefix_linear": 4.855931780538302,
+        "prefix_median": 4.293559006211179,
+        "last_eligible_completed": 4.09952795031056,
+        "context_median": 4.293559006211179
+      },
+      "median_baseline_absolute_error_sum": 691.2629999999999
+    },
+    "pit_related": {
+      "n": 27,
+      "mae": {
+        "prefix_linear": 17.870998068495442,
+        "prefix_median": 17.717222222222222,
+        "last_eligible_completed": 15.255111111111113,
+        "context_median": 17.894185185185187
+      },
+      "median_baseline_absolute_error_sum": 478.365
+    },
+    "prefix_pit_in": {
+      "n": 115,
+      "mae": {
+        "prefix_linear": 3.6131232808300258,
+        "prefix_median": 6.1677,
+        "last_eligible_completed": 2.304452173913043,
+        "context_median": 5.800873913043479
+      },
+      "median_baseline_absolute_error_sum": 709.2855000000001
+    },
+    "rain_report": {
+      "n": 125,
+      "mae": {
+        "prefix_linear": 6.3407579296418195,
+        "prefix_median": 6.770504,
+        "last_eligible_completed": 4.88216,
+        "context_median": 6.724356
+      },
+      "median_baseline_absolute_error_sum": 846.313
+    }
+  },
+  "exclusions_by_recorded_finish": {
+    "lap": {
+      "before_latest_recorded_finish:insufficient_prefix_laps": 16,
+      "before_latest_recorded_finish:target_already_started": 12,
+      "before_latest_recorded_finish:target_duration_unknown": 1,
+      "before_latest_recorded_finish:target_missing_no_retirement_inference": 15,
+      "after_latest_recorded_finish:target_missing_no_retirement_inference": 133,
+      "after_latest_recorded_finish:insufficient_prefix_laps": 7
+    },
+    "gap": {
+      "before_latest_recorded_finish:insufficient_or_stale_numeric_interval_prefix": 88,
+      "before_latest_recorded_finish:invalid_or_null_interval_outcome": 3,
+      "before_latest_recorded_finish:stale_interval_outcome": 11,
+      "after_latest_recorded_finish:insufficient_or_stale_numeric_interval_prefix": 140
+    }
+  },
+  "gap_prefix_exclusions_before_latest_finish": {
+    "Missing, negative, null or lap-string gap; not zero": 63,
+    "stale_observation": 25
+  },
+  "target_already_started": [
+    {
+      "cutoff": "2024-07-07T14:25:00+00:00",
+      "driver": "alonso",
+      "lag_seconds": 1.458
+    },
+    {
+      "cutoff": "2024-07-07T14:25:00+00:00",
+      "driver": "hulkenberg",
+      "lag_seconds": 2.999
+    },
+    {
+      "cutoff": "2024-07-07T14:30:00+00:00",
+      "driver": "bottas",
+      "lag_seconds": 0.449
+    },
+    {
+      "cutoff": "2024-07-07T14:35:00+00:00",
+      "driver": "leclerc",
+      "lag_seconds": 1.592
+    },
+    {
+      "cutoff": "2024-07-07T14:35:00+00:00",
+      "driver": "bottas",
+      "lag_seconds": 1.382
+    },
+    {
+      "cutoff": "2024-07-07T14:55:00+00:00",
+      "driver": "tsunoda",
+      "lag_seconds": 2.646
+    },
+    {
+      "cutoff": "2024-07-07T14:55:00+00:00",
+      "driver": "ocon",
+      "lag_seconds": 1.974
+    },
+    {
+      "cutoff": "2024-07-07T15:00:00+00:00",
+      "driver": "stroll",
+      "lag_seconds": 1.095
+    },
+    {
+      "cutoff": "2024-07-07T15:05:00+00:00",
+      "driver": "hulkenberg",
+      "lag_seconds": 2.011
+    },
+    {
+      "cutoff": "2024-07-07T15:15:00+00:00",
+      "driver": "sargeant",
+      "lag_seconds": 1.159
+    },
+    {
+      "cutoff": "2024-07-07T15:15:00+00:00",
+      "driver": "kevin_magnussen",
+      "lag_seconds": 0.05
+    },
+    {
+      "cutoff": "2024-07-07T15:25:00+00:00",
+      "driver": "sainz",
+      "lag_seconds": 0.865
+    }
+  ],
+  "prefix_availability_violations": [],
+  "scored_target_start_violations": 0,
+  "jolpica_comparison": {
+    "matched": 276,
+    "max_difference_seconds": 1.4210854715202004e-14,
+    "over_0_1s": 0
+  },
+  "next_start_duration_check": {
+    "matched": 268,
+    "max_abs_delta_seconds": 0.2990000000000066,
+    "over_1s": 0
+  },
+  "by_cutoff": [
+    {
+      "cutoff": "2024-07-07T14:10:00+00:00",
+      "scored": 19,
+      "median_baseline_mae": 0.26505263157894593
+    },
+    {
+      "cutoff": "2024-07-07T14:15:00+00:00",
+      "scored": 19,
+      "median_baseline_mae": 0.35249999999999876
+    },
+    {
+      "cutoff": "2024-07-07T14:20:00+00:00",
+      "scored": 19,
+      "median_baseline_mae": 0.25492105263157777
+    },
+    {
+      "cutoff": "2024-07-07T14:25:00+00:00",
+      "scored": 17,
+      "median_baseline_mae": 0.46735294117647186
+    },
+    {
+      "cutoff": "2024-07-07T14:30:00+00:00",
+      "scored": 18,
+      "median_baseline_mae": 10.761499999999996
+    },
+    {
+      "cutoff": "2024-07-07T14:35:00+00:00",
+      "scored": 17,
+      "median_baseline_mae": 2.6380000000000012
+    },
+    {
+      "cutoff": "2024-07-07T14:40:00+00:00",
+      "scored": 19,
+      "median_baseline_mae": 3.573842105263159
+    },
+    {
+      "cutoff": "2024-07-07T14:45:00+00:00",
+      "scored": 19,
+      "median_baseline_mae": 17.56671052631579
+    },
+    {
+      "cutoff": "2024-07-07T14:50:00+00:00",
+      "scored": 19,
+      "median_baseline_mae": 7.359394736842106
+    },
+    {
+      "cutoff": "2024-07-07T14:55:00+00:00",
+      "scored": 16,
+      "median_baseline_mae": 1.94403125
+    },
+    {
+      "cutoff": "2024-07-07T15:00:00+00:00",
+      "scored": 17,
+      "median_baseline_mae": 2.0680294117647064
+    },
+    {
+      "cutoff": "2024-07-07T15:05:00+00:00",
+      "scored": 17,
+      "median_baseline_mae": 12.385617647058824
+    },
+    {
+      "cutoff": "2024-07-07T15:10:00+00:00",
+      "scored": 18,
+      "median_baseline_mae": 12.49377777777778
+    },
+    {
+      "cutoff": "2024-07-07T15:15:00+00:00",
+      "scored": 16,
+      "median_baseline_mae": 2.6049374999999975
+    },
+    {
+      "cutoff": "2024-07-07T15:20:00+00:00",
+      "scored": 18,
+      "median_baseline_mae": 2.6043611111111113
+    },
+    {
+      "cutoff": "2024-07-07T15:25:00+00:00",
+      "scored": 8,
+      "median_baseline_mae": 0.7140624999999972
+    },
+    {
+      "cutoff": "2024-07-07T15:30:00+00:00",
+      "scored": 0,
+      "median_baseline_mae": null
+    },
+    {
+      "cutoff": "2024-07-07T15:35:00+00:00",
+      "scored": 0,
+      "median_baseline_mae": null
+    },
+    {
+      "cutoff": "2024-07-07T15:40:00+00:00",
+      "scored": 0,
+      "median_baseline_mae": null
+    },
+    {
+      "cutoff": "2024-07-07T15:45:00+00:00",
+      "scored": 0,
+      "median_baseline_mae": null
+    },
+    {
+      "cutoff": "2024-07-07T15:50:00+00:00",
+      "scored": 0,
+      "median_baseline_mae": null
+    },
+    {
+      "cutoff": "2024-07-07T15:55:00+00:00",
+      "scored": 0,
+      "median_baseline_mae": null
+    },
+    {
+      "cutoff": "2024-07-07T16:00:00+00:00",
+      "scored": 0,
+      "median_baseline_mae": null
+    }
+  ],
+  "cautions": [
+    "Rainfall is a weather report, not measured track wetness or causal attribution.",
+    "Pit-related and prefix-pit groups overlap other groups; no target exclusions or recomputed official MAE.",
+    "Latest recorded finish is posthoc audit only, not a proposed live filter.",
+    "Correlated repeated drivers and times are not independent samples."
+  ],
+  "browser_basic": {
+    "browser": "headless system Chromium via Playwright",
+    "desktop": {
+      "width": 1440,
+      "height": 1000
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844
+    },
+    "page_ready_seconds": 0.20069996399979573,
+    "comparison_wall_seconds": 1.1882449029981217,
+    "backend_status": "完成 · 0.37 秒 · 56 rollouts",
+    "mobile_widths": {
+      "scroll": 390,
+      "view": 390
+    },
+    "browser_errors": [],
+    "reveal_requested_only_after_comparison": true,
+    "driver_and_cutoff_switch_passed": true,
+    "stale_export_disabled": true,
+    "invalid_json_feedback_passed": true,
+    "real_timeout_feedback_passed": true,
+    "export_bytes": 372295
+  },
+  "browser_extended": {
+    "nearby_reactive_seconds": 1.2101467800021055,
+    "reactive-prefix_offline_replay": "exact_match",
+    "recomputed-prefix_offline_replay": "exact_match",
+    "full_20_manual_seconds": 0.8619220109976595,
+    "manual-20-car_offline_replay": "exact_match",
+    "manual_missing_inputs": [
+      {
+        "driver": "max_verstappen",
+        "field": "gap_seconds",
+        "manual_value": 0
+      }
+    ],
+    "sensitivity-reversal_offline_replay": "exact_match",
+    "no-feasible-plan_offline_replay": "exact_match",
+    "british_seconds": 1.0363970260004862,
+    "british-prefix_offline_replay": "exact_match",
+    "no_future_requests_before_explicit_reveal": true,
+    "browser_errors": [],
+    "manual_edit_changed_simulation": true,
+    "missing_inputs_blocked": true,
+    "no_feasible_stay_out_visible": true
+  },
+  "checks": {
+    "full_regression_passed": 287,
+    "final_targeted_passed": 36,
+    "ruff": "passed",
+    "node_syntax": "passed",
+    "wheel_and_sdist": "passed"
+  },
+  "scope": "Post-observation development review; previous forecasts and holdout scores unchanged."
+}

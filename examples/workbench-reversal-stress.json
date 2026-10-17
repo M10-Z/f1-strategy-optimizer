@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "acknowledgement": {
+    "exploratory_only": true,
+    "same_lap_abstraction": true,
+    "asynchronous_gap_projection": true,
+    "no_verified_action_boundary": true,
+    "no_actual_future_used": true,
+    "uncalibrated_scenarios": true
+  },
+  "action_boundary": {
+    "kind": "abstract_next_pit_entry_boundary",
+    "effective_at": null,
+    "after_lap": 8,
+    "rationale": "Visible-prefix initialization at 2023-03-05T15:18:00+00:00; nearby selection. Report gaps subtract 6.085 s and are projected to the ego's completed-lap boundary, not synchronized measurements. Tyre age/compound retain prefix values. Base pace = prefix-median forecast minus assumed next-lap tyre contribution; not identified vehicle pace. Missing values remain null. All selected cars are ASSUMED ACTIVE; activity is unknown. Historical pit count=0 and used_compounds=current compound are explicit counter assumptions, not observed history. Conditions, curves, physics, future opponent stay-out and scenarios remain manual hypotheses. Inventory stays unknown/unlimited; no stock feasibility claim."
+  },
+  "field_assumptions": {
+    "state_alignment": {
+      "source": "Frozen prefix + explicit model assumptions",
+      "rationale": "Visible-prefix initialization at 2023-03-05T15:18:00+00:00; nearby selection. Report gaps subtract 6.085 s and are projected to the ego's completed-lap boundary, not synchronized measurements. Tyre age/compound retain prefix values. Base pace = prefix-median forecast minus assumed next-lap tyre contribution; not identified vehicle pace. Missing values remain null. All selected cars are ASSUMED ACTIVE; activity is unknown. Historical pit count=0 and used_compounds=current compound are explicit counter assumptions, not observed history. Conditions, curves, physics, future opponent stay-out and scenarios remain manual hypotheses. Inventory stays unknown/unlimited; no stock feasibility claim."
+    },
+    "conditions": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "GREEN, DRY and 32 C are manual research assumptions, not deductions from absent race-control messages or zero rainfall."
+    },
+    "pace_and_physics": {
+      "source": "Frozen prefix + explicit model assumptions",
+      "rationale": "Visible-prefix initialization at 2023-03-05T15:18:00+00:00; nearby selection. Report gaps subtract 6.085 s and are projected to the ego's completed-lap boundary, not synchronized measurements. Tyre age/compound retain prefix values. Base pace = prefix-median forecast minus assumed next-lap tyre contribution; not identified vehicle pace. Missing values remain null. All selected cars are ASSUMED ACTIVE; activity is unknown. Historical pit count=0 and used_compounds=current compound are explicit counter assumptions, not observed history. Conditions, curves, physics, future opponent stay-out and scenarios remain manual hypotheses. Inventory stays unknown/unlimited; no stock feasibility claim."
+    },
+    "inventory": {
+      "source": "Frozen prefix + explicit model assumptions",
+      "rationale": "Visible-prefix initialization at 2023-03-05T15:18:00+00:00; nearby selection. Report gaps subtract 6.085 s and are projected to the ego's completed-lap boundary, not synchronized measurements. Tyre age/compound retain prefix values. Base pace = prefix-median forecast minus assumed next-lap tyre contribution; not identified vehicle pace. Missing values remain null. All selected cars are ASSUMED ACTIVE; activity is unknown. Historical pit count=0 and used_compounds=current compound are explicit counter assumptions, not observed history. Conditions, curves, physics, future opponent stay-out and scenarios remain manual hypotheses. Inventory stays unknown/unlimited; no stock feasibility claim."
+    },
+    "opponents": {
+      "source": "Frozen prefix + explicit model assumptions",
+      "rationale": "Visible-prefix initialization at 2023-03-05T15:18:00+00:00; nearby selection. Report gaps subtract 6.085 s and are projected to the ego's completed-lap boundary, not synchronized measurements. Tyre age/compound retain prefix values. Base pace = prefix-median forecast minus assumed next-lap tyre contribution; not identified vehicle pace. Missing values remain null. All selected cars are ASSUMED ACTIVE; activity is unknown. Historical pit count=0 and used_compounds=current compound are explicit counter assumptions, not observed history. Conditions, curves, physics, future opponent stay-out and scenarios remain manual hypotheses. Inventory stays unknown/unlimited; no stock feasibility claim."
+    },
+    "scenarios": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "Green and one arbitrary VSC timing are alternative hypothetical cases with equal subjective weights. They are not actual future observations or calibrated probabilities."
+    },
+    "rules": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "No mandatory-stop, compound-diversity or maximum-age race constraint is imposed in this short illustrative horizon. This is not a full-event regulatory feasibility check."
+    },
+    "tyres": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "Hand-selected linear compound offsets and degradation slopes; no post-cutoff lap or actual later stint is used."
+    }
+  },
+  "inventory_policy": {
+    "kind": "unknown_unlimited_model",
+    "acknowledged": true
+  },
+  "model_subset": {
+    "drivers": [
+      "leclerc",
+      "perez",
+      "sainz",
+      "hamilton",
+      "russell"
+    ],
+    "acknowledged": true,
+    "rationale": "Visible-prefix initialization at 2023-03-05T15:18:00+00:00; nearby selection. Report gaps subtract 6.085 s and are projected to the ego's completed-lap boundary, not synchronized measurements. Tyre age/compound retain prefix values. Base pace = prefix-median forecast minus assumed next-lap tyre contribution; not identified vehicle pace. Missing values remain null. All selected cars are ASSUMED ACTIVE; activity is unknown. Historical pit count=0 and used_compounds=current compound are explicit counter assumptions, not observed history. Conditions, curves, physics, future opponent stay-out and scenarios remain manual hypotheses. Inventory stays unknown/unlimited; no stock feasibility claim."
+  },
+  "planning": {
+    "source": "Visible-prefix initialization at 2023-03-05T15:18:00+00:00; nearby selection. Report gaps subtract 6.085 s and are projected to the ego's completed-lap boundary, not synchronized measurements. Tyre age/compound retain prefix values. Base pace = prefix-median forecast minus assumed next-lap tyre contribution; not identified vehicle pace. Missing values remain null. All selected cars are ASSUMED ACTIVE; activity is unknown. Historical pit count=0 and used_compounds=current compound are explicit counter assumptions, not observed history. Conditions, curves, physics, future opponent stay-out and scenarios remain manual hypotheses. Inventory stays unknown/unlimited; no stock feasibility claim.",
+    "ego": "leclerc",
+    "state": {
+      "season": 2023,
+      "event": "session-7953-prefix-research",
+      "completed_laps": 8,
+      "total_laps": 14,
+      "track_status": "GREEN",
+      "weather": "DRY",
+      "track_temp": 32.0,
+      "cars": [
+        {
+          "driver": "leclerc",
+          "team": "Ferrari",
+          "base_lap_time": 100,
+          "gap_seconds": 0.0,
+          "compound": "SOFT",
+          "tyre_age": 8,
+          "tyre_inventory": null,
+          "used_compounds": [
+            "SOFT"
+          ],
+          "pit_stops": 0
+        },
+        {
+          "driver": "perez",
+          "team": "Red Bull Racing",
+          "base_lap_time": 96.824,
+          "gap_seconds": 1.6900000000000004,
+          "compound": "SOFT",
+          "tyre_age": 11,
+          "tyre_inventory": null,
+          "used_compounds": [
+            "SOFT"
+          ],
+          "pit_stops": 0
+        },
+        {
+          "driver": "sainz",
+          "team": "Ferrari",
+          "base_lap_time": 97.148,
+          "gap_seconds": 6.066999999999999,
+          "compound": "SOFT",
+          "tyre_age": 11,
+          "tyre_inventory": null,
+          "used_compounds": [
+            "SOFT"
+          ],
+          "pit_stops": 0
+        },
+        {
+          "driver": "hamilton",
+          "team": "Mercedes",
+          "base_lap_time": 97.35499999999999,
+          "gap_seconds": 9.046,
+          "compound": "SOFT",
+          "tyre_age": 11,
+          "tyre_inventory": null,
+          "used_compounds": [
+            "SOFT"
+          ],
+          "pit_stops": 0
+        },
+        {
+          "driver": "russell",
+          "team": "Mercedes",
+          "base_lap_time": 97.569,
+          "gap_seconds": 10.157,
+          "compound": "SOFT",
+          "tyre_age": 11,
+          "tyre_inventory": null,
+          "used_compounds": [
+            "SOFT"
+          ],
+          "pit_stops": 0
+        }
+      ]
+    },
+    "physics": {
+      "reference_lap_time": 100.0,
+      "pit_loss": 80,
+      "following_gap": 0.25,
+      "passing_advantage": 0.8,
+      "passing_cost": 0.3,
+      "sc_pace_factor": 1.4,
+      "vsc_pace_factor": 1.25,
+      "sc_pit_factor": 0.5,
+      "vsc_pit_factor": 0.7,
+      "sc_gap": 1.0,
+      "sc_catchup_per_lap": 5.0,
+      "wet_penalties": {},
+      "pit_service_time": 3.0
+    },
+    "tyres": {
+      "SOFT": {
+        "base_time": 100.0,
+        "degradation": 0.5
+      },
+      "MEDIUM": {
+        "base_time": 100.35,
+        "degradation": 0.1
+      },
+      "HARD": {
+        "base_time": 100.7,
+        "degradation": 0.06
+      }
+    },
+    "opponents": {
+      "perez": {
+        "kind": "fixed",
+        "stops": []
+      },
+      "sainz": {
+        "kind": "fixed",
+        "stops": []
+      },
+      "hamilton": {
+        "kind": "fixed",
+        "stops": []
+      },
+      "russell": {
+        "kind": "fixed",
+        "stops": []
+      }
+    },
+    "scenarios": [
+      {
+        "name": "hypothetical-green",
+        "weight": 1.0,
+        "available_at_lap": 8,
+        "kind": "hypothetical",
+        "weight_kind": "user_supplied",
+        "events": []
+      },
+      {
+        "name": "arbitrary-VSC-illustration",
+        "weight": 1.0,
+        "available_at_lap": 8,
+        "kind": "hypothetical",
+        "weight_kind": "user_supplied",
+        "events": [
+          {
+            "lap": 11,
+            "track_status": "VSC"
+          },
+          {
+            "lap": 13,
+            "track_status": "GREEN"
+          }
+        ]
+      }
+    ],
+    "candidates": {
+      "pit_laps": [
+        8,
+        10,
+        12
+      ],
+      "compounds": [
+        "MEDIUM",
+        "HARD"
+      ],
+      "max_stops": 1,
+      "max_candidates": 20,
+      "max_rollouts": 40
+    },
+    "risk_top_k": 3,
+    "rules": {},
+    "objective": {
+      "mode": "driver_position"
+    }
+  },
+  "sensitivity": [
+    {
+      "name": "lower-assumed-pit-loss",
+      "path": "physics.pit_loss",
+      "value": 16.0,
+      "rationale": "One hand-selected lower pit-loss assumption; all other baseline inputs remain fixed."
+    },
+    {
+      "name": "higher-assumed-pit-loss",
+      "path": "physics.pit_loss",
+      "value": 28.0,
+      "rationale": "One hand-selected higher pit-loss assumption; not an empirical confidence bound."
+    },
+    {
+      "name": "higher-hard-degradation",
+      "path": "tyres.HARD.degradation",
+      "value": 0.12,
+      "rationale": "Double one illustrative slope; finite sensitivity does not validate the tyre model."
+    }
+  ],
+  "max_total_rollouts": 200,
+  "selection_preference": {
+    "mode": "conservative"
+  }
+}

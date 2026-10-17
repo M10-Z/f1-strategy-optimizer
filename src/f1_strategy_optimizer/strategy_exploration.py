@@ -139,8 +139,9 @@ def _validate(frozen, assumptions):
         "model_subset",
         "sensitivity",
         "max_total_rollouts",
+        "selection_preference",
     }
-    _required(assumptions, allowed - {"model_subset"}, "assumptions")
+    _required(assumptions, allowed - {"model_subset", "selection_preference"}, "assumptions")
     if set(assumptions) - allowed or assumptions["schema_version"] != 1:
         raise ValueError(
             "Unsupported exploration schema or unknown inputs (archives/outcomes forbidden)"
@@ -231,7 +232,10 @@ def _validate(frozen, assumptions):
         )
         _text(car["team"], "car.team")
         if any(car[k] is None for k in ("gap_seconds", "compound", "tyre_age", "base_lap_time")):
-            raise ValueError("Gaps, compound, age and pace must be supplied, never imputed")
+            raise ValueError(
+                f"{car['driver']} 缺少间距、配方、胎龄或基础圈时；"
+                "请手工填写并注明假设，或调整参与车阵。未知值不会自动补齐"
+            )
         if inventory["kind"] == "finite":
             if not isinstance(car["tyre_inventory"], dict):
                 raise ValueError(
@@ -242,6 +246,12 @@ def _validate(frozen, assumptions):
                 "unknown_unlimited_model requires explicit null inventories for every car"
             )
     scope = _scope(frozen, assumptions, planning)
+    preference = assumptions.get("selection_preference", {"mode": "mean_position"})
+    if preference not in ({"mode": "mean_position"}, {"mode": "conservative"}):
+        raise ValueError("selection_preference must be mean_position or conservative")
+    positive_int(planning.get("risk_top_k", 3), "risk_top_k")
+    if "selection_preference" in assumptions and planning["risk_top_k"] > len(state["cars"]):
+        raise ValueError("目标名次不能超过参与车辆数；名次仅在所选模型车阵内有效")
     if set(planning["opponents"]) != set(scope["drivers"]) - {planning["ego"]}:
         raise ValueError("Supply an explicit hypothetical policy for every opponent")
     boundary = assumptions["action_boundary"]
@@ -498,6 +508,8 @@ def propose_exploration(frozen, assumptions):
         for key in ("acknowledgement", "action_boundary", "field_assumptions", "inventory_policy")
     }
     context["model_scope"] = scope
+    preference = assumptions.get("selection_preference", {"mode": "mean_position"})
+    context["selection_preference"] = preference
     engine_hashes = _engine_manifest()
     freezes = []
     for name, resolved, _, _ in variants:
@@ -510,6 +522,17 @@ def propose_exploration(frozen, assumptions):
         freezes.append({"name": name, "sha256": digest(envelope), "resolved_input": envelope})
     # No planner invocation, archive or outcome access occurs before this point.
     reports = [plan_from_document(deepcopy(v[1])) for v in variants]
+    if preference["mode"] == "conservative":
+        for candidate_report in reports:
+            candidate_report["ranking"].sort(
+                key=lambda row: (
+                    row["worst_finish_position"],
+                    row["weighted_share_outside_top_k"],
+                    row["expected_finish_position"],
+                    len(row["stops"]),
+                    row["label"],
+                )
+            )
     report = reports[0]
     ranking = report["ranking"]
     stay = next((r for r in ranking if not r["stops"]), None)
@@ -589,6 +612,20 @@ def propose_exploration(frozen, assumptions):
             "status": "feasible" if stay else "infeasible",
             "candidate": _candidate(stay, planning, stay) if stay else None,
             "rejection": deepcopy(rejected_stay),
+        },
+        "selection_preference": {
+            **preference,
+            "target_top_k": planning["risk_top_k"],
+            "ordering": "worst rank, weighted share missing target, mean rank, fewer stops"
+            if preference["mode"] == "conservative"
+            else "mean rank, worst rank, fewer stops",
+            "weight_notice": "Subjective scenario shares, not calibrated failure probabilities",
+        },
+        "modeled_participants": deepcopy(planning["state"]["cars"]),
+        "opponent_policies": deepcopy(planning["opponents"]),
+        "covered_scenarios": deepcopy(planning["scenarios"]),
+        "modeled_conditions": {
+            key: planning["state"][key] for key in ("track_status", "weather", "track_temp")
         },
         "initial_threats": {
             "kind": "user_assumed_initial_gaps",

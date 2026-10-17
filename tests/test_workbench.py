@@ -67,7 +67,7 @@ def test_actual_example_job_and_export_keep_matching_selection_and_hashes():
     }
     exported = app.export(request)
     assert exported["reveal"] is None
-    assert exported["exploration"]["model_scope"]["modeled_driver_count"] == 4
+    assert exported["exploration"]["model_scope"]["modeled_driver_count"] == 5
     assert exported["dataset_file_sha256"]
     saved_hash = exported.pop("record_sha256")
     assert digest(exported) == saved_hash
@@ -104,6 +104,6 @@ def test_template_driver_mapping_preserves_explicit_field_and_opponents(driver):
     planning = result["planning"]
     assert planning["ego"] == driver
     ids = {c["driver"] for c in planning["state"]["cars"]}
-    assert len(ids) == 4 and driver in ids
+    assert 2 <= len(ids) <= 7 and driver in ids
     assert set(planning["opponents"]) == ids - {driver}
     assert set(result["model_subset"]["drivers"]) == ids

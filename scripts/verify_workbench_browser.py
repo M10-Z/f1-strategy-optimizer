@@ -3,6 +3,7 @@
 import argparse
 import json
 import re
+import subprocess
 import time
 from pathlib import Path
 
@@ -53,8 +54,20 @@ with sync_playwright() as playwright:
     assert record["selection"]["driver"] == "leclerc"
     assert record["reveal"]["evaluation"]["lap"]["actual"] == 99.073
     assert record["assumptions"]["planning"]["physics"]["pit_loss"] == 18
-    assert record["exploration"]["model_scope"]["modeled_driver_count"] == 4
+    assert record["exploration"]["model_scope"]["modeled_driver_count"] == 5
     assert record["frontend_source_sha256"] and record["dataset_file_sha256"]
+    replay = subprocess.run(
+        [
+            ".venv/bin/python",
+            "-m",
+            "f1_strategy_optimizer.workbench_replay",
+            str(out / "decision-export.json"),
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert json.loads(replay.stdout)["status"] == "exact_match"
     page.locator("#outcomes").screenshot(path=str(out / "desktop-revealed.png"))
     page.locator("#pit-loss").fill("20")
     page.locator("#pit-loss").dispatch_event("change")
@@ -64,9 +77,7 @@ with sync_playwright() as playwright:
     expect(page.locator("#snapshot-note")).to_contain_text("15:38:00")
     expect(page.locator("#reveal-result")).to_have_text("结果仍未揭晓。")
     page.locator("#driver").select_option("hamilton")
-    expect(page.locator("#assumption-json")).to_have_value(
-        re.compile("UI template for selected driver hamilton")
-    )
+    expect(page.locator("#assumption-json")).to_have_value(re.compile('"ego": "hamilton"'))
     expect(page.locator("#ack")).not_to_be_checked()
     page.locator("#ack").check()
     page.locator("#compare").click()

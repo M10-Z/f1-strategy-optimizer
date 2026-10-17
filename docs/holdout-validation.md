@@ -1,5 +1,7 @@
 # Reserved 2024 whole-event holdout validation
 
+The defaults **are the prefix-median and persistence baselines themselves**, not learned models with an established advantage. The original results below remain unchanged. [Subsequent British diagnostics](value-review.zh-CN.md) are post-observation development analysis.
+
 The three reserved races were evaluated with the previously fixed prefix-median lap and persistence gap defaults. Each race contributes 20 registered drivers at all 23 scheduled-start offsets (+600 through +7200 seconds, step 300). No driver, cutoff, event or method was reselected from the errors.
 
 **Execution qualification:** two transparent adapter corrections were necessary. Monaco and Italy had already been scored before both corrections. The British country-alias correction was committed before British outcome requests; an optional missing pit-audit duration was corrected after raw acquisition but before British prediction errors were computed. The original and identity-only rejection runs remain intact. This is not an unmodified strict three-event blind execution.

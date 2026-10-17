@@ -1,5 +1,7 @@
 # F1 Strategy Optimizer
 
+[Focused value/quality review · 实际价值复核](docs/value-review.zh-CN.md): prefix-based participant selection, conservative target ranking, verified offline exports; historical research only.
+
 [Local browser workbench](docs/workbench.md)：`python -m f1_strategy_optimizer.workbench` → http://127.0.0.1:8765
 
 [中文说明](README.zh-CN.md) · [Methodology](docs/methodology.md) · [Contributing](CONTRIBUTING.md)

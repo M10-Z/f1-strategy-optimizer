@@ -108,41 +108,11 @@ class Workbench:
         _, frozen = self.cases[case]
         return {"frozen": frozen, "workbench_version": self.commit}
 
-    def assumptions(self, case, driver):
+    def assumptions(self, case, driver, field="nearby", drivers=None):
+        from .workbench_inputs import prefix_assumptions
+
         race, frozen = self.cases[case]
-        cars = {c["id"]: c for c in frozen["state"]["cars"]}
-        if driver not in cars:
-            raise ValueError("所选车手不在冻结记录中")
-        result = self._data(race["assumptions"])
-        planning = result["planning"]
-        original_ego = planning["ego"]
-        modeled = {c["driver"] for c in planning["state"]["cars"]}
-        if driver not in modeled:
-            for car in planning["state"]["cars"]:
-                if car["driver"] == original_ego:
-                    car.update(driver=driver, team=cars[driver]["team"])
-            result["model_subset"]["drivers"] = [
-                driver if x == original_ego else x for x in result["model_subset"]["drivers"]
-            ]
-            for policy in planning["opponents"].values():
-                if policy.get("rival") == original_ego:
-                    policy["rival"] = driver
-        if driver in planning["opponents"]:
-            planning["opponents"][original_ego] = planning["opponents"].pop(driver)
-            # Retarget any reactive reference to the newly selected ego.
-            for policy in planning["opponents"].values():
-                if policy.get("rival") == original_ego:
-                    policy["rival"] = driver
-        planning["ego"] = driver
-        planning["source"] += (
-            f" UI template for selected driver {driver}, frozen cutoff {frozen['cutoff']}. "
-            "Only driver identity/team labels are mapped; numerical values remain manual "
-            "illustrations, not derived measurements or calibrated predictions."
-        )
-        result["action_boundary"]["rationale"] += (
-            f" Selected UTC is {frozen['cutoff']}; the after-lap-8 mapping remains hypothetical."
-        )
-        return result
+        return prefix_assumptions(frozen, self._data(race["assumptions"]), driver, field, drivers)
 
     def start(self, document):
         case, driver = document["case"], document["driver"]
@@ -323,7 +293,14 @@ class Handler(BaseHTTPRequestHandler):
             if parsed.path == "/api/decision":
                 return self._send(app.decision(query["case"][0]))
             if parsed.path == "/api/assumptions":
-                return self._send(app.assumptions(query["case"][0], query["driver"][0]))
+                return self._send(
+                    app.assumptions(
+                        query["case"][0],
+                        query["driver"][0],
+                        query.get("field", ["nearby"])[0],
+                        query.get("drivers", [""])[0].split(","),
+                    )
+                )
             if parsed.path.startswith("/api/jobs/"):
                 return self._send(app.job(parsed.path.rsplit("/", 1)[1]))
             files = {

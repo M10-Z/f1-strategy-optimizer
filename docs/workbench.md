@@ -23,11 +23,15 @@ matched-scenario teammate costs and sensitivity. Click reveal to request actual 
 outcomes; no outcome request happens before that action. Export saves matching frozen facts,
 assumptions, simulation, optional revealed observations, versions, hashes and source evidence.
 
-The default assumption model contains four of twenty cars over laps 9–14. Ranks are within
-that subset at the model horizon, not full-race final classification. Scenario weights and
-future actions are hypothetical. Unknown stock uses an acknowledged unlimited model. The
-short manually supplied example is not calibrated to real future outcomes. Selecting another
-driver maps identity/team labels only, not calibrated numerical parameters.
+The default uses nearby cars and teammates from the selected frozen prefix (five cars for
+Bahrain 15:18 Leclerc); custom or all registered cars can be selected. It starts from the
+ego's completed-lap boundary with a six-lap default horizon. Unknown fields remain null and
+block simulation until explicitly supplied. Pace is initialized from the median baseline
+minus the assumed next-lap tyre contribution; this is not identified vehicle performance.
+All selected cars are assumed active; inventory stays unknown/unlimited. Ranks are only
+within the selected modeled field. Choose a target top-k and mean-rank or worst-rank-first
+conservative ordering. Opponent policies, scenario weights and physical parameters remain
+explicit hypotheses, not calibrated probabilities or causal strategy evidence.
 
 Changed assumptions invalidate prior simulations and export. Changed selection also clears
 revealed outcomes. Jobs run in separate cancellable processes, show elapsed time and fail with
@@ -51,7 +55,14 @@ included in both wheel and sdist. See [the API contract](exploration-ui-contract
 
 This workspace also contains `output/workbench-all-events`: four races and 72 frozen snapshots
 (the three Bahrain examples plus 23 fixed UTCs for each reserved 2024 race). Start it with
-`--data-dir output/workbench-all-events`; add `--port 8767` if desired. Numeric exploration
-assumptions remain unchanged illustrative values, not a fit to holdout results. Rebuild the
+`--data-dir output/workbench-all-events`; add `--port 8767` if desired. These races have now been observed: further work is development analysis. Prefix initialization
+uses no outcomes; future actions, physics and scenarios remain uncalibrated assumptions. Rebuild the
 catalog offline using `scripts/build_workbench_catalog.py` with the final report and decisions.
 The [holdout report](holdout-validation.md) records both transparent British adapter errata.
+
+Replay an actual downloaded file offline with
+`python -m f1_strategy_optimizer.workbench_replay path/to/download.json`. This verifies all
+hashes and engine source identity, then compares the complete deterministic simulation.
+Exports now preserve server JSON bytes: the prior browser parse/stringify step corrupted
+Python numeric hashes. Old artifacts are preserved. See the [focused review](value-review.zh-CN.md)
+for British error diagnosis, limitations and end-to-end evidence.

@@ -1,5 +1,7 @@
 # F1 进站策略优化器
 
+[Focused value/quality review · 实际价值复核](docs/value-review.zh-CN.md): prefix-based participant selection, conservative target ranking, verified offline exports; historical research only.
+
 [本地交互网页工作台](docs/workbench.zh-CN.md)：`python -m f1_strategy_optimizer.workbench` → http://127.0.0.1:8765
 
 [English](README.md)
