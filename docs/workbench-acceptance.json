@@ -33,5 +33,18 @@
   "screenshots": {
     "workbench-desktop-comparison.png": "bb5a6c8d31b0cfcaceb9db927f6a621ab78c9b873222441060972ef57234ea1f",
     "workbench-mobile-comparison.png": "bf2ef8b1a7aa9ee9724d3e309f85e90733db9bf0b087f41caaf51866efb50767"
+  },
+  "four_event_integration": {
+    "catalog_races": 4,
+    "frozen_cases": 72,
+    "British_cutoffs": 23,
+    "comparison_wall_seconds": 0.8740150640005595,
+    "British_real_reveal_passed": true,
+    "both_technical_errata_exported": true,
+    "browser_errors": []
+  },
+  "additional_targeted_tests": {
+    "identity_metadata_erratum": 7,
+    "nullable_optional_audit_erratum": 6
   }
 }

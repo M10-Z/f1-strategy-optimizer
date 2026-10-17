@@ -4,6 +4,8 @@
 
 ## 0.1.0 — unreleased
 
+- Evaluate the three reserved 2024 races under frozen defaults; retain original rejection runs and two transparent British adapter errata. Report coverage and weaker-than-baseline default errors without retuning.
+
 - Add a loopback browser workbench with bundled real Bahrain snapshots, explicit editable assumptions, cancellable simulation jobs, gated outcome reveal and evidence/version exports.
 
 - Reserve three whole-race holdouts before further tuning; select conservative observation defaults from Bahrain development. Add outcome-only error groups, a bounded explicit-assumption strategy explorer with provenance and sensitivity, and a versioned local UI contract.

@@ -48,3 +48,15 @@ Desktop comparison:
 Narrow-screen comparison:
 
 ![Narrow-screen comparison](assets/workbench-mobile-comparison.png)
+
+## Additional actual-event integration
+
+After holdout completion, `scripts/build_workbench_catalog.py` created a separate four-event
+catalog with **72 frozen snapshots**, preserving the original bundled Bahrain sample. A focused
+browser integration selected 2024 Britain, verified its 23 cutoffs, compared the manual model,
+explicitly revealed Leclerc's actual target lap 6 (92.758 seconds, default absolute error
+0.053 seconds), and exported both technical-erratum records with the matching 2024 frozen hash.
+Comparison wall time was 0.874 seconds; no browser script errors occurred. Evidence is in
+`output/workbench-acceptance/four-event-integration.json` and `british-decision-export.json`.
+The numerical assumptions were not recalibrated to that race. This integration does not
+replace the whole-event predictive evaluation.

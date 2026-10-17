@@ -88,3 +88,27 @@ python scripts/verify_workbench_browser.py
 至 `output/workbench-acceptance`。本轮实测与留出结论见验收记录。
 
 [实测浏览器验收记录](workbench-acceptance.md)。
+
+## 本轮四赛事目录
+
+当前工作区已准备好 `output/workbench-all-events`，包含巴林 3 个真实时点，以及摩纳哥、
+英国、意大利三个整场留出的各 23 个预注册时点，共 4 场、72 个冻结记录。使用：
+
+```sh
+.venv/bin/python -m f1_strategy_optimizer.workbench --data-dir output/workbench-all-events
+```
+
+默认端口仍为 8765，若已占用可加 `--port 8767`。当前验收实例使用 8767。
+比赛选择可切换至三场 2024 留出赛事。其模拟仍使用未校准的手工数值模板，仅调整年份、
+赛事及所选身份；不会按留出成绩拟合假设。两个英国数据适配技术勘误随决策导出保存。
+
+如需从本轮已完成的结果离线重建目录（输出必须为新目录）：
+
+```sh
+.venv/bin/python scripts/build_workbench_catalog.py \
+  --report output/whole-race-holdout/final/evaluation.json \
+  --decisions output/whole-race-holdout/final/decisions.json \
+  --output-dir output/workbench-all-events-new
+```
+
+[留出实测及技术勘误](holdout-validation.zh-CN.md)说明原严格版与最终可评分版本的区别。

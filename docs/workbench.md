@@ -48,3 +48,10 @@ timeout feedback and desktop/mobile layout. Runtime frontend assets and the real
 included in both wheel and sdist. See [the API contract](exploration-ui-contract.md).
 
 [Measured browser acceptance](workbench-acceptance.md).
+
+This workspace also contains `output/workbench-all-events`: four races and 72 frozen snapshots
+(the three Bahrain examples plus 23 fixed UTCs for each reserved 2024 race). Start it with
+`--data-dir output/workbench-all-events`; add `--port 8767` if desired. Numeric exploration
+assumptions remain unchanged illustrative values, not a fit to holdout results. Rebuild the
+catalog offline using `scripts/build_workbench_catalog.py` with the final report and decisions.
+The [holdout report](holdout-validation.md) records both transparent British adapter errata.

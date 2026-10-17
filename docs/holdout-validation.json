@@ -1,0 +1,3233 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-10-17T20:05:28.722096+00:00",
+  "candidate_commit": "d466efa50375a28d05795d46740c89e6dcf80e8a",
+  "model_freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+  "identity_erratum_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+  "nullable_optional_audit_erratum_commit": "32c8938a03b6a4d8afdca84bd566f8d81db8678f",
+  "qualification": "Pre-registered model, samples and scoring with two transparent adapter corrections. Both corrections followed evaluation of two events; the alias correction preceded British outcome GETs, and nullable optional audit correction preceded British error scoring. This is not an unmodified strict three-event blind execution.",
+  "policy": {
+    "publication_delay_seconds": 2.0,
+    "timing_margin_seconds": 1.0,
+    "interval_max_age_seconds": 12.0,
+    "weather_max_age_seconds": 120.0,
+    "gap_horizon_seconds": 90.0,
+    "gap_window_seconds": 60.0,
+    "lap_window": 8,
+    "min_lap_samples": 3,
+    "max_lap_slope": 1.0,
+    "max_gap_slope": 0.2,
+    "seed": 0,
+    "lap_method": "prefix_median",
+    "gap_method": "persistence"
+  },
+  "sampling": {
+    "reference": "official scheduled race start UTC; obtain schedule metadata only after model freeze",
+    "offset_seconds": [
+      600,
+      900,
+      1200,
+      1500,
+      1800,
+      2100,
+      2400,
+      2700,
+      3000,
+      3300,
+      3600,
+      3900,
+      4200,
+      4500,
+      4800,
+      5100,
+      5400,
+      5700,
+      6000,
+      6300,
+      6600,
+      6900,
+      7200
+    ],
+    "driver_denominator": "all registered race drivers at every predeclared cutoff",
+    "partition_unit": "entire event, never shuffled neighboring laps"
+  },
+  "primary_default_methods": {
+    "lap": "prefix_median",
+    "gap": "persistence"
+  },
+  "per_race": [
+    {
+      "event": "Monaco Grand Prix",
+      "slug": "monaco",
+      "season": 2024,
+      "partition": "holdout",
+      "status": "evaluated",
+      "scheduled_start": "2024-05-26T13:00:00+00:00",
+      "cutoffs": [
+        "2024-05-26T13:10:00+00:00",
+        "2024-05-26T13:15:00+00:00",
+        "2024-05-26T13:20:00+00:00",
+        "2024-05-26T13:25:00+00:00",
+        "2024-05-26T13:30:00+00:00",
+        "2024-05-26T13:35:00+00:00",
+        "2024-05-26T13:40:00+00:00",
+        "2024-05-26T13:45:00+00:00",
+        "2024-05-26T13:50:00+00:00",
+        "2024-05-26T13:55:00+00:00",
+        "2024-05-26T14:00:00+00:00",
+        "2024-05-26T14:05:00+00:00",
+        "2024-05-26T14:10:00+00:00",
+        "2024-05-26T14:15:00+00:00",
+        "2024-05-26T14:20:00+00:00",
+        "2024-05-26T14:25:00+00:00",
+        "2024-05-26T14:30:00+00:00",
+        "2024-05-26T14:35:00+00:00",
+        "2024-05-26T14:40:00+00:00",
+        "2024-05-26T14:45:00+00:00",
+        "2024-05-26T14:50:00+00:00",
+        "2024-05-26T14:55:00+00:00",
+        "2024-05-26T15:00:00+00:00"
+      ],
+      "registered_driver_count": 20,
+      "summary": {
+        "partition": "holdout",
+        "cases": 23,
+        "strategy_scored": 0,
+        "strategy_metrics": null,
+        "lap": {
+          "attempted": 460,
+          "scored": 213,
+          "excluded": {
+            "insufficient_prefix_laps": 236,
+            "target_already_started": 11
+          },
+          "mae_seconds": {
+            "context_median": 1.0383333333333329,
+            "last_eligible_completed": 1.2058075117370888,
+            "prefix_linear": 1.289839788230345,
+            "prefix_median": 1.037347417840375
+          },
+          "paired_linear_minus_baseline_mae_seconds": {
+            "context_median": 0.25150645489701207,
+            "last_eligible_completed": 0.08403227649325617,
+            "prefix_median": 0.25249237038996997
+          },
+          "metric": "full_lap_duration",
+          "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+          "default_method_counts": {
+            "prefix_median": 213
+          },
+          "default_mae_seconds": 1.037347417840375
+        },
+        "gap": {
+          "attempted": 460,
+          "scored": 190,
+          "excluded": {
+            "insufficient_or_stale_numeric_interval_prefix": 262,
+            "stale_interval_outcome": 7,
+            "invalid_or_null_interval_outcome": 1
+          },
+          "mae_seconds": {
+            "persistence": 1.433715789473684,
+            "prefix_linear": 0.9469512725429889
+          },
+          "paired_linear_minus_baseline_mae_seconds": {
+            "persistence": -0.4867645169306951
+          },
+          "metric": "last_available_gap_report",
+          "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+          "default_method_counts": {
+            "persistence": 190
+          },
+          "default_mae_seconds": 1.433715789473684
+        }
+      },
+      "source_manifest": {
+        "event": "Monaco Grand Prix",
+        "files": [
+          {
+            "file": "monaco/jolpica-laps-0000.body",
+            "sha256": "9db34d736a3f620846e448ca1c7c4cab22aa0a91e8875f54e679582d379425e8",
+            "bytes": 6398,
+            "metadata_sha256": "59f8425090fee20cdb1a0afcbc2d6e1e2698fc34da2ca0e36d854d2ff480a68b",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=0",
+            "retrieved_at_utc": "2026-10-17T19:51:27.098844+00:00",
+            "offset": 0,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-0100.body",
+            "sha256": "502593952e3e8139596c81d68c89aca5e2ca712623cfb3442f8827ef56d08a05",
+            "bytes": 6399,
+            "metadata_sha256": "9375ef53f3f73f1ef2218ec4f9cf0394e9a6ffa159b488bd49efceb898e3e0b5",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=100",
+            "retrieved_at_utc": "2026-10-17T19:51:28.860244+00:00",
+            "offset": 100,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-0200.body",
+            "sha256": "f792a60b82a2cff0e1710b485657671d8bfc09fb5f6fc61f649bc1ec6eba644d",
+            "bytes": 6391,
+            "metadata_sha256": "98b92dec8536907946e6c3486eb2b51f29c7629f81032e3f76d086dc0556fdbd",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=200",
+            "retrieved_at_utc": "2026-10-17T19:51:30.663471+00:00",
+            "offset": 200,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-0300.body",
+            "sha256": "01d488c1cad86f88351eabc9a1da20f4ed9bfb3c3ea48e7f8d1feca1f4e98563",
+            "bytes": 6397,
+            "metadata_sha256": "998d941d6912c8851968713345576e7498fb8e0d62b2cf94bf182ba3de77e4fa",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=300",
+            "retrieved_at_utc": "2026-10-17T19:51:32.317553+00:00",
+            "offset": 300,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-0400.body",
+            "sha256": "0c86c233e81683bce9ee3029bedc997a05f4e75e9b0e5a182416d933ad162f6f",
+            "bytes": 6391,
+            "metadata_sha256": "74d26981cec8e1b8fbe1ff4eb6e04cd6c6209e0caf63f8d9c2490cc5371a5ba1",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=400",
+            "retrieved_at_utc": "2026-10-17T19:51:34.096918+00:00",
+            "offset": 400,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-0500.body",
+            "sha256": "c673aa392fa02d71e4932f4fa912cfb904cc8e0b4251ac2a5d8fb9ca7b70bab4",
+            "bytes": 6402,
+            "metadata_sha256": "a0ba0e4fbb57cc94d16346c351e06d362f399329aa3da266d9f1799b38a19ba8",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=500",
+            "retrieved_at_utc": "2026-10-17T19:51:35.849583+00:00",
+            "offset": 500,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-0600.body",
+            "sha256": "7a67c122b81a6759e125404063e0dcd7fab9dda31d60ffedcf0509b7adbb1b53",
+            "bytes": 6391,
+            "metadata_sha256": "af27a89df1b2cabbcaf812a13de0d017d900354b9ef29b7ff5c4d18945df0215",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=600",
+            "retrieved_at_utc": "2026-10-17T19:51:37.794893+00:00",
+            "offset": 600,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-0700.body",
+            "sha256": "56e07dfb860f082f5e1466cf2dea5858f37eb953c79fb044c87e3bcdf098f577",
+            "bytes": 6397,
+            "metadata_sha256": "16eb7fc18ab1873558ad94be3367f57d877e0d629d63a11bbe2fe0675883177a",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=700",
+            "retrieved_at_utc": "2026-10-17T19:51:39.435121+00:00",
+            "offset": 700,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-0800.body",
+            "sha256": "6b26539387185ecbebf1962bd2949bba885fd7331d6754a5636b366bc7d657d1",
+            "bytes": 6391,
+            "metadata_sha256": "e4f3a8c91dfd2b7b61abcc18e0a878b1204e76b5f4f02b9a202966323bd74f7b",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=800",
+            "retrieved_at_utc": "2026-10-17T19:51:41.088575+00:00",
+            "offset": 800,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-0900.body",
+            "sha256": "833ff27d6ff0d5f0586ce141fdf3f74cd76ea2f9ceecbc43c111f702dd91494c",
+            "bytes": 6402,
+            "metadata_sha256": "0f4f272d3f86949a8f2fa881eb7f937040071ffefd02a46d00d01f48e90d86c3",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=900",
+            "retrieved_at_utc": "2026-10-17T19:51:42.665197+00:00",
+            "offset": 900,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-1000.body",
+            "sha256": "821cd2a4c398f9917aed08f478977f1092c384ef21be80316954c06f4b05451a",
+            "bytes": 6395,
+            "metadata_sha256": "9444e5a90e2e68b69703a946f1a5446d6decb3e03b5291570da98bf1e1372b18",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1000",
+            "retrieved_at_utc": "2026-10-17T19:51:44.258732+00:00",
+            "offset": 1000,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-1100.body",
+            "sha256": "f5c98471d65b86c77d51a2438417d8d7607d2a148b3ab1495beb218cb32e9586",
+            "bytes": 6395,
+            "metadata_sha256": "b507367939296c741b81cb33e3ce3ed9000257603b9703259c1d8e519d478fe6",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1100",
+            "retrieved_at_utc": "2026-10-17T19:51:45.910837+00:00",
+            "offset": 1100,
+            "count": 100,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-laps-1200.body",
+            "sha256": "96a15229644be9c8fb79e46bc936008a6c2f1a840d2a1d0eaa474204f90339c6",
+            "bytes": 2513,
+            "metadata_sha256": "99ca351398c50fb4034c233520a7e0558c8ab5c7d372826be7efdd0576884515",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1200",
+            "retrieved_at_utc": "2026-10-17T19:51:47.436983+00:00",
+            "offset": 1200,
+            "count": 33,
+            "total": 1233,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-pitstops-0000.body",
+            "sha256": "540c68b9c9406aa77f77b18d3e5ec7610a2e02da43d65d5f7b02d8c41be88280",
+            "bytes": 2514,
+            "metadata_sha256": "a4e1783cff15d94c785f7b462d827f7b5737edaf1bc375f21a10460fb17bcff7",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/pitstops/?limit=100&offset=0",
+            "retrieved_at_utc": "2026-10-17T19:51:49.116151+00:00",
+            "offset": 0,
+            "count": 23,
+            "total": 23,
+            "limit": 100
+          },
+          {
+            "file": "monaco/jolpica-results-0000.body",
+            "sha256": "8d2bb05e75281b942c53e31b65de4a4abf7f584f6695c0a1c2f83b5701b6d020",
+            "bytes": 11560,
+            "metadata_sha256": "afe543da0accfa6018c4df24650c0d97458e7e99799e880718c515a7eaba5472",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/results/?limit=100&offset=0",
+            "retrieved_at_utc": "2026-10-17T19:51:25.450854+00:00",
+            "offset": 0,
+            "count": 20,
+            "total": 20,
+            "limit": 100
+          },
+          {
+            "file": "monaco/openf1-drivers.body",
+            "sha256": "f5ab1fc1231f7556dfcbaf2a05e450521f8fc7638ab8636344aa4532195e6267",
+            "bytes": 8317,
+            "metadata_sha256": "9f328920db7b704b059073f92acf1f241b86da7d139b7bcdecae7ba83db740ea",
+            "url": "https://api.openf1.org/v1/drivers?session_key=9523",
+            "retrieved_at_utc": "2026-10-17T19:51:10.188032+00:00"
+          },
+          {
+            "file": "monaco/openf1-intervals.body",
+            "sha256": "845b392f8207119c0eb6acd25261b77ff35b4f04d363effa72d98e920a2f1784",
+            "bytes": 3379689,
+            "metadata_sha256": "4d872e87f83835617483ceb3d1b16d6a2cb547af56efdc436357e2c408b064a4",
+            "url": "https://api.openf1.org/v1/intervals?session_key=9523",
+            "retrieved_at_utc": "2026-10-17T19:51:19.179351+00:00"
+          },
+          {
+            "file": "monaco/openf1-laps.body",
+            "sha256": "4f5abd3871c10e35231159ffd7f50ade9f0a4f8794d8acd765ec9ec36b90666c",
+            "bytes": 573858,
+            "metadata_sha256": "75be0607d6b0b9bfa4f61614c1a533412a138bbc781323ccaa79d62a211aa6cb",
+            "url": "https://api.openf1.org/v1/laps?session_key=9523",
+            "retrieved_at_utc": "2026-10-17T19:51:12.782450+00:00"
+          },
+          {
+            "file": "monaco/openf1-pit.body",
+            "sha256": "1e7f5c5a82d2dcbaa01054c750d41742e7002b639fd073365b4f0774e220b931",
+            "bytes": 4160,
+            "metadata_sha256": "2e7315246074b4385587c63c62e6a35b2719d71408e8180194aaaad8795bb584",
+            "url": "https://api.openf1.org/v1/pit?session_key=9523",
+            "retrieved_at_utc": "2026-10-17T19:51:23.625071+00:00"
+          },
+          {
+            "file": "monaco/openf1-position.body",
+            "sha256": "7654c27a78337892bd93d6d7046f9a52e062655d0241dc703f5458996e8dcf1c",
+            "bytes": 14549,
+            "metadata_sha256": "559d2cdc1133d6bff996f709ac52a694369b66816e6653ab8bfb6c70b5c2ea03",
+            "url": "https://api.openf1.org/v1/position?session_key=9523",
+            "retrieved_at_utc": "2026-10-17T19:51:16.033644+00:00"
+          },
+          {
+            "file": "monaco/openf1-race_control.body",
+            "sha256": "4131447fa2ca5ccf63903ae7b58c2e237f7646e2f8bec9159314a91027f8c266",
+            "bytes": 30924,
+            "metadata_sha256": "72393dfe44d1a106d6a0c23c19c30216f3e3689ddb46b6288991d686f0cfbe63",
+            "url": "https://api.openf1.org/v1/race_control?session_key=9523",
+            "retrieved_at_utc": "2026-10-17T19:51:22.386383+00:00"
+          },
+          {
+            "file": "monaco/openf1-stints.body",
+            "sha256": "17fb71bab5571e3982aff600f8f24d4fcdb7f017f773769a9b07b228eca06392",
+            "bytes": 6185,
+            "metadata_sha256": "e22cff69cba4dd1d10819282d231169f89e26220862ce93ef6f7c2e3573c5085",
+            "url": "https://api.openf1.org/v1/stints?session_key=9523",
+            "retrieved_at_utc": "2026-10-17T19:51:14.393022+00:00"
+          },
+          {
+            "file": "monaco/openf1-weather.body",
+            "sha256": "0deea132d98d6ffb8e84596edc74d936ffb7226a3a582ff84134588cef1031f7",
+            "bytes": 42873,
+            "metadata_sha256": "4d2744097cf06628e7a973542bfdadf22390d91f411d535b1eb87f22bbf4f5fe",
+            "url": "https://api.openf1.org/v1/weather?session_key=9523",
+            "retrieved_at_utc": "2026-10-17T19:51:20.965015+00:00"
+          }
+        ],
+        "sha256": "ee13750c7954603d412bc0a88e774d648c0f753e9812dcb9e99666a5fee6d5bd"
+      },
+      "source_audit": {
+        "availability": {
+          "openf1-drivers": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/drivers?session_key=9523"
+          },
+          "openf1-laps": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/laps?session_key=9523"
+          },
+          "openf1-stints": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/stints?session_key=9523"
+          },
+          "openf1-position": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/position?session_key=9523"
+          },
+          "openf1-intervals": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/intervals?session_key=9523"
+          },
+          "openf1-weather": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/weather?session_key=9523"
+          },
+          "openf1-race_control": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/race_control?session_key=9523"
+          },
+          "openf1-pit": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/pit?session_key=9523"
+          },
+          "jolpica-results-0000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/results/?limit=100&offset=0"
+          },
+          "jolpica-laps-0000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=0"
+          },
+          "jolpica-laps-0100": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=100"
+          },
+          "jolpica-laps-0200": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=200"
+          },
+          "jolpica-laps-0300": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=300"
+          },
+          "jolpica-laps-0400": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=400"
+          },
+          "jolpica-laps-0500": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=500"
+          },
+          "jolpica-laps-0600": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=600"
+          },
+          "jolpica-laps-0700": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=700"
+          },
+          "jolpica-laps-0800": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=800"
+          },
+          "jolpica-laps-0900": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=900"
+          },
+          "jolpica-laps-1000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1000"
+          },
+          "jolpica-laps-1100": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1100"
+          },
+          "jolpica-laps-1200": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1200"
+          },
+          "jolpica-pitstops-0000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/8/pitstops/?limit=100&offset=0"
+          }
+        },
+        "quarantined_rows": [
+          {
+            "endpoint": "stints",
+            "row_index": 6,
+            "reason": "ValueError: lap_start: invalid integer"
+          },
+          {
+            "endpoint": "stints",
+            "row_index": 12,
+            "reason": "ValueError: lap_start: invalid integer"
+          },
+          {
+            "endpoint": "stints",
+            "row_index": 14,
+            "reason": "ValueError: lap_start: invalid integer"
+          },
+          {
+            "endpoint": "stints",
+            "row_index": 15,
+            "reason": "ValueError: lap_start: invalid integer"
+          }
+        ],
+        "counts": {
+          "drivers": 20,
+          "laps": 1237,
+          "stints": 39,
+          "position": 127,
+          "intervals": 23976,
+          "weather": 200,
+          "race_control": 122,
+          "pit": 23
+        },
+        "identity": "same-race Results.number plus accent/case-insensitive name token equality",
+        "null_duration_laps": [
+          [
+            "leclerc",
+            1
+          ],
+          [
+            "piastri",
+            1
+          ],
+          [
+            "sainz",
+            1
+          ],
+          [
+            "russell",
+            1
+          ],
+          [
+            "max_verstappen",
+            1
+          ],
+          [
+            "hamilton",
+            1
+          ],
+          [
+            "norris",
+            1
+          ],
+          [
+            "alonso",
+            1
+          ],
+          [
+            "tsunoda",
+            1
+          ],
+          [
+            "albon",
+            1
+          ],
+          [
+            "gasly",
+            1
+          ],
+          [
+            "ocon",
+            1
+          ],
+          [
+            "ricciardo",
+            1
+          ],
+          [
+            "stroll",
+            1
+          ],
+          [
+            "hulkenberg",
+            1
+          ],
+          [
+            "sargeant",
+            1
+          ],
+          [
+            "kevin_magnussen",
+            1
+          ],
+          [
+            "perez",
+            1
+          ],
+          [
+            "bottas",
+            1
+          ],
+          [
+            "zhou",
+            1
+          ]
+        ],
+        "duration_disagreements": [],
+        "openf1_only_keys": [
+          [
+            "hulkenberg",
+            1
+          ],
+          [
+            "kevin_magnussen",
+            1
+          ],
+          [
+            "ocon",
+            1
+          ],
+          [
+            "perez",
+            1
+          ]
+        ],
+        "jolpica_only_keys": [],
+        "jolpica_lap_count": 1233,
+        "jolpica_pit_count": 23
+      },
+      "availability": {
+        "openf1-drivers": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/drivers?session_key=9523"
+        },
+        "openf1-laps": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/laps?session_key=9523"
+        },
+        "openf1-stints": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/stints?session_key=9523"
+        },
+        "openf1-position": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/position?session_key=9523"
+        },
+        "openf1-intervals": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/intervals?session_key=9523"
+        },
+        "openf1-weather": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/weather?session_key=9523"
+        },
+        "openf1-race_control": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/race_control?session_key=9523"
+        },
+        "openf1-pit": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/pit?session_key=9523"
+        },
+        "jolpica-results-0000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/results/?limit=100&offset=0"
+        },
+        "jolpica-laps-0000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=0"
+        },
+        "jolpica-laps-0100": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=100"
+        },
+        "jolpica-laps-0200": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=200"
+        },
+        "jolpica-laps-0300": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=300"
+        },
+        "jolpica-laps-0400": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=400"
+        },
+        "jolpica-laps-0500": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=500"
+        },
+        "jolpica-laps-0600": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=600"
+        },
+        "jolpica-laps-0700": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=700"
+        },
+        "jolpica-laps-0800": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=800"
+        },
+        "jolpica-laps-0900": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=900"
+        },
+        "jolpica-laps-1000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1000"
+        },
+        "jolpica-laps-1100": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1100"
+        },
+        "jolpica-laps-1200": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1200"
+        },
+        "jolpica-pitstops-0000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/8/pitstops/?limit=100&offset=0"
+        }
+      },
+      "runtime_seconds": 2.503444401998422
+    },
+    {
+      "event": "British Grand Prix",
+      "slug": "british",
+      "season": 2024,
+      "partition": "holdout",
+      "status": "evaluated",
+      "scheduled_start": "2024-07-07T14:00:00+00:00",
+      "cutoffs": [
+        "2024-07-07T14:10:00+00:00",
+        "2024-07-07T14:15:00+00:00",
+        "2024-07-07T14:20:00+00:00",
+        "2024-07-07T14:25:00+00:00",
+        "2024-07-07T14:30:00+00:00",
+        "2024-07-07T14:35:00+00:00",
+        "2024-07-07T14:40:00+00:00",
+        "2024-07-07T14:45:00+00:00",
+        "2024-07-07T14:50:00+00:00",
+        "2024-07-07T14:55:00+00:00",
+        "2024-07-07T15:00:00+00:00",
+        "2024-07-07T15:05:00+00:00",
+        "2024-07-07T15:10:00+00:00",
+        "2024-07-07T15:15:00+00:00",
+        "2024-07-07T15:20:00+00:00",
+        "2024-07-07T15:25:00+00:00",
+        "2024-07-07T15:30:00+00:00",
+        "2024-07-07T15:35:00+00:00",
+        "2024-07-07T15:40:00+00:00",
+        "2024-07-07T15:45:00+00:00",
+        "2024-07-07T15:50:00+00:00",
+        "2024-07-07T15:55:00+00:00",
+        "2024-07-07T16:00:00+00:00"
+      ],
+      "registered_driver_count": 20,
+      "summary": {
+        "partition": "holdout",
+        "cases": 23,
+        "strategy_scored": 0,
+        "strategy_metrics": null,
+        "lap": {
+          "attempted": 460,
+          "scored": 276,
+          "excluded": {
+            "insufficient_prefix_laps": 23,
+            "target_already_started": 12,
+            "target_duration_unknown": 1,
+            "target_missing_no_retirement_inference": 148
+          },
+          "mae_seconds": {
+            "context_median": 4.921606884057971,
+            "last_eligible_completed": 3.351579710144928,
+            "prefix_linear": 4.338094905659854,
+            "prefix_median": 5.074451086956522
+          },
+          "paired_linear_minus_baseline_mae_seconds": {
+            "context_median": -0.5835119783981177,
+            "last_eligible_completed": 0.9865151955149258,
+            "prefix_median": -0.7363561812966681
+          },
+          "metric": "full_lap_duration",
+          "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+          "default_method_counts": {
+            "prefix_median": 276
+          },
+          "default_mae_seconds": 5.074451086956522
+        },
+        "gap": {
+          "attempted": 460,
+          "scored": 218,
+          "excluded": {
+            "insufficient_or_stale_numeric_interval_prefix": 228,
+            "invalid_or_null_interval_outcome": 3,
+            "stale_interval_outcome": 11
+          },
+          "mae_seconds": {
+            "persistence": 2.04345871559633,
+            "prefix_linear": 1.8177182724212255
+          },
+          "paired_linear_minus_baseline_mae_seconds": {
+            "persistence": -0.22574044317510444
+          },
+          "metric": "last_available_gap_report",
+          "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+          "default_method_counts": {
+            "persistence": 218
+          },
+          "default_mae_seconds": 2.04345871559633
+        }
+      },
+      "source_manifest": {
+        "event": "British Grand Prix",
+        "files": [
+          {
+            "file": "british/jolpica-laps-0000.body",
+            "sha256": "b85ee70ab852293ebf49f86e15e978dce2d6f0dfcff17e662d998a83b1c74a7c",
+            "bytes": 6425,
+            "metadata_sha256": "7563e992234ca71dde3c9e46eb011a86905e6de14964128cc7d3691de02a8eda",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=0",
+            "retrieved_at_utc": "2026-10-17T19:56:56.366262+00:00",
+            "offset": 0,
+            "count": 100,
+            "total": 960,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-laps-0100.body",
+            "sha256": "e8108a6882b811fead14ee503b86e98262fac7b34b56210a42101c4753e2e849",
+            "bytes": 6422,
+            "metadata_sha256": "e604d01dac5c9892d6127a1d6b23337df2b03a604a514ab2a14fe147c2a3498f",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=100",
+            "retrieved_at_utc": "2026-10-17T19:56:58.083779+00:00",
+            "offset": 100,
+            "count": 100,
+            "total": 960,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-laps-0200.body",
+            "sha256": "2dc8d5ca8ecfb07fdd6ac80460e20179d78347efde73755614aca61f4749513b",
+            "bytes": 6440,
+            "metadata_sha256": "33c63cf44ba718cad518a1a7f649b825e08a5d58deb3b777f944238d4f0c10cd",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=200",
+            "retrieved_at_utc": "2026-10-17T19:56:59.773117+00:00",
+            "offset": 200,
+            "count": 100,
+            "total": 960,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-laps-0300.body",
+            "sha256": "9c7191f9efe9a310b7f49ad51a6084178b3aed851a2ff8414a0ce24e20827597",
+            "bytes": 6448,
+            "metadata_sha256": "8d53de65d288d8acc1dfdff97eb75e7072fd379db5ddcb9029988ec70cbe827a",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=300",
+            "retrieved_at_utc": "2026-10-17T19:57:01.410968+00:00",
+            "offset": 300,
+            "count": 100,
+            "total": 960,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-laps-0400.body",
+            "sha256": "cece512bd00bb4d4afc701cada51342a94d57017e32e659d6cbe59331269f100",
+            "bytes": 6432,
+            "metadata_sha256": "1e929d533aefd0b6c9f0b60f638c539891d5b9f7bd7ecebc79d4638a7a6dce72",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=400",
+            "retrieved_at_utc": "2026-10-17T19:57:03.038618+00:00",
+            "offset": 400,
+            "count": 100,
+            "total": 960,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-laps-0500.body",
+            "sha256": "b5ba2c1df78c07e83e0bbe5779a27a769c541d5257666c03cb680203920775e4",
+            "bytes": 6427,
+            "metadata_sha256": "d688d1b8cd01b87069118a7bde87e05da43503875061d83140945690a9c71cef",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=500",
+            "retrieved_at_utc": "2026-10-17T19:57:04.683098+00:00",
+            "offset": 500,
+            "count": 100,
+            "total": 960,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-laps-0600.body",
+            "sha256": "ace7ab7b6a89fc02a1bc54024d326607c014747483fde1a9738ca92809f9d7c8",
+            "bytes": 6459,
+            "metadata_sha256": "d3b00cda4c2644cf4ddfa93027f50598d346c747c0265952be10a11908eaa32f",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=600",
+            "retrieved_at_utc": "2026-10-17T19:57:06.378199+00:00",
+            "offset": 600,
+            "count": 100,
+            "total": 960,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-laps-0700.body",
+            "sha256": "93d3417e068b686720c249f9d868816b57c7527233f1fea43dba7a4c6a03ce58",
+            "bytes": 6436,
+            "metadata_sha256": "3a6c690d948dc743bf008a79f96eb6c647bda60226ee0e0bd24dadd7cbd26349",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=700",
+            "retrieved_at_utc": "2026-10-17T19:57:07.986037+00:00",
+            "offset": 700,
+            "count": 100,
+            "total": 960,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-laps-0800.body",
+            "sha256": "2684beb14f4422e175b5d42529ae72802f9580ceea859d4cc105f64bc7c3b0bb",
+            "bytes": 6457,
+            "metadata_sha256": "d5989cf320318d9303277cdafb2cefbb3b689513be438989328976de6fffb40b",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=800",
+            "retrieved_at_utc": "2026-10-17T19:57:09.743673+00:00",
+            "offset": 800,
+            "count": 100,
+            "total": 960,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-laps-0900.body",
+            "sha256": "41bcade3dc4e2dfa979b74e5d1372b9b187687602d6bd03e41bf21e748da467e",
+            "bytes": 4109,
+            "metadata_sha256": "1cebb2b480fdbb73110ff2f10a533490d72c3837600e62127c75b78a82d8212f",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=900",
+            "retrieved_at_utc": "2026-10-17T19:57:11.336639+00:00",
+            "offset": 900,
+            "count": 60,
+            "total": 960,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-pitstops-0000.body",
+            "sha256": "4908468fb042177d97f9d99c661ba9742ae20adeea7a64ea2159c48bdfdf4b04",
+            "bytes": 4306,
+            "metadata_sha256": "385d0d4d938be28bc188e1f2af0a0db87ee15ff22206e87a0fcb5c903ba764d6",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/pitstops/?limit=100&offset=0",
+            "retrieved_at_utc": "2026-10-17T19:57:13.046645+00:00",
+            "offset": 0,
+            "count": 45,
+            "total": 45,
+            "limit": 100
+          },
+          {
+            "file": "british/jolpica-results-0000.body",
+            "sha256": "8d294e0dd06c6eb6c1661df99c158c98afead80bf61877b03cb9c886cfba1c08",
+            "bytes": 12818,
+            "metadata_sha256": "4459af3e42e05db5491907344648b74b03c179caf139d2e1f277d768ce9bb004",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/results/?limit=100&offset=0",
+            "retrieved_at_utc": "2026-10-17T19:56:54.736449+00:00",
+            "offset": 0,
+            "count": 20,
+            "total": 20,
+            "limit": 100
+          },
+          {
+            "file": "british/openf1-drivers.body",
+            "sha256": "e4317db1132c3064427df31f955ba1a0ad6825fa2c02a8f2862eb694b9dee1d0",
+            "bytes": 8317,
+            "metadata_sha256": "cca8c47363f806a8c5f217d26f214e91f976143bb884f6f41998f2cfc4dbde27",
+            "url": "https://api.openf1.org/v1/drivers?session_key=9558",
+            "retrieved_at_utc": "2026-10-17T19:56:40.397183+00:00"
+          },
+          {
+            "file": "british/openf1-intervals.body",
+            "sha256": "3a5eec7d68a9383eff13c003dbcb41a05a4f861d744d5b6b9d4186e522628617",
+            "bytes": 3172011,
+            "metadata_sha256": "13443df8d3b6cf7a7e668c20dcf73275e00ccbabbac7dddedc027ed091ebfe64",
+            "url": "https://api.openf1.org/v1/intervals?session_key=9558",
+            "retrieved_at_utc": "2026-10-17T19:56:49.067904+00:00"
+          },
+          {
+            "file": "british/openf1-laps.body",
+            "sha256": "fe4b7bd936014ee0bfe10b81fa67a992517367a5945d66db70f6e37f26327371",
+            "bytes": 465899,
+            "metadata_sha256": "432fbfa5acad7b55e2d9a4e036dcc9433714b8968b2c7bf8a3a1f77343d2cd6b",
+            "url": "https://api.openf1.org/v1/laps?session_key=9558",
+            "retrieved_at_utc": "2026-10-17T19:56:42.627345+00:00"
+          },
+          {
+            "file": "british/openf1-pit.body",
+            "sha256": "6df856bbc961db0bde1dcf59fe7b452d05a724e26f899b671ecb1dbddf50aec1",
+            "bytes": 8048,
+            "metadata_sha256": "71e8e77d8e368042cd15e08a04feba7ba1289cc22827415dbceb6ec816b7d519",
+            "url": "https://api.openf1.org/v1/pit?session_key=9558",
+            "retrieved_at_utc": "2026-10-17T19:56:53.123685+00:00"
+          },
+          {
+            "file": "british/openf1-position.body",
+            "sha256": "d0ac57e6b26db21466b8c85f501e0c84bd0bd303f76fd0c284171658de205a6f",
+            "bytes": 28816,
+            "metadata_sha256": "a184a310d41a9766e85e60efa2e478998bd05035063da8fb66b2287e98f3724c",
+            "url": "https://api.openf1.org/v1/position?session_key=9558",
+            "retrieved_at_utc": "2026-10-17T19:56:45.755161+00:00"
+          },
+          {
+            "file": "british/openf1-race_control.body",
+            "sha256": "faa69eb71effb0310023106130c1dfdedc21b5693bf28113adb3812656fc63d1",
+            "bytes": 27883,
+            "metadata_sha256": "41911843eed05a6de544a6dd1ad1b1f5f5020cab70141aa36a30774bfc1dee63",
+            "url": "https://api.openf1.org/v1/race_control?session_key=9558",
+            "retrieved_at_utc": "2026-10-17T19:56:51.918943+00:00"
+          },
+          {
+            "file": "british/openf1-stints.body",
+            "sha256": "766ba4af6f1cd7b50e2a7c19626a007b6b003351a824ef73734fc3dc731538b9",
+            "bytes": 9568,
+            "metadata_sha256": "efe55051bd7fed33bbbb08c3d5d84110ebeb18c7e3a679fd03c2e1fa7a6e1f72",
+            "url": "https://api.openf1.org/v1/stints?session_key=9558",
+            "retrieved_at_utc": "2026-10-17T19:56:43.991334+00:00"
+          },
+          {
+            "file": "british/openf1-weather.body",
+            "sha256": "17d65f15898b90e60b20c24810399304943f366497e29570ca92ff79ffe8e352",
+            "bytes": 31444,
+            "metadata_sha256": "351217a1d8ada75c78d8129d803ddccbaef1f832a162127ece55f3bd13d2885e",
+            "url": "https://api.openf1.org/v1/weather?session_key=9558",
+            "retrieved_at_utc": "2026-10-17T19:56:50.577567+00:00"
+          }
+        ],
+        "sha256": "76d27e027b1d50269ed45333c2748f0170cd7c08250888df8df4802708d9f3cc"
+      },
+      "source_audit": {
+        "availability": {
+          "openf1-drivers": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/drivers?session_key=9558"
+          },
+          "openf1-laps": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/laps?session_key=9558"
+          },
+          "openf1-stints": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/stints?session_key=9558"
+          },
+          "openf1-position": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/position?session_key=9558"
+          },
+          "openf1-intervals": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/intervals?session_key=9558"
+          },
+          "openf1-weather": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/weather?session_key=9558"
+          },
+          "openf1-race_control": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/race_control?session_key=9558"
+          },
+          "openf1-pit": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/pit?session_key=9558"
+          },
+          "jolpica-results-0000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/results/?limit=100&offset=0"
+          },
+          "jolpica-laps-0000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=0"
+          },
+          "jolpica-laps-0100": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=100"
+          },
+          "jolpica-laps-0200": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=200"
+          },
+          "jolpica-laps-0300": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=300"
+          },
+          "jolpica-laps-0400": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=400"
+          },
+          "jolpica-laps-0500": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=500"
+          },
+          "jolpica-laps-0600": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=600"
+          },
+          "jolpica-laps-0700": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=700"
+          },
+          "jolpica-laps-0800": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=800"
+          },
+          "jolpica-laps-0900": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=900"
+          },
+          "jolpica-pitstops-0000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/12/pitstops/?limit=100&offset=0"
+          }
+        },
+        "quarantined_rows": [
+          {
+            "endpoint": "laps",
+            "row_index": 0,
+            "reason": "ValueError: date_start requires an ISO timestamp with timezone"
+          },
+          {
+            "endpoint": "stints",
+            "row_index": 1,
+            "reason": "ValueError: lap_start: invalid integer"
+          }
+        ],
+        "counts": {
+          "drivers": 20,
+          "laps": 961,
+          "stints": 64,
+          "position": 252,
+          "intervals": 22499,
+          "weather": 147,
+          "race_control": 110,
+          "pit": 45
+        },
+        "identity": "same-race Results.number plus accent/case-insensitive name token equality",
+        "null_duration_laps": [
+          [
+            "gasly",
+            1
+          ],
+          [
+            "russell",
+            34
+          ]
+        ],
+        "duration_disagreements": [
+          {
+            "driverId": "albon",
+            "lap": 1,
+            "openf1_seconds": 101.821,
+            "jolpica_seconds": 101.588
+          },
+          {
+            "driverId": "alonso",
+            "lap": 1,
+            "openf1_seconds": 100.983,
+            "jolpica_seconds": 100.47399999999999
+          },
+          {
+            "driverId": "bottas",
+            "lap": 1,
+            "openf1_seconds": 104.744,
+            "jolpica_seconds": 104.28999999999999
+          },
+          {
+            "driverId": "hamilton",
+            "lap": 1,
+            "openf1_seconds": 96.402,
+            "jolpica_seconds": 96.03399999999999
+          },
+          {
+            "driverId": "hulkenberg",
+            "lap": 1,
+            "openf1_seconds": 100.533,
+            "jolpica_seconds": 100.166
+          },
+          {
+            "driverId": "kevin_magnussen",
+            "lap": 1,
+            "openf1_seconds": 104.118,
+            "jolpica_seconds": 103.681
+          },
+          {
+            "driverId": "leclerc",
+            "lap": 1,
+            "openf1_seconds": 99.983,
+            "jolpica_seconds": 99.663
+          },
+          {
+            "driverId": "max_verstappen",
+            "lap": 1,
+            "openf1_seconds": 97.211,
+            "jolpica_seconds": 96.711
+          },
+          {
+            "driverId": "norris",
+            "lap": 1,
+            "openf1_seconds": 97.721,
+            "jolpica_seconds": 97.34700000000001
+          },
+          {
+            "driverId": "ocon",
+            "lap": 1,
+            "openf1_seconds": 103.56,
+            "jolpica_seconds": 103.05199999999999
+          },
+          {
+            "driverId": "piastri",
+            "lap": 1,
+            "openf1_seconds": 98.359,
+            "jolpica_seconds": 98.00800000000001
+          },
+          {
+            "driverId": "ricciardo",
+            "lap": 1,
+            "openf1_seconds": 103.108,
+            "jolpica_seconds": 102.715
+          },
+          {
+            "driverId": "russell",
+            "lap": 1,
+            "openf1_seconds": 95.56,
+            "jolpica_seconds": 95.211
+          },
+          {
+            "driverId": "sainz",
+            "lap": 1,
+            "openf1_seconds": 99.076,
+            "jolpica_seconds": 98.699
+          },
+          {
+            "driverId": "sargeant",
+            "lap": 1,
+            "openf1_seconds": 102.192,
+            "jolpica_seconds": 101.77199999999999
+          },
+          {
+            "driverId": "stroll",
+            "lap": 1,
+            "openf1_seconds": 99.468,
+            "jolpica_seconds": 99.108
+          },
+          {
+            "driverId": "tsunoda",
+            "lap": 1,
+            "openf1_seconds": 101.438,
+            "jolpica_seconds": 101.10900000000001
+          },
+          {
+            "driverId": "zhou",
+            "lap": 1,
+            "openf1_seconds": 102.582,
+            "jolpica_seconds": 102.231
+          }
+        ],
+        "openf1_only_keys": [
+          [
+            "gasly",
+            1
+          ],
+          [
+            "russell",
+            34
+          ]
+        ],
+        "jolpica_only_keys": [
+          [
+            "perez",
+            1
+          ]
+        ],
+        "jolpica_lap_count": 960,
+        "jolpica_pit_count": 45,
+        "missing_pit_duration_records": [
+          {
+            "driverId": "tsunoda",
+            "lap": "27",
+            "stop": "1",
+            "time": "15:45:52",
+            "duration": "",
+            "duration_seconds": null
+          }
+        ]
+      },
+      "availability": {
+        "openf1-drivers": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/drivers?session_key=9558"
+        },
+        "openf1-laps": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/laps?session_key=9558"
+        },
+        "openf1-stints": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/stints?session_key=9558"
+        },
+        "openf1-position": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/position?session_key=9558"
+        },
+        "openf1-intervals": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/intervals?session_key=9558"
+        },
+        "openf1-weather": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/weather?session_key=9558"
+        },
+        "openf1-race_control": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/race_control?session_key=9558"
+        },
+        "openf1-pit": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/pit?session_key=9558"
+        },
+        "jolpica-results-0000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/results/?limit=100&offset=0"
+        },
+        "jolpica-laps-0000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=0"
+        },
+        "jolpica-laps-0100": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=100"
+        },
+        "jolpica-laps-0200": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=200"
+        },
+        "jolpica-laps-0300": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=300"
+        },
+        "jolpica-laps-0400": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=400"
+        },
+        "jolpica-laps-0500": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=500"
+        },
+        "jolpica-laps-0600": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=600"
+        },
+        "jolpica-laps-0700": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=700"
+        },
+        "jolpica-laps-0800": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=800"
+        },
+        "jolpica-laps-0900": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=900"
+        },
+        "jolpica-pitstops-0000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/12/pitstops/?limit=100&offset=0"
+        }
+      },
+      "runtime_seconds": 4.114393005998863
+    },
+    {
+      "event": "Italian Grand Prix",
+      "slug": "italian",
+      "season": 2024,
+      "partition": "holdout",
+      "status": "evaluated",
+      "scheduled_start": "2024-09-01T13:00:00+00:00",
+      "cutoffs": [
+        "2024-09-01T13:10:00+00:00",
+        "2024-09-01T13:15:00+00:00",
+        "2024-09-01T13:20:00+00:00",
+        "2024-09-01T13:25:00+00:00",
+        "2024-09-01T13:30:00+00:00",
+        "2024-09-01T13:35:00+00:00",
+        "2024-09-01T13:40:00+00:00",
+        "2024-09-01T13:45:00+00:00",
+        "2024-09-01T13:50:00+00:00",
+        "2024-09-01T13:55:00+00:00",
+        "2024-09-01T14:00:00+00:00",
+        "2024-09-01T14:05:00+00:00",
+        "2024-09-01T14:10:00+00:00",
+        "2024-09-01T14:15:00+00:00",
+        "2024-09-01T14:20:00+00:00",
+        "2024-09-01T14:25:00+00:00",
+        "2024-09-01T14:30:00+00:00",
+        "2024-09-01T14:35:00+00:00",
+        "2024-09-01T14:40:00+00:00",
+        "2024-09-01T14:45:00+00:00",
+        "2024-09-01T14:50:00+00:00",
+        "2024-09-01T14:55:00+00:00",
+        "2024-09-01T15:00:00+00:00"
+      ],
+      "registered_driver_count": 20,
+      "summary": {
+        "partition": "holdout",
+        "cases": 23,
+        "strategy_scored": 0,
+        "strategy_metrics": null,
+        "lap": {
+          "attempted": 460,
+          "scored": 259,
+          "excluded": {
+            "target_already_started": 8,
+            "target_missing_no_retirement_inference": 193
+          },
+          "mae_seconds": {
+            "context_median": 1.7458590733590735,
+            "last_eligible_completed": 1.9381235521235523,
+            "prefix_linear": 2.0838528088770554,
+            "prefix_median": 1.7902374517374517
+          },
+          "paired_linear_minus_baseline_mae_seconds": {
+            "context_median": 0.33799373551798184,
+            "last_eligible_completed": 0.14572925675350312,
+            "prefix_median": 0.2936153571396036
+          },
+          "metric": "full_lap_duration",
+          "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+          "default_method_counts": {
+            "prefix_median": 259
+          },
+          "default_mae_seconds": 1.7902374517374517
+        },
+        "gap": {
+          "attempted": 460,
+          "scored": 213,
+          "excluded": {
+            "stale_interval_outcome": 5,
+            "insufficient_or_stale_numeric_interval_prefix": 238,
+            "invalid_or_null_interval_outcome": 4
+          },
+          "mae_seconds": {
+            "persistence": 2.3926291079812203,
+            "prefix_linear": 1.9165116146501868
+          },
+          "paired_linear_minus_baseline_mae_seconds": {
+            "persistence": -0.4761174933310335
+          },
+          "metric": "last_available_gap_report",
+          "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+          "default_method_counts": {
+            "persistence": 213
+          },
+          "default_mae_seconds": 2.3926291079812203
+        }
+      },
+      "source_manifest": {
+        "event": "Italian Grand Prix",
+        "files": [
+          {
+            "file": "italian/jolpica-laps-0000.body",
+            "sha256": "a2f300e59aefc37ed4c02364b0a0215804ace15d65d7f031b88925b45c9d7ac3",
+            "bytes": 6385,
+            "metadata_sha256": "a8a65e9661785327d041345b88cf3a6d8e990ced994f711405ad810eed7f536b",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=0",
+            "retrieved_at_utc": "2026-10-17T19:52:05.046596+00:00",
+            "offset": 0,
+            "count": 100,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-laps-0100.body",
+            "sha256": "f294724d5de84d2a355800e9727d293f7f028a50a0ac84e11aaa6add36a9d91d",
+            "bytes": 6412,
+            "metadata_sha256": "adfad5d311891caa1a3fdda32bd067e0e55a4bc03ab12da322d79289873be029",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=100",
+            "retrieved_at_utc": "2026-10-17T19:52:06.638998+00:00",
+            "offset": 100,
+            "count": 100,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-laps-0200.body",
+            "sha256": "1d1fb8e8ac5505edd1f78a866a943dc307d322bd1a3cc247990686da50327412",
+            "bytes": 6413,
+            "metadata_sha256": "6f4e395158e6cd5fe7cb6cdd1b215cd6a018e68f2ff1aea6cb5f36e7d79f9b7d",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=200",
+            "retrieved_at_utc": "2026-10-17T19:52:08.326917+00:00",
+            "offset": 200,
+            "count": 100,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-laps-0300.body",
+            "sha256": "109aea5c9f435dbe0a3f38430ca2eeb916d5f8f2d326aa5f3c2d107899f73199",
+            "bytes": 6416,
+            "metadata_sha256": "65dd8cd043a0495fe60476d8378b7eb09ad24b7695a4900158b856e5bdb1259d",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=300",
+            "retrieved_at_utc": "2026-10-17T19:52:10.348041+00:00",
+            "offset": 300,
+            "count": 100,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-laps-0400.body",
+            "sha256": "01b5222ca18ff9150aa949d1cc3b21649393c54320e6e09a2133ff0a33f7b16a",
+            "bytes": 6434,
+            "metadata_sha256": "4f02a88df75586be627557080f83926f893b3993be8ce9a887593dfe0978261d",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=400",
+            "retrieved_at_utc": "2026-10-17T19:52:11.996026+00:00",
+            "offset": 400,
+            "count": 100,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-laps-0500.body",
+            "sha256": "7b208b9cafe363e15110de4997d106cdfe3fc05c151e9052ce87444289e8ea1d",
+            "bytes": 6438,
+            "metadata_sha256": "dbd864e4a4eb6f21c3cc775061708ea1ae1c370212a5ac649cba891b8c840ec1",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=500",
+            "retrieved_at_utc": "2026-10-17T19:52:13.708336+00:00",
+            "offset": 500,
+            "count": 100,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-laps-0600.body",
+            "sha256": "e3548ffec6a480de1ec9a8d3b54d9a336917f33ab2173fd1d1b6a310f0090a6f",
+            "bytes": 6429,
+            "metadata_sha256": "b8cd84dbfe1ef91fe5993d1c0c08b8cc9988ab809d6f73d6a37cd37cf15a7ed8",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=600",
+            "retrieved_at_utc": "2026-10-17T19:52:15.384644+00:00",
+            "offset": 600,
+            "count": 100,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-laps-0700.body",
+            "sha256": "010d340ca658efdfef473796a6af02047c4e06bcb384e34497ec8b32f5050623",
+            "bytes": 6418,
+            "metadata_sha256": "2c4e22001748cdac84a61bd80ff0d52d62527ef866c90c1d35bfa711dd0962b9",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=700",
+            "retrieved_at_utc": "2026-10-17T19:52:16.966457+00:00",
+            "offset": 700,
+            "count": 100,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-laps-0800.body",
+            "sha256": "8e383fc5e7eddd91221cdb432c86e7bbecabb74c64f1b20f97f477ae0e245897",
+            "bytes": 6416,
+            "metadata_sha256": "6729aeb310dd5c6feddc41114599e5efec21ef78ad0feb524fd7b91209483735",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=800",
+            "retrieved_at_utc": "2026-10-17T19:52:18.655607+00:00",
+            "offset": 800,
+            "count": 100,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-laps-0900.body",
+            "sha256": "3c245e90c04fbb2f45ed46f14d223ab3649a7f2da8d766b2ecae0161259d7406",
+            "bytes": 6413,
+            "metadata_sha256": "3f667d6c3977ffaf4b31f71ce74561df871695f31322aa9fca25b1afa0f1f5f0",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=900",
+            "retrieved_at_utc": "2026-10-17T19:52:20.226538+00:00",
+            "offset": 900,
+            "count": 100,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-laps-1000.body",
+            "sha256": "d5f7fce1e2f57b6e431344582f18ee97d4266ca0bb0f4bfb3a958c8710f5863a",
+            "bytes": 1067,
+            "metadata_sha256": "4cda96f0e8cf2ce0ffaf3c94def8395ea710ec99b2a35ccd275b0ce9de17e13d",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=1000",
+            "retrieved_at_utc": "2026-10-17T19:52:21.717830+00:00",
+            "offset": 1000,
+            "count": 8,
+            "total": 1008,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-pitstops-0000.body",
+            "sha256": "9d7df60d34851cc59bf2feec916909cf2609149da7f63f42c435c97134917ec9",
+            "bytes": 3073,
+            "metadata_sha256": "549b7c43c234fa7f3b75ec9c7f8bcd96d5601a507a5ac28714c3c211dee084cd",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/pitstops/?limit=100&offset=0",
+            "retrieved_at_utc": "2026-10-17T19:52:23.225137+00:00",
+            "offset": 0,
+            "count": 30,
+            "total": 30,
+            "limit": 100
+          },
+          {
+            "file": "italian/jolpica-results-0000.body",
+            "sha256": "d22fa1cba300d14b144062dba3627210c2a4f184624d5d32c179c9f9abe2729c",
+            "bytes": 12975,
+            "metadata_sha256": "d3b9f2919a45df73b0cc28ec3d37545395bdfce1e68e2fa4299b423bc7bea0ee",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/results/?limit=100&offset=0",
+            "retrieved_at_utc": "2026-10-17T19:52:03.448663+00:00",
+            "offset": 0,
+            "count": 20,
+            "total": 20,
+            "limit": 100
+          },
+          {
+            "file": "italian/openf1-drivers.body",
+            "sha256": "23675e48a90ca41af75beff478ecc2fa5c67b081162024cdd937f8616acb03e1",
+            "bytes": 8175,
+            "metadata_sha256": "acdd2497a88ea51b0fa917d35de745874d8ee6bc8591b0d40edbefccfa82fdff",
+            "url": "https://api.openf1.org/v1/drivers?session_key=9590",
+            "retrieved_at_utc": "2026-10-17T19:51:50.292102+00:00"
+          },
+          {
+            "file": "italian/openf1-intervals.body",
+            "sha256": "039dc5bb80c8cbbd95c9c39987e6193b59dea46e266d77c83948f3c4e10fde86",
+            "bytes": 2878556,
+            "metadata_sha256": "2fc2ea64f45af5dbcb7f2504d9f513f9be2f1850236d21219d5c4e43ff1aacd2",
+            "url": "https://api.openf1.org/v1/intervals?session_key=9590",
+            "retrieved_at_utc": "2026-10-17T19:51:57.850375+00:00"
+          },
+          {
+            "file": "italian/openf1-laps.body",
+            "sha256": "d2974c40ae37e37660926080667232c301f950b6d66016628a2869dbb85379f4",
+            "bytes": 468305,
+            "metadata_sha256": "95cd0df290f0d741fa4917376c6b6eeca3012f85f3ea8d11599187f533e30fb7",
+            "url": "https://api.openf1.org/v1/laps?session_key=9590",
+            "retrieved_at_utc": "2026-10-17T19:51:52.307169+00:00"
+          },
+          {
+            "file": "italian/openf1-pit.body",
+            "sha256": "6f0de251e4b0873882139ac4985b58984bd2661b90ad188954ceaf2426983cf2",
+            "bytes": 5365,
+            "metadata_sha256": "53ec69a4939d4b844f1453ac4a0ec90a546c617562c12fa89dd398726955a4a1",
+            "url": "https://api.openf1.org/v1/pit?session_key=9590",
+            "retrieved_at_utc": "2026-10-17T19:52:01.851332+00:00"
+          },
+          {
+            "file": "italian/openf1-position.body",
+            "sha256": "bdde745d518a787934f0531fff80f5db15bfd25e6ce0c8172db6cac905df7d48",
+            "bytes": 55169,
+            "metadata_sha256": "a5f57f9313d1a9f852e66d91d9674fe20952ac34b54a366c7e6f2a71a518d7a8",
+            "url": "https://api.openf1.org/v1/position?session_key=9590",
+            "retrieved_at_utc": "2026-10-17T19:51:55.148398+00:00"
+          },
+          {
+            "file": "italian/openf1-race_control.body",
+            "sha256": "515e28b27aab121322827b94a97b3f26d7c7aa93af449ae0ff0d6c6988f5ccc4",
+            "bytes": 16305,
+            "metadata_sha256": "9200d487c95820f8063401ddc6000c762350b33f2934032cae4c52db96638a86",
+            "url": "https://api.openf1.org/v1/race_control?session_key=9590",
+            "retrieved_at_utc": "2026-10-17T19:52:00.649783+00:00"
+          },
+          {
+            "file": "italian/openf1-stints.body",
+            "sha256": "fc5696a1ab11a579000ee69880dfc85fd204a9f3462347cff1073ab74c40d1d2",
+            "bytes": 7208,
+            "metadata_sha256": "7b2b2b7981db480a45a42904f1a509d3c046c3d1da3a420e51b9221a9ed95bc7",
+            "url": "https://api.openf1.org/v1/stints?session_key=9590",
+            "retrieved_at_utc": "2026-10-17T19:51:53.705736+00:00"
+          },
+          {
+            "file": "italian/openf1-weather.body",
+            "sha256": "2883d54e38538437a779af62da98502982843c8f3771b9e07ebb79e9fec644b7",
+            "bytes": 28456,
+            "metadata_sha256": "5b6fecafcf96baee78730c58f7fafaafb7d537b3dbb1fe3b74ff9ba52b8071b9",
+            "url": "https://api.openf1.org/v1/weather?session_key=9590",
+            "retrieved_at_utc": "2026-10-17T19:51:59.316520+00:00"
+          }
+        ],
+        "sha256": "1f79bcf1d8c8f1eda1f6f8a0b1df56ec9af8bb6303c3afa5183a10db5b1719d1"
+      },
+      "source_audit": {
+        "availability": {
+          "openf1-drivers": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/drivers?session_key=9590"
+          },
+          "openf1-laps": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/laps?session_key=9590"
+          },
+          "openf1-stints": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/stints?session_key=9590"
+          },
+          "openf1-position": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/position?session_key=9590"
+          },
+          "openf1-intervals": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/intervals?session_key=9590"
+          },
+          "openf1-weather": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/weather?session_key=9590"
+          },
+          "openf1-race_control": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/race_control?session_key=9590"
+          },
+          "openf1-pit": {
+            "status": "available",
+            "url": "https://api.openf1.org/v1/pit?session_key=9590"
+          },
+          "jolpica-results-0000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/results/?limit=100&offset=0"
+          },
+          "jolpica-laps-0000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=0"
+          },
+          "jolpica-laps-0100": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=100"
+          },
+          "jolpica-laps-0200": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=200"
+          },
+          "jolpica-laps-0300": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=300"
+          },
+          "jolpica-laps-0400": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=400"
+          },
+          "jolpica-laps-0500": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=500"
+          },
+          "jolpica-laps-0600": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=600"
+          },
+          "jolpica-laps-0700": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=700"
+          },
+          "jolpica-laps-0800": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=800"
+          },
+          "jolpica-laps-0900": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=900"
+          },
+          "jolpica-laps-1000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=1000"
+          },
+          "jolpica-pitstops-0000": {
+            "status": "available",
+            "url": "https://api.jolpi.ca/ergast/f1/2024/16/pitstops/?limit=100&offset=0"
+          }
+        },
+        "quarantined_rows": [],
+        "counts": {
+          "drivers": 20,
+          "laps": 1009,
+          "stints": 50,
+          "position": 482,
+          "intervals": 20444,
+          "weather": 133,
+          "race_control": 61,
+          "pit": 30
+        },
+        "identity": "same-race Results.number plus accent/case-insensitive name token equality",
+        "null_duration_laps": [
+          [
+            "tsunoda",
+            8
+          ]
+        ],
+        "duration_disagreements": [
+          {
+            "driverId": "albon",
+            "lap": 1,
+            "openf1_seconds": 92.473,
+            "jolpica_seconds": 91.965
+          },
+          {
+            "driverId": "alonso",
+            "lap": 1,
+            "openf1_seconds": 92.835,
+            "jolpica_seconds": 92.411
+          },
+          {
+            "driverId": "bottas",
+            "lap": 1,
+            "openf1_seconds": 96.787,
+            "jolpica_seconds": 96.375
+          },
+          {
+            "driverId": "colapinto",
+            "lap": 1,
+            "openf1_seconds": 96.313,
+            "jolpica_seconds": 95.88499999999999
+          },
+          {
+            "driverId": "gasly",
+            "lap": 1,
+            "openf1_seconds": 95.185,
+            "jolpica_seconds": 94.87299999999999
+          },
+          {
+            "driverId": "hamilton",
+            "lap": 1,
+            "openf1_seconds": 90.185,
+            "jolpica_seconds": 89.674
+          },
+          {
+            "driverId": "hulkenberg",
+            "lap": 1,
+            "openf1_seconds": 95.931,
+            "jolpica_seconds": 95.519
+          },
+          {
+            "driverId": "kevin_magnussen",
+            "lap": 1,
+            "openf1_seconds": 94.237,
+            "jolpica_seconds": 93.931
+          },
+          {
+            "driverId": "leclerc",
+            "lap": 1,
+            "openf1_seconds": 88.594,
+            "jolpica_seconds": 88.179
+          },
+          {
+            "driverId": "max_verstappen",
+            "lap": 1,
+            "openf1_seconds": 90.728,
+            "jolpica_seconds": 90.354
+          },
+          {
+            "driverId": "norris",
+            "lap": 1,
+            "openf1_seconds": 89.428,
+            "jolpica_seconds": 88.971
+          },
+          {
+            "driverId": "ocon",
+            "lap": 1,
+            "openf1_seconds": 95.807,
+            "jolpica_seconds": 95.432
+          },
+          {
+            "driverId": "perez",
+            "lap": 1,
+            "openf1_seconds": 92.2,
+            "jolpica_seconds": 91.69800000000001
+          },
+          {
+            "driverId": "piastri",
+            "lap": 1,
+            "openf1_seconds": 88.152,
+            "jolpica_seconds": 87.623
+          },
+          {
+            "driverId": "ricciardo",
+            "lap": 1,
+            "openf1_seconds": 93.455,
+            "jolpica_seconds": 93.104
+          },
+          {
+            "driverId": "russell",
+            "lap": 1,
+            "openf1_seconds": 92.01,
+            "jolpica_seconds": 91.512
+          },
+          {
+            "driverId": "sainz",
+            "lap": 1,
+            "openf1_seconds": 89.854,
+            "jolpica_seconds": 89.345
+          },
+          {
+            "driverId": "stroll",
+            "lap": 1,
+            "openf1_seconds": 96.228,
+            "jolpica_seconds": 95.81
+          },
+          {
+            "driverId": "tsunoda",
+            "lap": 1,
+            "openf1_seconds": 95.617,
+            "jolpica_seconds": 95.235
+          },
+          {
+            "driverId": "zhou",
+            "lap": 1,
+            "openf1_seconds": 97.145,
+            "jolpica_seconds": 96.732
+          }
+        ],
+        "openf1_only_keys": [
+          [
+            "tsunoda",
+            8
+          ]
+        ],
+        "jolpica_only_keys": [],
+        "jolpica_lap_count": 1008,
+        "jolpica_pit_count": 30
+      },
+      "availability": {
+        "openf1-drivers": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/drivers?session_key=9590"
+        },
+        "openf1-laps": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/laps?session_key=9590"
+        },
+        "openf1-stints": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/stints?session_key=9590"
+        },
+        "openf1-position": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/position?session_key=9590"
+        },
+        "openf1-intervals": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/intervals?session_key=9590"
+        },
+        "openf1-weather": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/weather?session_key=9590"
+        },
+        "openf1-race_control": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/race_control?session_key=9590"
+        },
+        "openf1-pit": {
+          "status": "available",
+          "url": "https://api.openf1.org/v1/pit?session_key=9590"
+        },
+        "jolpica-results-0000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/results/?limit=100&offset=0"
+        },
+        "jolpica-laps-0000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=0"
+        },
+        "jolpica-laps-0100": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=100"
+        },
+        "jolpica-laps-0200": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=200"
+        },
+        "jolpica-laps-0300": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=300"
+        },
+        "jolpica-laps-0400": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=400"
+        },
+        "jolpica-laps-0500": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=500"
+        },
+        "jolpica-laps-0600": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=600"
+        },
+        "jolpica-laps-0700": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=700"
+        },
+        "jolpica-laps-0800": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=800"
+        },
+        "jolpica-laps-0900": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=900"
+        },
+        "jolpica-laps-1000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=1000"
+        },
+        "jolpica-pitstops-0000": {
+          "status": "available",
+          "url": "https://api.jolpi.ca/ergast/f1/2024/16/pitstops/?limit=100&offset=0"
+        }
+      },
+      "runtime_seconds": 3.7616408739995677
+    }
+  ],
+  "equal_race_aggregate": {
+    "events_reserved": 3,
+    "aggregation_unit": "whole_event",
+    "strategy_scored": 0,
+    "strategy_metrics": null,
+    "lap": {
+      "events_scored": 3,
+      "events_reserved": 3,
+      "equal_race_mae_seconds": {
+        "context_median": 2.5685997635834594,
+        "last_eligible_completed": 2.165170258001856,
+        "prefix_linear": 2.5705958342557516,
+        "prefix_median": 2.6340119855114494
+      },
+      "equal_race_default_mae_seconds": 2.6340119855114494,
+      "complete_three_event_default_mae_seconds": 2.6340119855114494,
+      "equal_race_coverage_fraction": 0.5420289855072463,
+      "events_with_known_denominator": 3,
+      "paired_linear_minus_baseline_equal_race_mae_seconds": {
+        "context_median": 0.0019960706722921273,
+        "last_eligible_completed": 0.4054255762538954,
+        "prefix_median": -0.06341615125569788
+      },
+      "total_registered_driver_cutoffs": 1380,
+      "total_scored": 748,
+      "missing_event_policy": "Null errors stay null; macro MAE averages scored events, with count disclosed"
+    },
+    "gap": {
+      "events_scored": 3,
+      "events_reserved": 3,
+      "equal_race_mae_seconds": {
+        "persistence": 1.9566012043504115,
+        "prefix_linear": 1.560393719871467
+      },
+      "equal_race_default_mae_seconds": 1.9566012043504115,
+      "complete_three_event_default_mae_seconds": 1.9566012043504115,
+      "equal_race_coverage_fraction": 0.45,
+      "events_with_known_denominator": 3,
+      "paired_linear_minus_baseline_equal_race_mae_seconds": {
+        "persistence": -0.3962074844789445
+      },
+      "total_registered_driver_cutoffs": 1380,
+      "total_scored": 621,
+      "missing_event_policy": "Null errors stay null; macro MAE averages scored events, with count disclosed"
+    }
+  },
+  "final_runtime_seconds": 11.08048840400079,
+  "all_versions_runtime_seconds": {
+    "original": 6.829081700998358,
+    "corrected": 6.604424342000129,
+    "final": 11.08048840400079
+  },
+  "acquisition": {
+    "requests": 66,
+    "http_and_connect_counts": {
+      "200 200": 66
+    },
+    "response_bytes": 11557408,
+    "first_request_started_at": "2026-10-17T19:51:06.314842+00:00",
+    "last_response_retrieved_at": "2026-10-17T19:57:13.046645+00:00",
+    "retries": 0,
+    "network_after_second_erratum": false,
+    "raw_paths": [
+      "/workspace/real-data/holdout-2024-metadata",
+      "/workspace/real-data/holdout-2024-monaco",
+      "/workspace/real-data/holdout-2024-british",
+      "/workspace/real-data/holdout-2024-italian"
+    ]
+  },
+  "freeze_evidence": {
+    "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+    "protocol_sha256": "7de165ad49cd1d624d409b00af3b12a27136007e8d5ff60171294b7084c03bf3",
+    "decisions_file_sha256": "562508a0ddd4c203ada1a6a65ad752ca1b4291ac186e1299a8f06fcc93f1949d",
+    "all_events_frozen_before_scoring": true,
+    "decision_count": 69
+  },
+  "unchanged_event_equivalence": {
+    "monaco": true,
+    "italian": true,
+    "fields": "decision packets, forecasts, evaluations, summary and source manifest"
+  },
+  "original_run": {
+    "path": "output/whole-race-holdout/original",
+    "British_rejection": "literal country-name adapter error: Great Britain expected, United Kingdom returned; no source outage"
+  },
+  "identity_only_run": {
+    "path": "output/whole-race-holdout/corrected",
+    "British_rejection": "one optional Jolpica Tsunoda lap27 stop1 duration empty string; source HTTP responses available"
+  },
+  "optional_missing_audit": {
+    "commit": "32c8938a03b6a4d8afdca84bd566f8d81db8678f",
+    "manifest_sha256": "c0af9a0a87e00b387ec4e43debf119f8820e52028425a6ce45055b66f9eb9eef",
+    "target": {
+      "event": "British Grand Prix",
+      "file": "jolpica-pitstops-0000.body",
+      "body_sha256": "4908468fb042177d97f9d99c661ba9742ae20adeea7a64ea2159c48bdfdf4b04",
+      "metadata_sha256": "385d0d4d938be28bc188e1f2af0a0db87ee15ff22206e87a0fcb5c903ba764d6",
+      "row": {
+        "driverId": "tsunoda",
+        "lap": "27",
+        "stop": "1",
+        "time": "15:45:52",
+        "duration": ""
+      }
+    },
+    "normalized_audit_row": {
+      "driverId": "tsunoda",
+      "lap": "27",
+      "stop": "1",
+      "time": "15:45:52",
+      "duration": "",
+      "duration_seconds": null
+    },
+    "raw_value_preserved": true,
+    "targets_or_drivers_removed": 0,
+    "forecast_source_model_policy_sample_score_changed": false,
+    "strict_original_and_identity_corrected_rejections_preserved": true,
+    "other_two_event_decisions_predictions_scores_identical": true,
+    "timing": "after raw British acquisition, before its first prediction-error scoring"
+  },
+  "artifacts": {
+    "report": "output/whole-race-holdout/final/evaluation.json",
+    "report_sha256": "f233f157dfeeb1cbc1088d68a48d388062a1df6326f8fa8f19fec7afba9d6841",
+    "decisions": "output/whole-race-holdout/final/decisions.json",
+    "decisions_sha256": "562508a0ddd4c203ada1a6a65ad752ca1b4291ac186e1299a8f06fcc93f1949d",
+    "per_race_decisions": {
+      "monaco": "output/whole-race-holdout/final/monaco-decisions.json",
+      "british": "output/whole-race-holdout/final/british-decisions.json",
+      "italian": "output/whole-race-holdout/final/italian-decisions.json"
+    },
+    "model_protocol": "examples/holdout-evaluation-freeze.json",
+    "identity_erratum": "examples/holdout-identity-erratum.json",
+    "optional_audit_erratum": "examples/holdout-audit-erratum.json"
+  },
+  "strategy_scored": 0,
+  "strategy_metrics": null,
+  "limits": [
+    "Only three reserved events; repeated driver/cutoff targets are correlated",
+    "Median lap and persistence gap defaults were fixed before outcome acquisition",
+    "Scheduled-start cutoffs include delays, red flags and race end; no resampling",
+    "Denominators retain all registered drivers, including inactive/missing targets",
+    "Event time plus assumed delay does not prove historical online availability",
+    "Gap error measures fresh asynchronous interval reports, not physical distance",
+    "Null/missing/quarantined observations are excluded with counts, never imputed as zero",
+    "Kernel metadata partition becomes holdout before the decision hash freezes",
+    "No inventory, full rules, action-matched strategy score or causal benefit proved",
+    "No event, setting, cutoff or method changes after viewing holdout errors"
+  ],
+  "primary_result_interpretation": "Frozen defaults do not dominate the secondary linear comparators on equal-event MAE. No settings or event selection changed after scoring.",
+  "validation": {
+    "adapter_synthetic_tests": 16,
+    "identity_metadata_synthetic_tests": 7,
+    "nullable_audit_synthetic_tests": 6,
+    "ruff": "passed",
+    "full_regression": "owned by parent integration thread"
+  },
+  "receipts": [
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=0",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:55.737458+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:56.366262+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6425,
+      "sha256": "b85ee70ab852293ebf49f86e15e978dce2d6f0dfcff17e662d998a83b1c74a7c",
+      "source_date": "Sat, 17 Oct 2026 19:56:56 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0100.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0100.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=100",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:57.367297+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:58.083779+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6422,
+      "sha256": "e8108a6882b811fead14ee503b86e98262fac7b34b56210a42101c4753e2e849",
+      "source_date": "Sat, 17 Oct 2026 19:56:58 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0200.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0200.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=200",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:59.084773+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:59.773117+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6440,
+      "sha256": "2dc8d5ca8ecfb07fdd6ac80460e20179d78347efde73755614aca61f4749513b",
+      "source_date": "Sat, 17 Oct 2026 19:56:59 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0300.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0300.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=300",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:57:00.773975+00:00",
+      "retrieved_at_utc": "2026-10-17T19:57:01.410968+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6448,
+      "sha256": "9c7191f9efe9a310b7f49ad51a6084178b3aed851a2ff8414a0ce24e20827597",
+      "source_date": "Sat, 17 Oct 2026 19:57:01 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0400.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0400.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=400",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:57:02.411871+00:00",
+      "retrieved_at_utc": "2026-10-17T19:57:03.038618+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6432,
+      "sha256": "cece512bd00bb4d4afc701cada51342a94d57017e32e659d6cbe59331269f100",
+      "source_date": "Sat, 17 Oct 2026 19:57:03 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0500.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0500.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=500",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:57:04.039662+00:00",
+      "retrieved_at_utc": "2026-10-17T19:57:04.683098+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6427,
+      "sha256": "b5ba2c1df78c07e83e0bbe5779a27a769c541d5257666c03cb680203920775e4",
+      "source_date": "Sat, 17 Oct 2026 19:57:04 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0600.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0600.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=600",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:57:05.684023+00:00",
+      "retrieved_at_utc": "2026-10-17T19:57:06.378199+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6459,
+      "sha256": "ace7ab7b6a89fc02a1bc54024d326607c014747483fde1a9738ca92809f9d7c8",
+      "source_date": "Sat, 17 Oct 2026 19:57:06 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0700.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0700.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=700",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:57:07.383620+00:00",
+      "retrieved_at_utc": "2026-10-17T19:57:07.986037+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6436,
+      "sha256": "93d3417e068b686720c249f9d868816b57c7527233f1fea43dba7a4c6a03ce58",
+      "source_date": "Sat, 17 Oct 2026 19:57:07 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0800.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0800.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=800",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:57:08.987045+00:00",
+      "retrieved_at_utc": "2026-10-17T19:57:09.743673+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6457,
+      "sha256": "2684beb14f4422e175b5d42529ae72802f9580ceea859d4cc105f64bc7c3b0bb",
+      "source_date": "Sat, 17 Oct 2026 19:57:09 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0900.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-laps-0900.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/laps/?limit=100&offset=900",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:57:10.744629+00:00",
+      "retrieved_at_utc": "2026-10-17T19:57:11.336639+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 4109,
+      "sha256": "41bcade3dc4e2dfa979b74e5d1372b9b187687602d6bd03e41bf21e748da467e",
+      "source_date": "Sat, 17 Oct 2026 19:57:11 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-pitstops-0000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-pitstops-0000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/pitstops/?limit=100&offset=0",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:57:12.337657+00:00",
+      "retrieved_at_utc": "2026-10-17T19:57:13.046645+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 4306,
+      "sha256": "4908468fb042177d97f9d99c661ba9742ae20adeea7a64ea2159c48bdfdf4b04",
+      "source_date": "Sat, 17 Oct 2026 19:57:13 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/jolpica-results-0000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/jolpica-results-0000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/12/results/?limit=100&offset=0",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:54.124348+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:54.736449+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 12818,
+      "sha256": "8d294e0dd06c6eb6c1661df99c158c98afead80bf61877b03cb9c886cfba1c08",
+      "source_date": "Sat, 17 Oct 2026 19:56:54 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/openf1-drivers.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/openf1-drivers.body",
+      "url": "https://api.openf1.org/v1/drivers?session_key=9558",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:39.680626+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:40.397183+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 8317,
+      "sha256": "e4317db1132c3064427df31f955ba1a0ad6825fa2c02a8f2862eb694b9dee1d0",
+      "source_date": "Sat, 17 Oct 2026 19:56:40 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/openf1-intervals.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/openf1-intervals.body",
+      "url": "https://api.openf1.org/v1/intervals?session_key=9558",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:46.755866+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:49.067904+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 3172011,
+      "sha256": "3a5eec7d68a9383eff13c003dbcb41a05a4f861d744d5b6b9d4186e522628617",
+      "source_date": "Sat, 17 Oct 2026 19:56:48 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/openf1-laps.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/openf1-laps.body",
+      "url": "https://api.openf1.org/v1/laps?session_key=9558",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:41.397844+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:42.627345+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 465899,
+      "sha256": "fe4b7bd936014ee0bfe10b81fa67a992517367a5945d66db70f6e37f26327371",
+      "source_date": "Sat, 17 Oct 2026 19:56:42 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/openf1-pit.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/openf1-pit.body",
+      "url": "https://api.openf1.org/v1/pit?session_key=9558",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:52.919572+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:53.123685+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 8048,
+      "sha256": "6df856bbc961db0bde1dcf59fe7b452d05a724e26f899b671ecb1dbddf50aec1",
+      "source_date": "Sat, 17 Oct 2026 19:56:53 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/openf1-position.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/openf1-position.body",
+      "url": "https://api.openf1.org/v1/position?session_key=9558",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:44.992031+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:45.755161+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 28816,
+      "sha256": "d0ac57e6b26db21466b8c85f501e0c84bd0bd303f76fd0c284171658de205a6f",
+      "source_date": "Sat, 17 Oct 2026 19:56:45 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/openf1-race_control.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/openf1-race_control.body",
+      "url": "https://api.openf1.org/v1/race_control?session_key=9558",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:51.578359+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:51.918943+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 27883,
+      "sha256": "faa69eb71effb0310023106130c1dfdedc21b5693bf28113adb3812656fc63d1",
+      "source_date": "Sat, 17 Oct 2026 19:56:51 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/openf1-stints.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/openf1-stints.body",
+      "url": "https://api.openf1.org/v1/stints?session_key=9558",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:43.628585+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:43.991334+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 9568,
+      "sha256": "766ba4af6f1cd7b50e2a7c19626a007b6b003351a824ef73734fc3dc731538b9",
+      "source_date": "Sat, 17 Oct 2026 19:56:43 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-british/openf1-weather.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-british/openf1-weather.body",
+      "url": "https://api.openf1.org/v1/weather?session_key=9558",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:56:50.071972+00:00",
+      "retrieved_at_utc": "2026-10-17T19:56:50.577567+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 31444,
+      "sha256": "17d65f15898b90e60b20c24810399304943f366497e29570ca92ff79ffe8e352",
+      "source_date": "Sat, 17 Oct 2026 19:56:50 GMT",
+      "freeze_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=0",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:04.449742+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:05.046596+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6385,
+      "sha256": "a2f300e59aefc37ed4c02364b0a0215804ace15d65d7f031b88925b45c9d7ac3",
+      "source_date": "Sat, 17 Oct 2026 19:52:05 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0100.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0100.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=100",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:06.047687+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:06.638998+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6412,
+      "sha256": "f294724d5de84d2a355800e9727d293f7f028a50a0ac84e11aaa6add36a9d91d",
+      "source_date": "Sat, 17 Oct 2026 19:52:06 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0200.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0200.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=200",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:07.639921+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:08.326917+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6413,
+      "sha256": "1d1fb8e8ac5505edd1f78a866a943dc307d322bd1a3cc247990686da50327412",
+      "source_date": "Sat, 17 Oct 2026 19:52:08 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0300.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0300.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=300",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:09.327790+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:10.348041+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6416,
+      "sha256": "109aea5c9f435dbe0a3f38430ca2eeb916d5f8f2d326aa5f3c2d107899f73199",
+      "source_date": "Sat, 17 Oct 2026 19:52:10 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0400.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0400.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=400",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:11.350702+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:11.996026+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6434,
+      "sha256": "01b5222ca18ff9150aa949d1cc3b21649393c54320e6e09a2133ff0a33f7b16a",
+      "source_date": "Sat, 17 Oct 2026 19:52:11 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0500.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0500.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=500",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:12.997377+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:13.708336+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6438,
+      "sha256": "7b208b9cafe363e15110de4997d106cdfe3fc05c151e9052ce87444289e8ea1d",
+      "source_date": "Sat, 17 Oct 2026 19:52:13 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0600.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0600.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=600",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:14.709306+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:15.384644+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6429,
+      "sha256": "e3548ffec6a480de1ec9a8d3b54d9a336917f33ab2173fd1d1b6a310f0090a6f",
+      "source_date": "Sat, 17 Oct 2026 19:52:15 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0700.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0700.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=700",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:16.385646+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:16.966457+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6418,
+      "sha256": "010d340ca658efdfef473796a6af02047c4e06bcb384e34497ec8b32f5050623",
+      "source_date": "Sat, 17 Oct 2026 19:52:16 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0800.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0800.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=800",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:17.967359+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:18.655607+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6416,
+      "sha256": "8e383fc5e7eddd91221cdb432c86e7bbecabb74c64f1b20f97f477ae0e245897",
+      "source_date": "Sat, 17 Oct 2026 19:52:18 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0900.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-0900.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=900",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:19.656583+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:20.226538+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6413,
+      "sha256": "3c245e90c04fbb2f45ed46f14d223ab3649a7f2da8d766b2ecae0161259d7406",
+      "source_date": "Sat, 17 Oct 2026 19:52:20 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-1000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-laps-1000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/laps/?limit=100&offset=1000",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:21.230001+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:21.717830+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 1067,
+      "sha256": "d5f7fce1e2f57b6e431344582f18ee97d4266ca0bb0f4bfb3a958c8710f5863a",
+      "source_date": "Sat, 17 Oct 2026 19:52:21 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-pitstops-0000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-pitstops-0000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/pitstops/?limit=100&offset=0",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:22.719048+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:23.225137+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 3073,
+      "sha256": "9d7df60d34851cc59bf2feec916909cf2609149da7f63f42c435c97134917ec9",
+      "source_date": "Sat, 17 Oct 2026 19:52:23 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/jolpica-results-0000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/jolpica-results-0000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/16/results/?limit=100&offset=0",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:02.852588+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:03.448663+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 12975,
+      "sha256": "d22fa1cba300d14b144062dba3627210c2a4f184624d5d32c179c9f9abe2729c",
+      "source_date": "Sat, 17 Oct 2026 19:52:03 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/openf1-drivers.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/openf1-drivers.body",
+      "url": "https://api.openf1.org/v1/drivers?session_key=9590",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:50.117741+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:50.292102+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 8175,
+      "sha256": "23675e48a90ca41af75beff478ecc2fa5c67b081162024cdd937f8616acb03e1",
+      "source_date": "Sat, 17 Oct 2026 19:51:50 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/openf1-intervals.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/openf1-intervals.body",
+      "url": "https://api.openf1.org/v1/intervals?session_key=9590",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:56.149135+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:57.850375+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 2878556,
+      "sha256": "039dc5bb80c8cbbd95c9c39987e6193b59dea46e266d77c83948f3c4e10fde86",
+      "source_date": "Sat, 17 Oct 2026 19:51:56 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/openf1-laps.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/openf1-laps.body",
+      "url": "https://api.openf1.org/v1/laps?session_key=9590",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:51.292827+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:52.307169+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 468305,
+      "sha256": "d2974c40ae37e37660926080667232c301f950b6d66016628a2869dbb85379f4",
+      "source_date": "Sat, 17 Oct 2026 19:51:51 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/openf1-pit.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/openf1-pit.body",
+      "url": "https://api.openf1.org/v1/pit?session_key=9590",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:01.650911+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:01.851332+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 5365,
+      "sha256": "6f0de251e4b0873882139ac4985b58984bd2661b90ad188954ceaf2426983cf2",
+      "source_date": "Sat, 17 Oct 2026 19:52:01 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/openf1-position.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/openf1-position.body",
+      "url": "https://api.openf1.org/v1/position?session_key=9590",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:54.706384+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:55.148398+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 55169,
+      "sha256": "bdde745d518a787934f0531fff80f5db15bfd25e6ce0c8172db6cac905df7d48",
+      "source_date": "Sat, 17 Oct 2026 19:51:54 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/openf1-race_control.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/openf1-race_control.body",
+      "url": "https://api.openf1.org/v1/race_control?session_key=9590",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:52:00.317142+00:00",
+      "retrieved_at_utc": "2026-10-17T19:52:00.649783+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 16305,
+      "sha256": "515e28b27aab121322827b94a97b3f26d7c7aa93af449ae0ff0d6c6988f5ccc4",
+      "source_date": "Sat, 17 Oct 2026 19:52:00 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/openf1-stints.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/openf1-stints.body",
+      "url": "https://api.openf1.org/v1/stints?session_key=9590",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:53.308382+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:53.705736+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 7208,
+      "sha256": "fc5696a1ab11a579000ee69880dfc85fd204a9f3462347cff1073ab74c40d1d2",
+      "source_date": "Sat, 17 Oct 2026 19:51:53 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-italian/openf1-weather.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-italian/openf1-weather.body",
+      "url": "https://api.openf1.org/v1/weather?session_key=9590",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:58.855616+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:59.316520+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 28456,
+      "sha256": "2883d54e38538437a779af62da98502982843c8f3771b9e07ebb79e9fec644b7",
+      "source_date": "Sat, 17 Oct 2026 19:51:59 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-metadata/jolpica-schedule.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-metadata/jolpica-schedule.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/?limit=100",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:06.314842+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:06.997301+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 14941,
+      "sha256": "16ede12f875c4b6be9da5534131947a635a50e8eb371ad490bd1f7bf0c676bba",
+      "source_date": "Sat, 17 Oct 2026 19:51:06 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-metadata/openf1-sessions.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-metadata/openf1-sessions.body",
+      "url": "https://api.openf1.org/v1/sessions?year=2024&session_name=Race",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:07.998078+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:08.667592+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 8583,
+      "sha256": "0802447b8798abea1959794a9e215b7c05bf033913ea63f5380c154d8ed285b5",
+      "source_date": "Sat, 17 Oct 2026 19:51:08 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=0",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:26.452090+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:27.098844+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6398,
+      "sha256": "9db34d736a3f620846e448ca1c7c4cab22aa0a91e8875f54e679582d379425e8",
+      "source_date": "Sat, 17 Oct 2026 19:51:27 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0100.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0100.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=100",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:28.099821+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:28.860244+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6399,
+      "sha256": "502593952e3e8139596c81d68c89aca5e2ca712623cfb3442f8827ef56d08a05",
+      "source_date": "Sat, 17 Oct 2026 19:51:28 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0200.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0200.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=200",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:29.862268+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:30.663471+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6391,
+      "sha256": "f792a60b82a2cff0e1710b485657671d8bfc09fb5f6fc61f649bc1ec6eba644d",
+      "source_date": "Sat, 17 Oct 2026 19:51:30 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0300.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0300.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=300",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:31.664345+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:32.317553+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6397,
+      "sha256": "01d488c1cad86f88351eabc9a1da20f4ed9bfb3c3ea48e7f8d1feca1f4e98563",
+      "source_date": "Sat, 17 Oct 2026 19:51:32 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0400.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0400.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=400",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:33.318396+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:34.096918+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6391,
+      "sha256": "0c86c233e81683bce9ee3029bedc997a05f4e75e9b0e5a182416d933ad162f6f",
+      "source_date": "Sat, 17 Oct 2026 19:51:34 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0500.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0500.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=500",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:35.098053+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:35.849583+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6402,
+      "sha256": "c673aa392fa02d71e4932f4fa912cfb904cc8e0b4251ac2a5d8fb9ca7b70bab4",
+      "source_date": "Sat, 17 Oct 2026 19:51:35 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0600.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0600.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=600",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:36.854897+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:37.794893+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6391,
+      "sha256": "7a67c122b81a6759e125404063e0dcd7fab9dda31d60ffedcf0509b7adbb1b53",
+      "source_date": "Sat, 17 Oct 2026 19:51:37 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0700.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0700.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=700",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:38.796076+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:39.435121+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6397,
+      "sha256": "56e07dfb860f082f5e1466cf2dea5858f37eb953c79fb044c87e3bcdf098f577",
+      "source_date": "Sat, 17 Oct 2026 19:51:39 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0800.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0800.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=800",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:40.436477+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:41.088575+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6391,
+      "sha256": "6b26539387185ecbebf1962bd2949bba885fd7331d6754a5636b366bc7d657d1",
+      "source_date": "Sat, 17 Oct 2026 19:51:41 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0900.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-0900.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=900",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:42.089676+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:42.665197+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6402,
+      "sha256": "833ff27d6ff0d5f0586ce141fdf3f74cd76ea2f9ceecbc43c111f702dd91494c",
+      "source_date": "Sat, 17 Oct 2026 19:51:42 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-1000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-1000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1000",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:43.666098+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:44.258732+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6395,
+      "sha256": "821cd2a4c398f9917aed08f478977f1092c384ef21be80316954c06f4b05451a",
+      "source_date": "Sat, 17 Oct 2026 19:51:44 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-1100.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-1100.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1100",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:45.259553+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:45.910837+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6395,
+      "sha256": "f5c98471d65b86c77d51a2438417d8d7607d2a148b3ab1495beb218cb32e9586",
+      "source_date": "Sat, 17 Oct 2026 19:51:45 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-1200.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-laps-1200.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/laps/?limit=100&offset=1200",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:46.911747+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:47.436983+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 2513,
+      "sha256": "96a15229644be9c8fb79e46bc936008a6c2f1a840d2a1d0eaa474204f90339c6",
+      "source_date": "Sat, 17 Oct 2026 19:51:47 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-pitstops-0000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-pitstops-0000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/pitstops/?limit=100&offset=0",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:48.437907+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:49.116151+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 2514,
+      "sha256": "540c68b9c9406aa77f77b18d3e5ec7610a2e02da43d65d5f7b02d8c41be88280",
+      "source_date": "Sat, 17 Oct 2026 19:51:49 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/jolpica-results-0000.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/jolpica-results-0000.body",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/8/results/?limit=100&offset=0",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:24.632215+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:25.450854+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 11560,
+      "sha256": "8d2bb05e75281b942c53e31b65de4a4abf7f584f6695c0a1c2f83b5701b6d020",
+      "source_date": "Sat, 17 Oct 2026 19:51:25 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/openf1-drivers.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/openf1-drivers.body",
+      "url": "https://api.openf1.org/v1/drivers?session_key=9523",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:09.669352+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:10.188032+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 8317,
+      "sha256": "f5ab1fc1231f7556dfcbaf2a05e450521f8fc7638ab8636344aa4532195e6267",
+      "source_date": "Sat, 17 Oct 2026 19:51:10 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/openf1-intervals.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/openf1-intervals.body",
+      "url": "https://api.openf1.org/v1/intervals?session_key=9523",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:17.034181+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:19.179351+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 3379689,
+      "sha256": "845b392f8207119c0eb6acd25261b77ff35b4f04d363effa72d98e920a2f1784",
+      "source_date": "Sat, 17 Oct 2026 19:51:18 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/openf1-laps.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/openf1-laps.body",
+      "url": "https://api.openf1.org/v1/laps?session_key=9523",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:11.188607+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:12.782450+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 573858,
+      "sha256": "4f5abd3871c10e35231159ffd7f50ade9f0a4f8794d8acd765ec9ec36b90666c",
+      "source_date": "Sat, 17 Oct 2026 19:51:12 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/openf1-pit.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/openf1-pit.body",
+      "url": "https://api.openf1.org/v1/pit?session_key=9523",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:23.388038+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:23.625071+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 4160,
+      "sha256": "1e7f5c5a82d2dcbaa01054c750d41742e7002b639fd073365b4f0774e220b931",
+      "source_date": "Sat, 17 Oct 2026 19:51:23 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/openf1-position.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/openf1-position.body",
+      "url": "https://api.openf1.org/v1/position?session_key=9523",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:15.393674+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:16.033644+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 14549,
+      "sha256": "7654c27a78337892bd93d6d7046f9a52e062655d0241dc703f5458996e8dcf1c",
+      "source_date": "Sat, 17 Oct 2026 19:51:15 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/openf1-race_control.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/openf1-race_control.body",
+      "url": "https://api.openf1.org/v1/race_control?session_key=9523",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:21.966609+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:22.386383+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 30924,
+      "sha256": "4131447fa2ca5ccf63903ae7b58c2e237f7646e2f8bec9159314a91027f8c266",
+      "source_date": "Sat, 17 Oct 2026 19:51:22 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/openf1-stints.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/openf1-stints.body",
+      "url": "https://api.openf1.org/v1/stints?session_key=9523",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:13.785041+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:14.393022+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 6185,
+      "sha256": "17fb71bab5571e3982aff600f8f24d4fcdb7f017f773769a9b07b228eca06392",
+      "source_date": "Sat, 17 Oct 2026 19:51:14 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    },
+    {
+      "receipt_file": "/workspace/real-data/holdout-2024-monaco/openf1-weather.meta.json",
+      "body_file": "/workspace/real-data/holdout-2024-monaco/openf1-weather.body",
+      "url": "https://api.openf1.org/v1/weather?session_key=9523",
+      "method": "GET",
+      "started_at_utc": "2026-10-17T19:51:20.184439+00:00",
+      "retrieved_at_utc": "2026-10-17T19:51:20.965015+00:00",
+      "curl_exit_code": 0,
+      "http_and_connect": "200 200",
+      "stderr": "",
+      "bytes": 42873,
+      "sha256": "0deea132d98d6ffb8e84596edc74d936ffb7226a3a582ff84134588cef1031f7",
+      "source_date": "Sat, 17 Oct 2026 19:51:20 GMT",
+      "freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+      "retries": 0
+    }
+  ],
+  "version_status": {
+    "original": {
+      "events_scored": 2,
+      "complete_three_event_mae": null
+    },
+    "identity_only_corrected": {
+      "events_scored": 2,
+      "complete_three_event_mae": null
+    },
+    "final": {
+      "events_scored": 3,
+      "primary_lap_equal_event_mae_seconds": 2.6340119855114494,
+      "primary_gap_equal_event_mae_seconds": 1.9566012043504115
+    }
+  },
+  "all_frozen_source_and_ledger_checks_at_delivery": "passed"
+}

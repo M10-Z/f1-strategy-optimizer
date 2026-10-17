@@ -27,3 +27,5 @@ wizard supports both languages; low-level engine diagnostics can remain English.
 - [Forecast/exploration UI contract](exploration-ui-contract.md) · [预测/探索 UI 接口](exploration-ui-contract.zh-CN.md)
 
 - [Local workbench](workbench.md) · [本地网页工作台](workbench.zh-CN.md)
+
+- [Whole-event holdout results](holdout-validation.md) · [整场留出实测](holdout-validation.zh-CN.md)

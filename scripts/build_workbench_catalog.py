@@ -61,7 +61,9 @@ def main():
                 "source_audit": race["source_audit"],
                 "freeze_commit": report["freeze_commit"],
                 "partition": "holdout",
-                "identity_erratum": report.get("identity_erratum"),
+                "protocol_errata": {
+                    key: value for key, value in report.items() if "erratum" in key
+                },
                 "scope": "Fixed whole-event holdout; no numerical assumption calibration",
             },
         )
