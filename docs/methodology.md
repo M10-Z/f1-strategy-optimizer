@@ -57,8 +57,18 @@ may also be shifted. Training R² and MAE are descriptive, not held-out performa
 Backtesting holds out one year and uses only earlier seasons. Later years are ignored.
 It evaluates reference-temperature predictions against fuel-adjusted held-out observations,
 reporting MAE, RMSE, signed bias and out-of-range ages. Missing training compounds are
-reported, not silently fitted using test data. The manifest model may fit the whole input
-for exploration; `backtest.json.model` is the distinct training-only model used for validation.
+reported, not silently fitted using test data. Standalone `backtest` uses this same prior-year
+training model for its manifest, plot and extrapolation flags; it never fits held-out or future
+laps. The manifest labels this model `holdout_training`. `demo`/`optimize` retain an
+`exploratory_all_input` model for strategy exploration, even with `--holdout-year`;
+their `backtest.json.model` is the separate training-only validation model.
+
+The report's `data_split` records training/holdout sample counts and ignored future sample
+counts/years. `coverage` records evaluated and unmodeled held-out laps. Per-compound errors
+apply only to evaluated samples; absent training compounds do not contribute zero errors.
+A report with zero evaluated samples is a coverage result, not measured prediction accuracy.
+The exported `laps.csv` retains all normalized input rows, while the source-file hash remains
+separate from the normalized-data hash. It is not a training-only dataset.
 
 Scenario comparisons price the original schedule AND reoptimized schedule in each same
 scenario. Totals across different environments alone are not strategy improvements.

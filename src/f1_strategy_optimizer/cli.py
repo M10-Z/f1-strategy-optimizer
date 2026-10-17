@@ -14,7 +14,7 @@ import pandas as pd
 from .analysis import backtest, compare_scenarios
 from .config import RaceConfig, RuleSet
 from .data import fetch_cycle_data
-from .models import ModelParameters, fit_model, synthetic_laps
+from .models import ModelParameters, fit_model, synthetic_laps, validate_laps
 from .plotting import plot_model, plot_strategies
 from .solver import solve
 
@@ -130,11 +130,19 @@ def main(argv: list[str] | None = None) -> int:
                 offline=args.offline,
             )
             provenance = dict(data.attrs)
-        model = fit_model(data, parameters)
-        result = solve(model, config) if args.command != "backtest" else None
+        data = validate_laps(data)
         validation = None
         if args.command == "backtest" or args.holdout_year is not None:
             validation = backtest(data, args.holdout_year, parameters)
+        # A standalone backtest must not depend on fitting held-out or future
+        # observations, even for its manifest and plot. Exploration commands
+        # retain their all-input fit alongside the separate validation report.
+        training = (
+            data[data.Year < validation["holdout_year"]] if args.command == "backtest" else data
+        )
+        model = fit_model(training, parameters)
+        model_role = "holdout_training" if args.command == "backtest" else "exploratory_all_input"
+        result = solve(model, config) if args.command != "backtest" else None
         comparisons = compare_scenarios(model, config) if args.compare and result else []
         # Do not silently overwrite another run, including a partial failed export.
         output.mkdir(parents=True, exist_ok=True)
@@ -145,6 +153,7 @@ def main(argv: list[str] | None = None) -> int:
             "versions": _versions(),
             "race": asdict(config),
             "model": model.to_dict(),
+            "model_role": model_role,
             "normalized_laps_sha256": hashlib.sha256(
                 (output / "laps.csv").read_bytes()
             ).hexdigest(),
@@ -173,6 +182,13 @@ def main(argv: list[str] | None = None) -> int:
         if validation:
             write_json(output / "backtest.json", validation)
             print(f"Held-out season: {validation['holdout_year']}")
+            coverage = validation["coverage"]
+            print(
+                f"Evaluated held-out laps: {coverage['evaluated_samples']}/"
+                f"{validation['data_split']['holdout_samples']} "
+                f"({coverage['unmodeled_samples']} without a training model)"
+            )
+        print(f"Exported model: {model_role} | Training years: {model.diagnostics['years']}")
         plot_model(model, output / "model.png", min(config.total_laps, config.max_tyre_age))
         if comparisons:
             write_json(output / "scenarios.json", comparisons)

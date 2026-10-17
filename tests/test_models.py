@@ -39,6 +39,22 @@ def test_holdout_is_not_used_for_training():
         backtest(data, 2022)
 
 
+def test_backtest_reports_split_and_coverage_without_using_future_laps():
+    data = synthetic_laps()
+    data = data[~((data.Year < 2024) & (data.Compound == "SOFT"))].copy()
+    original = backtest(data, 2024)
+    assert original["data_split"] == {
+        "training_samples": 288,
+        "holdout_samples": 216,
+        "ignored_future_samples": 216,
+        "ignored_future_years": [2025],
+    }
+    assert original["coverage"] == {"evaluated_samples": 144, "unmodeled_samples": 72}
+    assert original["compounds"]["SOFT"] == {"status": "no_training_model", "samples": 72}
+    data.loc[data.Year == 2025, "LapTimeSeconds"] += 100
+    assert backtest(data, 2024) == original
+
+
 def test_monotone_envelope_and_temperature_only_affects_degradation():
     m = TyreModel({"SOFT": TyreCurve(100, 2, -0.2)})
     predictions = [m.predict("SOFT", age) for age in range(1, 50)]

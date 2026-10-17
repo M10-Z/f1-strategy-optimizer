@@ -11,6 +11,8 @@
 - Exhaustive small-race oracle, input/data/CLI regressions, packaging and CI configuration.
 
 - Bilingual terminal wizard, one-question screens, on-demand help, back navigation and results.
+- Consistent training-only backtest artifacts, explicit exploration model roles, normalized
+  lap exports, chronological split counts and held-out evaluation coverage.
 
 ## Next research milestones
 

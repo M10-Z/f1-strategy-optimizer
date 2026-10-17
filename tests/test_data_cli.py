@@ -10,6 +10,7 @@ import pytest
 
 from f1_strategy_optimizer.cli import main
 from f1_strategy_optimizer.data import clean_session_laps, fetch_cycle_data
+from f1_strategy_optimizer.models import synthetic_laps
 
 
 def raw_laps():
@@ -94,6 +95,10 @@ def test_offline_cli_exports_and_refuses_overwrite(tmp_path):
     assert sum(result["stint_lengths"]) == 12
     manifest = json.loads((output / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["source"]["source"] == "synthetic"
+    assert manifest["model_role"] == "exploratory_all_input"
+    assert manifest["model"]["diagnostics"]["years"] == [2022, 2023, 2024, 2025]
+    validation = json.loads((output / "backtest.json").read_text(encoding="utf-8"))
+    assert validation["model"]["diagnostics"]["years"] == [2022, 2023, 2024]
     assert (output / "strategies.png").stat().st_size > 1000
     before = (output / "strategy.json").read_bytes()
     with pytest.raises(SystemExit) as exc:
@@ -118,3 +123,117 @@ def test_cli_rejects_malformed_rule_structure(tmp_path, content):
     with pytest.raises(SystemExit) as exc:
         main(["demo", "--rules", str(path), "--output-dir", str(tmp_path / "results")])
     assert exc.value.code == 2
+
+
+@pytest.mark.parametrize("holdout_year", [None, 2024])
+def test_backtest_exports_only_prior_year_model(tmp_path, holdout_year):
+    data = synthetic_laps()
+    source = tmp_path / "laps.csv"
+    output = tmp_path / "validation"
+    data.to_csv(source, index=False)
+    args = ["backtest", "--csv", str(source), "--output-dir", str(output)]
+    if holdout_year is not None:
+        args += ["--holdout-year", str(holdout_year)]
+    with patch("f1_strategy_optimizer.cli.plot_model") as plot:
+        assert main(args) == 0
+    manifest = json.loads((output / "manifest.json").read_text())
+    validation = json.loads((output / "backtest.json").read_text())
+    assert manifest["model"] == validation["model"]
+    assert plot.call_args.args[0].to_dict() == validation["model"]
+    assert manifest["model_role"] == "holdout_training"
+    assert validation["holdout_year"] == (holdout_year or 2025)
+    assert len(pd.read_csv(output / "laps.csv")) == len(data)
+    assert not (output / "strategy.json").exists()
+
+
+def test_backtest_handles_sparse_unseen_holdout_compound(tmp_path, capsys):
+    data = synthetic_laps()
+    # SOFT is observed only once in the test year: evaluation must disclose
+    # missing training coverage, without trying to fit that held-out compound.
+    train = data[(data.Year < 2025) & (data.Compound != "SOFT")]
+    test = data[(data.Year == 2025) & (data.Compound == "SOFT")].iloc[:1]
+    source = tmp_path / "laps.csv"
+    pd.concat([train, test]).to_csv(source, index=False)
+    output = tmp_path / "validation"
+    assert main(["backtest", "--csv", str(source), "--output-dir", str(output)]) == 0
+    validation = json.loads((output / "backtest.json").read_text())
+    assert validation["compounds"]["SOFT"] == {"status": "no_training_model", "samples": 1}
+    assert validation["coverage"] == {"evaluated_samples": 0, "unmodeled_samples": 1}
+    assert "Evaluated held-out laps: 0/1" in capsys.readouterr().out
+    manifest = json.loads((output / "manifest.json").read_text())
+    assert set(manifest["model"]["curves"]) == {"MEDIUM", "HARD"}
+    assert (output / "model.png").stat().st_size > 1000
+
+
+def test_backtest_export_model_is_invariant_to_heldout_and_future_times(tmp_path):
+    data = synthetic_laps()
+    exported = []
+    for label, delta in (("original", 0), ("perturbed", 100)):
+        changed = data.copy()
+        changed.loc[changed.Year >= 2024, "LapTimeSeconds"] += delta
+        source = tmp_path / f"{label}.csv"
+        changed.to_csv(source, index=False)
+        output = tmp_path / label
+        with patch("f1_strategy_optimizer.cli.plot_model"):
+            assert (
+                main(
+                    [
+                        "backtest",
+                        "--csv",
+                        str(source),
+                        "--holdout-year",
+                        "2024",
+                        "--output-dir",
+                        str(output),
+                    ]
+                )
+                == 0
+            )
+        exported.append(
+            (
+                json.loads((output / "manifest.json").read_text()),
+                json.loads((output / "backtest.json").read_text()),
+            )
+        )
+    assert exported[0][0]["model"] == exported[1][0]["model"]
+    assert exported[1][1]["compounds"]["SOFT"]["mae_seconds"] > 90
+
+
+def test_csv_export_normalizes_compounds_and_preserves_source_hash(tmp_path):
+    import hashlib
+
+    data = synthetic_laps()
+    data["Compound"] = data.Compound.str.lower().map(lambda value: f" {value} ")
+    source = tmp_path / "laps.csv"
+    data.to_csv(source, index=False)
+    output = tmp_path / "validation"
+    with patch("f1_strategy_optimizer.cli.plot_model"):
+        assert main(["backtest", "--csv", str(source), "--output-dir", str(output)]) == 0
+    manifest = json.loads((output / "manifest.json").read_text())
+    assert manifest["source"]["sha256"] == hashlib.sha256(source.read_bytes()).hexdigest()
+    assert (
+        manifest["normalized_laps_sha256"]
+        == hashlib.sha256((output / "laps.csv").read_bytes()).hexdigest()
+    )
+    assert set(pd.read_csv(output / "laps.csv").Compound) == {"SOFT", "MEDIUM", "HARD"}
+
+
+@pytest.mark.parametrize("year", [2022, 2026])
+def test_backtest_invalid_split_leaves_no_outputs(tmp_path, year):
+    source = tmp_path / "laps.csv"
+    synthetic_laps().to_csv(source, index=False)
+    output = tmp_path / "validation"
+    with pytest.raises(SystemExit) as exc:
+        main(
+            [
+                "backtest",
+                "--csv",
+                str(source),
+                "--holdout-year",
+                str(year),
+                "--output-dir",
+                str(output),
+            ]
+        )
+    assert exc.value.code == 2
+    assert not output.exists()

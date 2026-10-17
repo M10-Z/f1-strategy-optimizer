@@ -43,6 +43,14 @@ python -m venv .venv
 运行清单包含数据来源、SHA-256、依赖版本、规则、先验参数、拟合诊断和外推标记。
 指定 `--holdout-year 2025` 后还会输出年份留出验证结果。
 
+独立 `backtest` 命令的 `manifest.json` 和 `model.png` 使用早年训练模型，与
+`backtest.json.model` 一致，清单中的 `model_role` 为 `holdout_training`。
+`demo`/`optimize`（包括指定 `--holdout-year` 的运行）保留全部输入年份的探索模型，
+角色为 `exploratory_all_input`，其策略及图表与独立的留出验证结果区分。
+`backtest.json` 记录训练/留出样本数、忽略的未来年份以及可评估/无训练模型的圈数；
+可评估圈数为零时，没有可报告的预测误差。`laps.csv` 保留所有规范化输入行用于复现，
+包括留出年份及被忽略的未来数据。
+
 ![合成数据策略情景对比](docs/assets/synthetic-strategies.png)
 
 上图来自固定种子 42 的离线演示，表示模型情景，不是真实比赛结果。

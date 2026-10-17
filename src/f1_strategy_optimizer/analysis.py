@@ -53,9 +53,23 @@ def backtest(
                 ).sum()
             ),
         }
+    evaluated_samples = sum(
+        metric["samples"] for metric in metrics.values() if metric["status"] == "evaluated"
+    )
+    future = data[data.Year > year]
     return {
         "training_years": sorted(int(y) for y in train.Year.unique()),
         "holdout_year": year,
+        "data_split": {
+            "training_samples": len(train),
+            "holdout_samples": len(test),
+            "ignored_future_samples": len(future),
+            "ignored_future_years": sorted(int(y) for y in future.Year.unique()),
+        },
+        "coverage": {
+            "evaluated_samples": evaluated_samples,
+            "unmodeled_samples": len(test) - evaluated_samples,
+        },
         "compounds": metrics,
         "model": model.to_dict(),
         "interpretation": "Held-out lap prediction errors at reference temperature with "

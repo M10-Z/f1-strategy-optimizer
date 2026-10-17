@@ -4,6 +4,10 @@
 
 ## 0.1.0 — unreleased
 
+- Fixed standalone backtests failing on sparse compounds seen only in the held-out year.
+  Their manifest/plot now use the prior-year validation model; exploration commands retain
+  the all-input model, with explicit model roles. Added split/coverage reporting and ensured
+  exported lap CSVs contain the normalized observations used by the model.
 - Compact one-question terminal screens, on-demand `?` help and result pauses.
 - Bilingual documentation and privacy-reviewed source-only distribution.
 
