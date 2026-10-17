@@ -1,5 +1,9 @@
 # F1 Strategy Optimizer
 
+[Observation ingestion / 接入契约与离线门控](docs/observation-ingestion-contract.zh-CN.md)：v1 默认；v2 实验未通过；接收时间与历史假设延迟分开。
+
+[Action model v2 / 动作条件实验结果](docs/action-model-v2.zh-CN.md)：三场冻结评估精度未通过，覆盖提高；未替换默认模型。
+
 [Freshness / 新鲜度与比利时独立验证](docs/freshness-validation.zh-CN.md)：候选未达预注册精度门槛；历史研究用途。
 
 [Focused value/quality review · 实际价值复核](docs/value-review.zh-CN.md): prefix-based participant selection, conservative target ranking, verified offline exports; historical research only.

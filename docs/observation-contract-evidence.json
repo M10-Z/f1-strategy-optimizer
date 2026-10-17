@@ -1,0 +1,168 @@
+{
+  "pit_path_audit": {
+    "pit_receipts": [
+      {
+        "path": "/workspace/real-data/openf1-2023-bahrain/pit.meta.json",
+        "metadata_sha256": "ed3cf8d5c833dc37277015df3d177ae7f72e6bb2f0bea45200ab24a166d35680",
+        "url": "https://api.openf1.org/v1/pit?session_key=7953",
+        "http_and_connect": "404 200",
+        "body_sha256": "79e458c7f1cd32213fb418a50acca1646db353c29a8775154e0fbf8bc6ebd79d",
+        "retrieved_at": "2026-10-17T19:15:11.140908+00:00"
+      },
+      {
+        "path": "/workspace/real-data/holdout-2024-monaco/openf1-pit.meta.json",
+        "metadata_sha256": "2e7315246074b4385587c63c62e6a35b2719d71408e8180194aaaad8795bb584",
+        "url": "https://api.openf1.org/v1/pit?session_key=9523",
+        "http_and_connect": "200 200",
+        "body_sha256": "1e7f5c5a82d2dcbaa01054c750d41742e7002b639fd073365b4f0774e220b931",
+        "retrieved_at": "2026-10-17T19:51:23.625071+00:00"
+      }
+    ],
+    "conclusion": "The earlier 404 used correct singular /v1/pit; no repeat request. Another used event has successful cache.",
+    "new_data_requests": 0,
+    "documentation": [
+      "https://openf1.org/docs/#pit",
+      "https://openf1.org/auth.html"
+    ],
+    "limits": [
+      "pit.date does not establish entry/exit or publication",
+      "_id/_key identify ordering/revisions, not publication time",
+      "FastF1 PitOutTime approximate event time cannot establish received_at",
+      "No live credentials, accounts, subscriptions or service added"
+    ],
+    "frozen_model_files_changed": false
+  },
+  "development_gate_totals": {
+    "bahrain": {
+      "missing_receipts:snapshots": 3,
+      "missing_receipts:visible_streams": 0,
+      "missing_receipts:missing_streams": 60,
+      "missing_receipts:structural_snapshot_pass": 0,
+      "missing_receipts:horizon:missing_current_lap_state": 60,
+      "assumed_3s:snapshots": 3,
+      "assumed_3s:visible_streams": 60,
+      "assumed_3s:missing_streams": 0,
+      "assumed_3s:structural_snapshot_pass": 0,
+      "assumed_3s:horizon:unstarted_boundary_unverified": 60,
+      "synthetic_30s_receipts:snapshots": 3,
+      "synthetic_30s_receipts:visible_streams": 53,
+      "synthetic_30s_receipts:missing_streams": 7,
+      "synthetic_30s_receipts:structural_snapshot_pass": 0,
+      "synthetic_30s_receipts:horizon:unstarted_boundary_unverified": 53,
+      "synthetic_late_revision:snapshots": 3,
+      "synthetic_late_revision:visible_streams": 53,
+      "synthetic_late_revision:missing_streams": 7,
+      "synthetic_late_revision:structural_snapshot_pass": 0,
+      "synthetic_late_revision:horizon:unstarted_boundary_unverified": 53,
+      "synthetic_30s_receipts:horizon:missing_current_lap_state": 7,
+      "synthetic_late_revision:horizon:missing_current_lap_state": 7
+    },
+    "monaco": {
+      "missing_receipts:snapshots": 23,
+      "missing_receipts:visible_streams": 0,
+      "missing_receipts:missing_streams": 460,
+      "missing_receipts:structural_snapshot_pass": 0,
+      "missing_receipts:horizon:missing_current_lap_state": 460,
+      "assumed_3s:snapshots": 23,
+      "assumed_3s:visible_streams": 320,
+      "assumed_3s:missing_streams": 140,
+      "assumed_3s:structural_snapshot_pass": 0,
+      "assumed_3s:horizon:missing_current_lap_state": 140,
+      "synthetic_30s_receipts:snapshots": 23,
+      "synthetic_30s_receipts:visible_streams": 231,
+      "synthetic_30s_receipts:missing_streams": 229,
+      "synthetic_30s_receipts:structural_snapshot_pass": 0,
+      "synthetic_30s_receipts:horizon:missing_current_lap_state": 229,
+      "synthetic_late_revision:snapshots": 23,
+      "synthetic_late_revision:visible_streams": 231,
+      "synthetic_late_revision:missing_streams": 229,
+      "synthetic_late_revision:structural_snapshot_pass": 0,
+      "synthetic_late_revision:horizon:missing_current_lap_state": 229,
+      "assumed_3s:horizon:unstarted_boundary_unverified": 320,
+      "synthetic_30s_receipts:horizon:unstarted_boundary_unverified": 231,
+      "synthetic_late_revision:horizon:unstarted_boundary_unverified": 231
+    },
+    "british": {
+      "missing_receipts:snapshots": 23,
+      "missing_receipts:visible_streams": 0,
+      "missing_receipts:missing_streams": 460,
+      "missing_receipts:structural_snapshot_pass": 0,
+      "missing_receipts:horizon:missing_current_lap_state": 460,
+      "assumed_3s:snapshots": 23,
+      "assumed_3s:visible_streams": 460,
+      "assumed_3s:missing_streams": 0,
+      "assumed_3s:structural_snapshot_pass": 0,
+      "assumed_3s:horizon:unstarted_boundary_unverified": 460,
+      "synthetic_30s_receipts:snapshots": 23,
+      "synthetic_30s_receipts:visible_streams": 378,
+      "synthetic_30s_receipts:missing_streams": 82,
+      "synthetic_30s_receipts:structural_snapshot_pass": 0,
+      "synthetic_30s_receipts:horizon:unstarted_boundary_unverified": 378,
+      "synthetic_30s_receipts:horizon:missing_current_lap_state": 82,
+      "synthetic_late_revision:snapshots": 23,
+      "synthetic_late_revision:visible_streams": 378,
+      "synthetic_late_revision:missing_streams": 82,
+      "synthetic_late_revision:structural_snapshot_pass": 0,
+      "synthetic_late_revision:horizon:unstarted_boundary_unverified": 378,
+      "synthetic_late_revision:horizon:missing_current_lap_state": 82
+    },
+    "italian": {
+      "missing_receipts:snapshots": 23,
+      "missing_receipts:visible_streams": 0,
+      "missing_receipts:missing_streams": 460,
+      "missing_receipts:structural_snapshot_pass": 0,
+      "missing_receipts:horizon:missing_current_lap_state": 460,
+      "assumed_3s:snapshots": 23,
+      "assumed_3s:visible_streams": 460,
+      "assumed_3s:missing_streams": 0,
+      "assumed_3s:structural_snapshot_pass": 0,
+      "assumed_3s:horizon:unstarted_boundary_unverified": 460,
+      "synthetic_30s_receipts:snapshots": 23,
+      "synthetic_30s_receipts:visible_streams": 382,
+      "synthetic_30s_receipts:missing_streams": 78,
+      "synthetic_30s_receipts:structural_snapshot_pass": 0,
+      "synthetic_30s_receipts:horizon:unstarted_boundary_unverified": 382,
+      "synthetic_30s_receipts:horizon:missing_current_lap_state": 78,
+      "synthetic_late_revision:snapshots": 23,
+      "synthetic_late_revision:visible_streams": 382,
+      "synthetic_late_revision:missing_streams": 78,
+      "synthetic_late_revision:structural_snapshot_pass": 0,
+      "synthetic_late_revision:horizon:unstarted_boundary_unverified": 382,
+      "synthetic_late_revision:horizon:missing_current_lap_state": 78
+    }
+  },
+  "development_inputs": {
+    "output/freshness-development/decisions.json.gz": "9f9705221f3cbe6dd43c0379532d59be53472f3a97d31399a252cce02769a344",
+    "output/freshness-development/monaco-decisions.json.gz": "b4cef5118aac0f2df967b19dd523134200874333775eb99058d0d4fe9f1c1e4a",
+    "output/freshness-development/british-decisions.json.gz": "5d9f103f07ce5b8f862da489797bb3c125acda5ac1612c8b9f796b91ae246a8b",
+    "output/freshness-development/italian-decisions.json.gz": "867cf71542d47106f71eec0a90f259192ecc555495c9422413f3ee56f4f21258"
+  },
+  "saved_regression": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "314",
+      "time": "22.233",
+      "timestamp": "2026-10-17T21:20:40.929363+00:00",
+      "hostname": "264ef7b7dade"
+    }
+  ],
+  "ruff": "passed",
+  "frozen_sources_unchanged": 38,
+  "final_evaluation_unchanged": true,
+  "starter_unchanged": true,
+  "new_data_requests": 0,
+  "new_holdout_reads": 0,
+  "scope": "Import gates only, no forecast tuning/scoring",
+  "evidence_sha256": {
+    "output/observation-contract/synthetic-example.json": "95f84ffabe59d5979f82868774828c251fc46e13b0bb5f20763ee55d90ba6a13",
+    "output/observation-contract/pit-path-audit.json": "79c2205c4f72ec336f713b6648fd3cb0c7e0d3135a588ddeadf1a312590faaf1",
+    "output/observation-contract/development-gates.json": "5f0cab669078cf28e6a70b3c36d9c7cec2c1f95f3830467ba6617dcc31d9bdc0",
+    "output/observation-contract/regression.xml": "9722fb0918e46e26e435b150823eb6a9e1825539347bc33ee0de879ed9bcd7da",
+    "output/observation-contract/regression-final.xml": "11eb022d0a02ff0feff7913928f1fe79cede6bce69890be2dfaa2661ba677339",
+    "output/observation-contract/final-gates-run.log": "fbda40141b3ad254e853ede229982bd397eb545bf0a1d142101646c6e8d15ea4",
+    "output/observation-contract/final-gates/development-gates.json": "4626ff5008ee5e5f36af50e81b0d6e6b429e26f18beba50b62b37a2483bf6988"
+  }
+}

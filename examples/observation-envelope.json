@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "session_id": "synthetic-demo-not-real-data",
+  "required_streams": ["demo/laps/16", "demo/weather"],
+  "records": [
+    {
+      "event_id": "lap-state-16", "source": "synthetic-fixture", "stream": "demo/laps/16",
+      "session_id": "synthetic-demo-not-real-data", "kind": "lap_state",
+      "event_time": "2024-01-01T00:00:10Z", "received_at": null,
+      "sequence": 1, "revision": 0, "payload": {"current_lap": 5}
+    },
+    {
+      "event_id": "weather-1", "source": "synthetic-fixture", "stream": "demo/weather",
+      "session_id": "synthetic-demo-not-real-data", "kind": "weather",
+      "event_time": "2024-01-01T00:00:09Z", "received_at": null,
+      "sequence": 2, "revision": 0, "payload": null
+    },
+    {
+      "event_id": "lap-state-16", "source": "synthetic-fixture", "stream": "demo/laps/16",
+      "session_id": "synthetic-demo-not-real-data", "kind": "lap_state",
+      "event_time": "2024-01-01T00:00:10Z", "received_at": "2024-01-01T00:00:30Z",
+      "sequence": 3, "revision": 1, "payload": {"current_lap": 6}
+    }
+  ]
+}
