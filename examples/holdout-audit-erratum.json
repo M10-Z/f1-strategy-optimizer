@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-17T20:02:12.728135+00:00",
+  "original_freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+  "identity_erratum_commit": "358345f1eea44700b7728fb93fdb2523fe356576",
+  "identity_erratum_file": "examples/holdout-identity-erratum.json",
+  "identity_erratum_sha256": "6b14783333f73ee31a4c6ee62f5efaad0963154c4c6c73f20918cd04e193d766",
+  "identity_corrected_run_dir": "output/whole-race-holdout/corrected",
+  "identity_corrected_run_sha256": {
+    "evaluation.json": "3ffc1f1af002b5d1609e7aecfd027c7f262101c2ffbcda6eaa5135bfe87d6716",
+    "decisions.json": "880147a291558c58af165e5b97b3c9164cf6ab9faf725f1e7ee48d29293311c6",
+    "identity-erratum-run.json": "5b002fd55929499cf311f1e93cc0a3ab1f6516e65dff6ea10136286fad27130d"
+  },
+  "model_source_sha256": {
+    "src/f1_strategy_optimizer/event_replay.py": "0a33d0f48ab7acf359df895a31a4e2d17407a6bb28912ffb30b9abd608961936",
+    "src/f1_strategy_optimizer/event_sources.py": "066d45bd9fcef9162fdb780816849a985b04947fc4c22af3b12f139c47c81b35",
+    "src/f1_strategy_optimizer/forecast_diagnostics.py": "4f7937a38f9bcf3fa7bd41d650e7e86e930eeb3e19d2a7e32c48f38457feef4a",
+    "src/f1_strategy_optimizer/replay.py": "3be8d360638d59bcdb684a0d5a5cef4eb02a9869d132a277eddea9950b53ff36",
+    "src/f1_strategy_optimizer/artifacts.py": "0abf8baf62d6de0f280b45fe6c35e4f10754ea7c13553d96774b1a1611382949",
+    "src/f1_strategy_optimizer/config.py": "c9bc44e5f34e15215fcb40d62083844b09937a4910ba175d992616071d781e86",
+    "src/f1_strategy_optimizer/competition.py": "33d8296116edc9af800d29d0880f635d89ea5792a3fd0df3d38ea884c66827d7",
+    "src/f1_strategy_optimizer/race_planner.py": "14b4649582e19c8b6dde13007c45aaf0b26b765bc703e9cf9d871f21ec5eab7b",
+    "src/f1_strategy_optimizer/race_constraints.py": "1b52d2ab882a7df1957a46750bd6131519e6082ef83285e7098938fdb851809a",
+    "src/f1_strategy_optimizer/models.py": "1e23ffffaa79397095f1a4e06254479d5aed7b8a2c3c8560ddb61806ee590334",
+    "src/f1_strategy_optimizer/solver.py": "15970a340627445d8a8bae1937ff7dff5482c75a5ffdf9ad441a1c5caa5c7805",
+    "src/f1_strategy_optimizer/joint_planner.py": "fc96292e1fc732a1c96cae891c7bf36d21d91db4b07eff294d3cd0a0db181ecd",
+    "src/f1_strategy_optimizer/rolling.py": "da256987e000ffa1bccad667b7110fabaf504604b28ae80f222d18d8a2f413ca",
+    "src/f1_strategy_optimizer/holdout_sources.py": "7b2431881e552207cc848017533d2da94bfcd706bd71c30c72f0db14aaa92ce5",
+    "src/f1_strategy_optimizer/holdout_evaluation.py": "95d96a9aacf647aebdfeca8e2b93b8815feec69a44472af10e753f6d443dde1a",
+    "tests/test_holdout_sources.py": "e18ca708242abae00cc4b5b024fc0bbf468f45cc456739baad8e3feb4bbe8665"
+  },
+  "policy": {
+    "publication_delay_seconds": 2.0,
+    "timing_margin_seconds": 1.0,
+    "interval_max_age_seconds": 12.0,
+    "weather_max_age_seconds": 120.0,
+    "gap_horizon_seconds": 90.0,
+    "gap_window_seconds": 60.0,
+    "lap_window": 8,
+    "min_lap_samples": 3,
+    "max_lap_slope": 1.0,
+    "max_gap_slope": 0.2,
+    "seed": 0,
+    "lap_method": "prefix_median",
+    "gap_method": "persistence"
+  },
+  "sampling": {
+    "reference": "official scheduled race start UTC; obtain schedule metadata only after model freeze",
+    "offset_seconds": [
+      600,
+      900,
+      1200,
+      1500,
+      1800,
+      2100,
+      2400,
+      2700,
+      3000,
+      3300,
+      3600,
+      3900,
+      4200,
+      4500,
+      4800,
+      5100,
+      5400,
+      5700,
+      6000,
+      6300,
+      6600,
+      6900,
+      7200
+    ],
+    "driver_denominator": "all registered race drivers at every predeclared cutoff",
+    "partition_unit": "entire event, never shuffled neighboring laps"
+  },
+  "audit_source_sha256": {
+    "src/f1_strategy_optimizer/holdout_audit_erratum.py": "d576eafc9a66509fe56a6a6cc4f0c74492812459f204526a9eeba6885406327a",
+    "tests/test_holdout_audit_erratum.py": "454ea444126aa236fbf0bf4cc73e1cf93803b5f57f6dbfe34b478d964933eab5"
+  },
+  "cause": "One empty optional Jolpica pit-audit duration caused the original strictly positive-duration parser to reject an otherwise identity-verified event. All raw HTTP responses are available; this is not service unavailability.",
+  "target": {
+    "event": "British Grand Prix",
+    "file": "jolpica-pitstops-0000.body",
+    "body_sha256": "4908468fb042177d97f9d99c661ba9742ae20adeea7a64ea2159c48bdfdf4b04",
+    "metadata_sha256": "385d0d4d938be28bc188e1f2af0a0db87ee15ff22206e87a0fcb5c903ba764d6",
+    "row": {
+      "driverId": "tsunoda",
+      "lap": "27",
+      "stop": "1",
+      "time": "15:45:52",
+      "duration": ""
+    }
+  },
+  "normalization": {
+    "raw_duration_preserved": "",
+    "duration_seconds": null,
+    "interpretation": "unknown optional audit duration; not zero and not imputed"
+  },
+  "scope": "Only this exact hash-bound British pit response and this exact row. Existing page URL/offset/count/total/hash, event identity and duplicate-key validations still run unchanged. No row, driver, lap or target is dropped.",
+  "feature_boundary": "Pit audit rows are never read by freeze_decision/build_state/evaluate_frozen; all OpenF1 prediction source rows, prefix eligibility, methods, policy, cutoffs, denominators and score functions remain unchanged.",
+  "outcome_access_state": {
+    "British_raw_outcomes_already_acquired": true,
+    "British_prediction_errors_computed": false,
+    "Monaco_prediction_errors_computed": true,
+    "Italian_prediction_errors_computed": true
+  },
+  "freeze_order": "Commit this file and wrapper before British first prediction-error scoring. No further network requests. Durably freeze all 69 cases before evaluating this final batch.",
+  "comparison_rule": "Original and identity-only rejected-selection runs stay intact. Final report is required regardless of error sizes. Assert exact Monaco/Italian decision, forecast and score equality against the original run.",
+  "qualification": "Two transparent adapter technical corrections occurred after two event scores were known; this is not an unmodified strict three-event blind execution. No correction changes model selection or conditions sample inclusion on errors.",
+  "output_final": "output/whole-race-holdout/final",
+  "validation": {
+    "targeted_synthetic_tests": 6,
+    "status": "passed",
+    "ruff": "passed",
+    "British_real_error_scores_used": 0
+  }
+}
