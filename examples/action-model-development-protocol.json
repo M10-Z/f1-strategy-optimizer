@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "name": "action-conditional-v2",
+  "baseline_commit": "59a19366ee886be8c2aade32f0e1ea1bf10f45f8",
+  "development_events": [
+    "bahrain-2023",
+    "monaco-2024",
+    "british-2024",
+    "italian-2024"
+  ],
+  "sealed_excluded_event": "belgian-2024; preserve original 3.75% failed result; no parameter selection or rescoring",
+  "split": "leave-one-whole-event-out for fitted pit priors; equal event weight for selection; no random cutoff/driver split",
+  "sampling": "original saved development cutoffs only; no outcome retiming",
+  "candidate_budget": [
+    {
+      "id": "guarded_last",
+      "pace": "latest clean same-stint completed lap, conservative previous-stint fallback; no trend"
+    },
+    {
+      "id": "shrunk_local_trend",
+      "pace": "last up to 5 same-stint clean laps; median pairwise slope clipped +-1 second/lap, shrink n/(n+3), anchor latest two median; maximum extrapolation 3 seconds; at <3 samples latest-lap fallback"
+    }
+  ],
+  "shared_policy": {
+    "lap_max_age_seconds": 180,
+    "min_samples_for_value": 1,
+    "uncertain_weather": "retain labeled fallback, no wet/dry assertion",
+    "SC_VSC_RED": "explicit unresolved control causes abstention; no silence-based green",
+    "unknown_future_action": "emit all predeclared branches; never choose from actual future"
+  },
+  "targets": {
+    "stay": "same fixed next not-yet-started lap as original; score both all-target proxy and action-matched diagnostic",
+    "planned_pit": "explicit hypothesis decided_at=cutoff, pit on next target lap; predict inlap and following outlap as separate components and two-lap sum; only score matched actions after freeze",
+    "post_completed_pit": "next full lap after prefix-confirmed pit exit, or explicitly unavailable if no defensible exit-time contract; do not relabel already-started lap"
+  },
+  "pit_prior": "fit median residual in/out losses from training events only; validation event may use its completed prefix pit pairs; exclusions (red flag/control, insufficient preceding clean laps) explicit; no actual future pit duration input",
+  "selection": {
+    "metric": "equal-event mean all-fixed-target paired MAE ratio versus old prefix median; conditional branch errors separate and not a substitute for unconditional metric",
+    "eligibility": [
+      "coverage no worse than v1 in any development event",
+      "pooled applicable coverage >=0.50",
+      "equal-event paired p95 ratio <=1.10",
+      "no future timestamps or stale input predictions"
+    ],
+    "tie_break": "lower macro MAE ratio; within 0.01 prefer guarded_last",
+    "no_eligible": "retain baseline and report inconclusive; no additional candidate search"
+  },
+  "coverage_and_wait": "full/applicable denominator, scored/missing/active-control/abstention, conditional-action mismatch, longest sampled abstention run and seconds until first availability after prefix boundary; right censoring explicit",
+  "final_stage": "only after bounded comparison select 3 unread 2024 events using cached calendar/session metadata, preregister exact identities and thresholds, freeze all source/prior hashes, acquire each once with ordinary bounded GET/cache; all forecasts persisted before scoring; no event substitution",
+  "ranking": "paired sensitivity with same existing manual scenario assumptions and selected driver subset; source only prefix pace change; no factual causal strategy benefit",
+  "source_semantics": "OpenF1 docs visited 2026-10-17: lap start approximate; pit date not explicitly defined as entry/exit; resolve or mark unknown. Documentation only, no new race observations read.",
+  "no_deployment": true
+}
