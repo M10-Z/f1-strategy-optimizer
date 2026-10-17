@@ -1,0 +1,123 @@
+{
+  "scope": "UI and offline export only; no new precision experiment or holdout acquisition",
+  "browser_acceptance": {
+    "cached-immediate": {
+      "status": "exact_match",
+      "record_sha256": "b64bf463b6f0a62e7de68058a6073e5c6283f1dae8d54c9a98dba61edbc1c662",
+      "horizon": "immediate_post_pit",
+      "horizon_report_sha256": "d026eef6ff93d4f2484b6af1792fc8096d34c3c5652eff40c665124b503416ba",
+      "prediction_enabled": false,
+      "future_evidence_used": false,
+      "kind": "local_workbench_horizon_record"
+    },
+    "cached-later": {
+      "status": "exact_match",
+      "record_sha256": "8e3237a93def2f21a692da20bc9542f6b63a43760251dc6b5a91e26fd2cc604e",
+      "horizon": "first_unstarted_after_confirmation",
+      "horizon_report_sha256": "79ca52232d4d7ac64a7c6fc9729c9d932ab2e3cad3e3dfe0d59b5ca175c6d81c",
+      "prediction_enabled": false,
+      "future_evidence_used": false,
+      "kind": "local_workbench_horizon_record"
+    },
+    "cached-receipts-missing": {
+      "status": "exact_match",
+      "record_sha256": "c089ca48cae9ad83b7f4ad5afebbf23f17ed0d16e0136ad493bec4e926c8c55c",
+      "horizon": "first_unstarted_after_confirmation",
+      "horizon_report_sha256": "7e385baf819b6dbc1a9a8d85e46ff699acc38324d58132c1b17db36256f5be24",
+      "prediction_enabled": false,
+      "future_evidence_used": false,
+      "kind": "local_workbench_horizon_record"
+    },
+    "synthetic-delayed-revision": {
+      "status": "exact_match",
+      "record_sha256": "ca3529f52e5fa7c08bfbdd1dffc78aaf2dcd6b97d4e53e67664320e485e90bb2",
+      "horizon": "first_unstarted_after_confirmation",
+      "horizon_report_sha256": "be3910d6e38bda45da654bc0e9f36292be766510fa527c2d8ef16623821211ae",
+      "prediction_enabled": false,
+      "future_evidence_used": false,
+      "kind": "local_workbench_horizon_record"
+    },
+    "simulation-with-selected-horizon": {
+      "status": "exact_match",
+      "record_sha256": "0cf73c9e516f0b916cddb8402915314118a7fc831f6f0c655a0ffdc90bf4a0a2",
+      "exploration_sha256": "2c99c9ba1dd439f36af5a94cbc0376d980bfb5c0317914514ce4b6572909f584",
+      "model_scope": {
+        "kind": "model_subset",
+        "drivers": [
+          "hamilton",
+          "leclerc",
+          "perez",
+          "russell",
+          "sainz"
+        ],
+        "excluded_drivers": [
+          "albon",
+          "alonso",
+          "bottas",
+          "de_vries",
+          "gasly",
+          "hulkenberg",
+          "kevin_magnussen",
+          "max_verstappen",
+          "norris",
+          "ocon",
+          "piastri",
+          "sargeant",
+          "stroll",
+          "tsunoda",
+          "zhou"
+        ],
+        "modeled_driver_count": 5,
+        "frozen_driver_count": 20,
+        "rank_semantics": "WITHIN MODEL SUBSET ONLY; NOT FULL RACE CLASSIFICATION",
+        "rationale": "Visible-prefix initialization at 2023-03-05T15:18:00+00:00; nearby selection. Report gaps subtract 6.085 s and are projected to the ego's completed-lap boundary, not synchronized measurements. Tyre age/compound retain prefix values. Base pace = fresh visible-segment median minus assumed next-lap tyre contribution; not identified vehicle pace. Stale/transition/unstable evidence yields null pace. Missing values remain null. All selected cars are ASSUMED ACTIVE; activity is unknown. Historical pit count=0 and used_compounds=current compound are explicit counter assumptions, not observed history. Conditions, curves, physics, future opponent stay-out and scenarios remain manual hypotheses. Inventory stays unknown/unlimited; no stock feasibility claim."
+      },
+      "rollouts": 56,
+      "future_evidence_used": false,
+      "horizon_verification": {
+        "horizon": "first_unstarted_after_confirmation",
+        "horizon_report_sha256": "98d252350531136368286e8dfbc67bc25698a15af868617cb7378699e0d290c2",
+        "prediction_enabled": false
+      }
+    },
+    "browser_errors": [],
+    "mobile_widths": {
+      "scroll": 390,
+      "view": 390
+    },
+    "independent_horizons": true,
+    "missing_boundary_blocks": true,
+    "late_revision_leaks": 0,
+    "imported_identity_mismatch_blocked": true,
+    "reveal_requests": 0,
+    "precision_experiments": 0
+  },
+  "regression": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "317",
+      "time": "12.757",
+      "timestamp": "2026-10-17T21:27:49.021243+00:00",
+      "hostname": "264ef7b7dade"
+    }
+  ],
+  "ruff": "passed",
+  "new_race_requests": 0,
+  "new_holdout_scoring": 0,
+  "v1_default": true,
+  "v2_status": "experimental_failed_accuracy_gates",
+  "artifact_sha256": {
+    "output/horizon-browser/cached-later.json": "9e0e14eadda0b71c8af8a887b74ab678fd25376d5f9b1c9633b117e7a11022e6",
+    "output/horizon-browser/synthetic-delayed-revision.json": "f937951d49fc0e0e1a4d6442b62326388513b0c919cb6b798f885b04537899f1",
+    "output/horizon-browser/cached-receipts-missing.json": "f8ed6c95360c1ea471c8aa8dc92cf2e8e72d6159fe7607a0107a5da8a90f8551",
+    "output/horizon-browser/regression.xml": "dbaee439e3220a6c908affa3d5a553cabb765eb151a33732bbaaae93f993ac29",
+    "output/horizon-browser/acceptance.json": "50c6b0f6c9678c647c7fe809c2bc25978278b9905f794d95d84eee5a115259de",
+    "output/horizon-browser/simulation-with-selected-horizon.json": "3e928a9c1f8e02d260f9674b96566aa02d0265a5881c4af5592299980495c7f2",
+    "output/horizon-browser/synthetic-delayed-revision-input.json": "7940122218862be5dd27a1b88f322dc8763b8e0217f82931545b452424d4c53c",
+    "output/horizon-browser/cached-immediate.json": "5b7dabc953ffb7bbc93f8aee342950a16427fd9a2d34789247aba0a59eddfe30",
+    "output/horizon-browser/wrong-binding-input.json": "9678035b17dbd4cd2c701134093203d0a9c59a69c2abdf5a27b61e427e7e2d68"
+  }
+}

@@ -1,5 +1,7 @@
 # 本地 F1 策略工作台
 
+[目标 horizon 与时钟门控](horizon-ui-acceptance.zh-CN.md)：浏览器已提供两个独立目标、消息 JSON 导入及独立导出；缺边界证据保持不可用。v1 默认，v2 实验未通过。
+
 [新鲜度、转换期弃权与独立验证结论](freshness-validation.zh-CN.md)。新版自动圈速假设来自可用的分段候选；旧基线保持原记录。候选未通过预设精度门槛。
 
 [English](workbench.md) · [预测与探索接口](exploration-ui-contract.zh-CN.md)
@@ -65,6 +67,8 @@ Windows 对应使用 `.venv\Scripts\python.exe`。浏览器打开 **http://127.0
 不返回事实结果。`POST /api/explore` 提交当前选择与人工假设，返回任务 ID；
 `GET /api/jobs/<id>` 查询状态；`POST /api/cancel` 停止任务。`POST /api/reveal` 主动揭晓；
 `POST /api/export` 导出服务器保存的相匹配的模拟和证据，不接受浏览器伪造模拟报告。
+`POST /api/horizon` 检查所选目标、归档时钟或用户导入的消息；`POST /api/horizon/export`
+可独立保存门控记录，不要求先模拟或揭晓。完整模拟导出也带所选 horizon 及其可用性。
 POST 使用页面会话令牌。最多同时两个模拟任务，最多保留 100 个任务；重启服务会清空
 内存任务，已下载记录保留。已有工作成果与磁盘输出不会被覆盖。
 
@@ -126,5 +130,8 @@ python scripts/verify_workbench_browser.py
 先检查记录/冻结/假设哈希及引擎源版本，再只使用冻结事实与假设重算，要求全部模拟内容
 一致。版本不同则需恢复对应 Git 提交。浏览器原样保存服务器 JSON，避免浮点数改写破坏
 哈希；旧版本浏览器下载可能受此 bug 影响，旧文件保留，请从原冻结目录重新研究/导出。
+
+同一重放命令也支持独立目标门控 JSON：核对门控源码版本，并从记录中的冻结前缀、所选
+horizon、时钟模式、假设延迟和原始消息重算，要求精确一致。它不运行新的精度评估。
 
 [本轮价值复核、英国误差归因边界及成功/失败验收](value-review.zh-CN.md)。

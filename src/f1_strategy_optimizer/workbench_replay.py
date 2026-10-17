@@ -14,6 +14,16 @@ def replay_record(record):
     expected = document.pop("record_sha256", None)
     if digest(document) != expected:
         raise ValueError("导出记录哈希不匹配；文件已改变或不完整")
+    horizon = None
+    if "horizon_report" in document:
+        from .workbench_horizon import verify_horizon_record
+
+        horizon = verify_horizon_record(document)
+    if document.get("kind") == "local_workbench_horizon_record":
+        if horizon is None:
+            raise ValueError("缺少目标门控记录")
+        return {"status": "exact_match", "record_sha256": expected, **horizon,
+                "future_evidence_used": False, "kind": document["kind"]}
     frozen, assumptions = document["frozen_decision"], document["assumptions"]
     if "prefix_quality" in document:
         from .prefix_quality import assess_prefix
@@ -39,6 +49,7 @@ def replay_record(record):
         "model_scope": reproduced["model_scope"],
         "rollouts": reproduced["budget"]["rollouts_executed"],
         "future_evidence_used": False,
+        **({"horizon_verification": horizon} if horizon else {}),
     }
 
 

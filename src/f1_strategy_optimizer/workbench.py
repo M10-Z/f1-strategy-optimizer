@@ -79,7 +79,11 @@ class Workbench:
                 timeout=2,
             ).strip()
         except (OSError, subprocess.SubprocessError):
-            self.commit = "unavailable; source hashes recorded in export"
+            try:
+                manifest = Path(__file__).resolve().parents[2] / "MANIFEST.json"
+                self.commit = _load(manifest)["git_commit"]
+            except (OSError, ValueError, KeyError):
+                self.commit = "unavailable; source hashes recorded in export"
 
     def _path(self, name):
         path = (self.root / name).resolve()
@@ -237,7 +241,32 @@ class Workbench:
             self.revealed[key] = record
         return record
 
+    def horizon(self, document):
+        from .workbench_horizon import build_horizon_report
+
+        frozen = self.cases[document["case"]][1]
+        return build_horizon_report(frozen, document["driver"], document.get("horizon_request"))
+
+    def export_horizon(self, document):
+        from .workbench_horizon import source_manifest
+
+        report = self.horizon(document)
+        payload = {
+            "schema_version": 1, "kind": "local_workbench_horizon_record",
+            "created_at_utc": datetime.now(timezone.utc).isoformat(),
+            "workbench_git_commit": self.commit, "versions": _versions(),
+            "selection": {"case": document["case"], "driver": document["driver"]},
+            "frozen_decision": self.cases[document["case"]][1],
+            "horizon_request": report["request"], "horizon_report": report,
+            "horizon_source_sha256": source_manifest(),
+            "interpretation": "目标与可用性门控导出，无数值预测或模拟结果；未读取事实结果",
+        }
+        payload["record_sha256"] = digest(payload)
+        return payload
+
     def export(self, document):
+        from .workbench_horizon import source_manifest
+
         case, driver = document["case"], document["driver"]
         race, frozen = self.cases[case]
         job = self.jobs[document["job_id"]]
@@ -249,6 +278,7 @@ class Workbench:
         if reveal and (reveal["case"] != case or reveal["driver"] != driver):
             raise ValueError("揭晓记录与当前选择不匹配")
         evidence = self._data(race["evidence"])
+        horizon_report = self.horizon(document)
         payload = {
             "schema_version": 1,
             "kind": "local_workbench_decision_record",
@@ -261,6 +291,8 @@ class Workbench:
             },
             "dataset_file_sha256": self.data_hashes,
             "selection": {"case": case, "driver": driver, "race": race["name"]},
+            "horizon_request": horizon_report["request"], "horizon_report": horizon_report,
+            "horizon_source_sha256": source_manifest(),
             "frozen_decision": frozen,
             "prefix_context": self.quality_context(case),
             "prefix_quality": self.quality(case),
@@ -349,6 +381,10 @@ class Handler(BaseHTTPRequestHandler):
                 return self._send(app.reveal(document["case"], document["driver"]))
             if self.path == "/api/export":
                 return self._send(app.export(document))
+            if self.path == "/api/horizon":
+                return self._send(app.horizon(document))
+            if self.path == "/api/horizon/export":
+                return self._send(app.export_horizon(document))
             if self.path == "/api/cancel":
                 with app.lock:
                     app.jobs[document["job_id"]]["cancel"] = True
