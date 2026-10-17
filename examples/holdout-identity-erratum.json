@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-17T19:56:26.275861+00:00",
+  "original_freeze_commit": "8d7926c32d1ffe31a7e9d1a15c48a2baba7eb7e7",
+  "original_protocol_file": "examples/holdout-evaluation-freeze.json",
+  "original_protocol_sha256": "7de165ad49cd1d624d409b00af3b12a27136007e8d5ff60171294b7084c03bf3",
+  "original_run_dir": "output/whole-race-holdout/original",
+  "original_run_sha256": {
+    "evaluation.json": "b2ea01ebde9e0def9e875723937ae13915703bb464d95b40a7aeeaea4a10c255",
+    "decisions.json": "1417cc27516478202b914870a98b2846e9860445337503034a59aa04cd2fa2dc",
+    "decision-freeze-receipt.json": "eaf7e5aeb5406da5d90d4b5196348d4b01edcb4dbeb3c249604d8c6d6ef306f6"
+  },
+  "correction": {
+    "event": "British Grand Prix",
+    "from_country": "Great Britain",
+    "to_country": "United Kingdom",
+    "session_key": 9558,
+    "meeting_key": 1240,
+    "scheduled_start": "2024-07-07T14:00:00Z"
+  },
+  "cause": "Adapter required a literal country-name value Great Britain. The already saved OpenF1 metadata uses United Kingdom. The original rejection is an adapter alias bug, not source unavailability.",
+  "scope": "One exact canonical country alias for the originally reserved British GP. Same circuit, season, scheduled UTC, 23 offsets, all drivers, frozen model/policy/features/score and aggregation. No event substitution or retiming.",
+  "metadata_sha256": {
+    "jolpica-schedule.body": "16ede12f875c4b6be9da5534131947a635a50e8eb371ad490bd1f7bf0c676bba",
+    "jolpica-schedule.headers": "2763850193da06f9cae81b8ecb7d77d25fa93be1fb202ba4ede276f6d0d7210f",
+    "jolpica-schedule.meta.json": "c80b2fc626b21c1c00af5fed2cf9fbda7f36885ade99ee59ae21a4628b91197f",
+    "openf1-sessions.body": "0802447b8798abea1959794a9e215b7c05bf033913ea63f5380c154d8ed285b5",
+    "openf1-sessions.headers": "c6ab02f01826181f9e5572ee3e7cbb565294e174b684854d59ed17084eb939ec",
+    "openf1-sessions.meta.json": "7898a436d378fbbb316fd9d8de7025d8f9759b2f3bd9fa11dae3017a2b9cf05c"
+  },
+  "model_source_sha256": {
+    "src/f1_strategy_optimizer/event_replay.py": "0a33d0f48ab7acf359df895a31a4e2d17407a6bb28912ffb30b9abd608961936",
+    "src/f1_strategy_optimizer/event_sources.py": "066d45bd9fcef9162fdb780816849a985b04947fc4c22af3b12f139c47c81b35",
+    "src/f1_strategy_optimizer/forecast_diagnostics.py": "4f7937a38f9bcf3fa7bd41d650e7e86e930eeb3e19d2a7e32c48f38457feef4a",
+    "src/f1_strategy_optimizer/replay.py": "3be8d360638d59bcdb684a0d5a5cef4eb02a9869d132a277eddea9950b53ff36",
+    "src/f1_strategy_optimizer/artifacts.py": "0abf8baf62d6de0f280b45fe6c35e4f10754ea7c13553d96774b1a1611382949",
+    "src/f1_strategy_optimizer/config.py": "c9bc44e5f34e15215fcb40d62083844b09937a4910ba175d992616071d781e86",
+    "src/f1_strategy_optimizer/competition.py": "33d8296116edc9af800d29d0880f635d89ea5792a3fd0df3d38ea884c66827d7",
+    "src/f1_strategy_optimizer/race_planner.py": "14b4649582e19c8b6dde13007c45aaf0b26b765bc703e9cf9d871f21ec5eab7b",
+    "src/f1_strategy_optimizer/race_constraints.py": "1b52d2ab882a7df1957a46750bd6131519e6082ef83285e7098938fdb851809a",
+    "src/f1_strategy_optimizer/models.py": "1e23ffffaa79397095f1a4e06254479d5aed7b8a2c3c8560ddb61806ee590334",
+    "src/f1_strategy_optimizer/solver.py": "15970a340627445d8a8bae1937ff7dff5482c75a5ffdf9ad441a1c5caa5c7805",
+    "src/f1_strategy_optimizer/joint_planner.py": "fc96292e1fc732a1c96cae891c7bf36d21d91db4b07eff294d3cd0a0db181ecd",
+    "src/f1_strategy_optimizer/rolling.py": "da256987e000ffa1bccad667b7110fabaf504604b28ae80f222d18d8a2f413ca",
+    "src/f1_strategy_optimizer/holdout_sources.py": "7b2431881e552207cc848017533d2da94bfcd706bd71c30c72f0db14aaa92ce5",
+    "src/f1_strategy_optimizer/holdout_evaluation.py": "95d96a9aacf647aebdfeca8e2b93b8815feec69a44472af10e753f6d443dde1a",
+    "tests/test_holdout_sources.py": "e18ca708242abae00cc4b5b024fc0bbf468f45cc456739baad8e3feb4bbe8665"
+  },
+  "policy": {
+    "publication_delay_seconds": 2.0,
+    "timing_margin_seconds": 1.0,
+    "interval_max_age_seconds": 12.0,
+    "weather_max_age_seconds": 120.0,
+    "gap_horizon_seconds": 90.0,
+    "gap_window_seconds": 60.0,
+    "lap_window": 8,
+    "min_lap_samples": 3,
+    "max_lap_slope": 1.0,
+    "max_gap_slope": 0.2,
+    "seed": 0,
+    "lap_method": "prefix_median",
+    "gap_method": "persistence"
+  },
+  "sampling": {
+    "reference": "official scheduled race start UTC; obtain schedule metadata only after model freeze",
+    "offset_seconds": [
+      600,
+      900,
+      1200,
+      1500,
+      1800,
+      2100,
+      2400,
+      2700,
+      3000,
+      3300,
+      3600,
+      3900,
+      4200,
+      4500,
+      4800,
+      5100,
+      5400,
+      5700,
+      6000,
+      6300,
+      6600,
+      6900,
+      7200
+    ],
+    "driver_denominator": "all registered race drivers at every predeclared cutoff",
+    "partition_unit": "entire event, never shuffled neighboring laps"
+  },
+  "erratum_source_sha256": {
+    "src/f1_strategy_optimizer/holdout_identity_erratum.py": "623c245b6c7b36450ec68110bf33a3b3ce3c4d46e9af9b87bbea0634dc379789",
+    "tests/test_holdout_identity_erratum.py": "658a587372a48c38501bb728cbbca1e75c8aa8be0018bceb2143321cb76c87df"
+  },
+  "british_outcome_requests_before_erratum": 0,
+  "british_outcomes_accessed_before_erratum": false,
+  "other_events_already_evaluated": [
+    "Monaco Grand Prix",
+    "Italian Grand Prix"
+  ],
+  "comparison_rule": "Corrected report is the final three-reserved-event version irrespective of scores; retain original separately and require Monaco/Italian decision packets, predictions and scores to be exactly unchanged.",
+  "freeze_order": "Commit this erratum and its source before the first British outcome GET; original model and original protocol source bytes stay unchanged.",
+  "output_original": "output/whole-race-holdout/original",
+  "output_corrected": "output/whole-race-holdout/corrected",
+  "validation": {
+    "synthetic_metadata_tests": 7,
+    "status": "passed",
+    "ruff": "passed",
+    "British_outcomes_used": 0
+  },
+  "claim_limit": "This transparent technical correction is not a new independent model test selection; British results remain unaccessed at correction freeze."
+}
