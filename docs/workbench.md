@@ -1,5 +1,7 @@
 # Local strategy workbench
 
+[新鲜度、转换期弃权与独立验证结论](freshness-validation.zh-CN.md)。新版自动圈速假设来自可用的分段候选；旧基线保持原记录。候选未通过预设精度门槛。
+
 [中文 / detailed guide](workbench.zh-CN.md)
 
 Run the existing Python engine through a local standard-library HTTP server and a framework-free

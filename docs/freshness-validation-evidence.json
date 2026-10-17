@@ -1,0 +1,248 @@
+{
+  "event": {
+    "season": 2024,
+    "slug": "belgian",
+    "name": "Belgian Grand Prix",
+    "circuit": "spa",
+    "country": "Belgium",
+    "openf1_circuit": "Spa-Francorchamps",
+    "round": 14,
+    "scheduled_start": "2024-07-28T13:00:00+00:00",
+    "session": {
+      "session_key": 9574,
+      "session_type": "Race",
+      "session_name": "Race",
+      "date_start": "2024-07-28T13:00:00+00:00",
+      "date_end": "2024-07-28T15:00:00+00:00",
+      "meeting_key": 1242,
+      "circuit_key": 7,
+      "circuit_short_name": "Spa-Francorchamps",
+      "country_key": 16,
+      "country_code": "BEL",
+      "country_name": "Belgium",
+      "location": "Spa-Francorchamps",
+      "gmt_offset": "02:00:00",
+      "year": 2024,
+      "is_cancelled": false
+    },
+    "status": "selected"
+  },
+  "freeze_commit": "717eb25f075b70ef5260886a86c423b4ef6ecc3f",
+  "reservation_commit": "f63db027cc481534c5ca9279816e286bc5193b1e",
+  "network_requests": 19,
+  "candidate_summary": {
+    "fixed_slots": 460,
+    "applicable_slots": 320,
+    "categories": {
+      "prefix_data_missing": 20,
+      "scored": 207,
+      "publication_boundary_rejection": 7,
+      "target_data_missing": 34,
+      "candidate_abstention": 52,
+      "not_applicable_post_event_proxy": 140
+    },
+    "abstention_reasons": {
+      "segment_warmup_requires_three_completed_laps": 52
+    },
+    "paired_scored": 207,
+    "candidate_mae_seconds": 1.44416425120773,
+    "baseline_paired_mae_seconds": 1.500468599033817,
+    "paired_mae_ratio": 0.9624754907484618,
+    "candidate_scored_fraction_applicable": 0.646875,
+    "candidate_scored_fraction_original_denominator": 0.45,
+    "gap_categories": {
+      "scored": 262,
+      "prefix_missing_or_stale": 43,
+      "target_data_missing_or_stale": 15,
+      "not_applicable_post_event_proxy": 140
+    },
+    "gap_mae_seconds": 1.639732824427481,
+    "classification": "Failures never count as zero error; all exclusions retained",
+    "claim": "Conditional observation forecast; selective coverage, no causal benefit claim",
+    "threshold_checks": {
+      "mae_ratio": false,
+      "coverage": true,
+      "paired_count": true,
+      "no_future_violations": true,
+      "no_stale_predictions": true
+    },
+    "acceptance": "failed_preregistered_thresholds"
+  },
+  "future_violations": 0,
+  "stale_predictions": 0,
+  "qualification": "One reserved event; selective observational prediction, no calibrated probabilities or causal claims; no tuning after result",
+  "development": {
+    "bahrain": {
+      "fixed_slots": 60,
+      "applicable_slots": 60,
+      "categories": {
+        "scored": 37,
+        "candidate_abstention": 19,
+        "target_data_missing": 4
+      },
+      "abstention_reasons": {
+        "segment_warmup_requires_three_completed_laps": 19
+      },
+      "paired_scored": 37,
+      "candidate_mae_seconds": 1.0336756756756755,
+      "baseline_paired_mae_seconds": 1.1487972972972946,
+      "paired_mae_ratio": 0.8997894390137766,
+      "candidate_scored_fraction_applicable": 0.6166666666666667,
+      "candidate_scored_fraction_original_denominator": 0.6166666666666667,
+      "gap_categories": {
+        "prefix_missing_or_stale": 11,
+        "scored": 49
+      },
+      "gap_mae_seconds": 3.2107551020408165,
+      "classification": "No prediction failures are counted as zero-error; all exclusions retained",
+      "claim": "Conditional observation forecast only; selective coverage, not causal strategy benefit"
+    },
+    "monaco": {
+      "fixed_slots": 460,
+      "applicable_slots": 460,
+      "categories": {
+        "prefix_data_missing": 236,
+        "scored": 199,
+        "publication_boundary_rejection": 11,
+        "candidate_abstention": 14
+      },
+      "abstention_reasons": {
+        "segment_warmup_requires_three_completed_laps": 9,
+        "unstable_segment_range_exceeds_four_seconds": 5
+      },
+      "paired_scored": 199,
+      "candidate_mae_seconds": 0.895286432160804,
+      "baseline_paired_mae_seconds": 0.9754447236180899,
+      "paired_mae_ratio": 0.9178238504792304,
+      "candidate_scored_fraction_applicable": 0.4326086956521739,
+      "candidate_scored_fraction_original_denominator": 0.4326086956521739,
+      "gap_categories": {
+        "prefix_missing_or_stale": 262,
+        "target_data_missing_or_stale": 8,
+        "scored": 190
+      },
+      "gap_mae_seconds": 1.433715789473684,
+      "classification": "No prediction failures are counted as zero-error; all exclusions retained",
+      "claim": "Conditional observation forecast only; selective coverage, not causal strategy benefit"
+    },
+    "british": {
+      "fixed_slots": 460,
+      "applicable_slots": 320,
+      "categories": {
+        "scored": 156,
+        "prefix_data_missing": 16,
+        "publication_boundary_rejection": 12,
+        "candidate_abstention": 120,
+        "target_data_missing": 16,
+        "not_applicable_post_event_proxy": 140
+      },
+      "abstention_reasons": {
+        "segment_warmup_requires_three_completed_laps": 103,
+        "unstable_segment_range_exceeds_four_seconds": 17
+      },
+      "paired_scored": 156,
+      "candidate_mae_seconds": 2.5432628205128203,
+      "baseline_paired_mae_seconds": 2.4340256410256402,
+      "paired_mae_ratio": 1.0448792229818704,
+      "candidate_scored_fraction_applicable": 0.4875,
+      "candidate_scored_fraction_original_denominator": 0.3391304347826087,
+      "gap_categories": {
+        "scored": 218,
+        "prefix_missing_or_stale": 88,
+        "target_data_missing_or_stale": 14,
+        "not_applicable_post_event_proxy": 140
+      },
+      "gap_mae_seconds": 2.04345871559633,
+      "classification": "No prediction failures are counted as zero-error; all exclusions retained",
+      "claim": "Conditional observation forecast only; selective coverage, not causal strategy benefit"
+    },
+    "italian": {
+      "fixed_slots": 460,
+      "applicable_slots": 280,
+      "categories": {
+        "scored": 226,
+        "publication_boundary_rejection": 8,
+        "target_data_missing": 13,
+        "candidate_abstention": 33,
+        "not_applicable_post_event_proxy": 180
+      },
+      "abstention_reasons": {
+        "segment_warmup_requires_three_completed_laps": 32,
+        "unstable_segment_range_exceeds_four_seconds": 1
+      },
+      "paired_scored": 226,
+      "candidate_mae_seconds": 1.808283185840708,
+      "baseline_paired_mae_seconds": 1.9100066371681415,
+      "paired_mae_ratio": 0.9467418335895141,
+      "candidate_scored_fraction_applicable": 0.8071428571428572,
+      "candidate_scored_fraction_original_denominator": 0.49130434782608695,
+      "gap_categories": {
+        "scored": 213,
+        "target_data_missing_or_stale": 9,
+        "prefix_missing_or_stale": 58,
+        "not_applicable_post_event_proxy": 180
+      },
+      "gap_mae_seconds": 2.3926291079812203,
+      "classification": "No prediction failures are counted as zero-error; all exclusions retained",
+      "claim": "Conditional observation forecast only; selective coverage, not causal strategy benefit"
+    }
+  },
+  "original_baseline_summary": {
+    "partition": "development",
+    "cases": 23,
+    "strategy_scored": 0,
+    "strategy_metrics": null,
+    "lap": {
+      "attempted": 460,
+      "scored": 259,
+      "excluded": {
+        "insufficient_prefix_laps": 20,
+        "target_already_started": 7,
+        "target_missing_no_retirement_inference": 174
+      },
+      "mae_seconds": {
+        "context_median": 1.402364864864865,
+        "last_eligible_completed": 1.8003397683397686,
+        "prefix_linear": 1.9809744407175183,
+        "prefix_median": 1.476841698841699
+      },
+      "paired_linear_minus_baseline_mae_seconds": {
+        "context_median": 0.5786095758526533,
+        "last_eligible_completed": 0.18063467237774966,
+        "prefix_median": 0.5041327418758192
+      },
+      "metric": "full_lap_duration",
+      "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+      "default_method_counts": {
+        "prefix_median": 259
+      },
+      "default_mae_seconds": 1.476841698841699
+    },
+    "gap": {
+      "attempted": 460,
+      "scored": 262,
+      "excluded": {
+        "insufficient_or_stale_numeric_interval_prefix": 183,
+        "stale_interval_outcome": 9,
+        "invalid_or_null_interval_outcome": 2,
+        "no_new_interval_outcome": 4
+      },
+      "mae_seconds": {
+        "persistence": 1.639732824427481,
+        "prefix_linear": 1.6193484268195044
+      },
+      "paired_linear_minus_baseline_mae_seconds": {
+        "persistence": -0.0203843976079765
+      },
+      "metric": "last_available_gap_report",
+      "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+      "default_method_counts": {
+        "persistence": 262
+      },
+      "default_mae_seconds": 1.639732824427481
+    }
+  },
+  "legacy_summary_partition_note": "Legacy summarize defaults to development; actual reserved decision outer/state partitions are holdout. Original output unchanged.",
+  "raw_bytes": 3624260,
+  "http_and_connect": "19/19: 200 200"
+}

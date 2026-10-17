@@ -19,7 +19,13 @@ def setup():
 
 def test_prefix_initialization_has_no_future_reads_and_no_double_tyre_count(monkeypatch):
     app, case, frozen, assumptions = setup()
-    monkeypatch.setattr(app, "_data", lambda _: deepcopy(assumptions))
+    original = app._data
+
+    def prefix_only(name):
+        assert "reveal" not in name and "evidence" not in name
+        return original(name)
+
+    monkeypatch.setattr(app, "_data", prefix_only)
     a = app.assumptions(case, "leclerc")
     forecasts = app.quality(case)["drivers"]
     p = a["planning"]

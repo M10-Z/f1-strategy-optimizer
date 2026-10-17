@@ -1,5 +1,7 @@
 # 本地 F1 策略工作台
 
+[新鲜度、转换期弃权与独立验证结论](freshness-validation.zh-CN.md)。新版自动圈速假设来自可用的分段候选；旧基线保持原记录。候选未通过预设精度门槛。
+
 [English](workbench.md) · [预测与探索接口](exploration-ui-contract.zh-CN.md)
 
 工作台复用现有事件回放和探索引擎，以 Python 标准库提供本地 HTTP 服务，前端不依赖

@@ -44,10 +44,11 @@ def test_catalog_and_decision_do_not_read_outcome_file(monkeypatch):
     document = selected(app)
     assert len(app.catalog()["races"][0]["cases"]) == 3
     assert '"actual":' not in json.dumps(app.decision(document["case"]))
-    assert "reveals.json.gz" not in opened
+    reveal_file = app.cases[document["case"]][0]["reveals"]
+    assert reveal_file not in opened
     revealed = app.reveal(document["case"], document["driver"])
     assert revealed["evaluation"]["lap"]["actual"] == 99.073
-    assert "reveals.json.gz" in opened
+    assert reveal_file in opened
 
 
 def test_actual_example_job_and_export_keep_matching_selection_and_hashes():

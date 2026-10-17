@@ -3,3 +3,5 @@
 .field-cars{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin:12px 0}.field-cars label{flex-direction:row;align-items:center}.field-cars input{width:16px;flex-shrink:0}.editable td:last-child{min-width:200px}
 
 .panel p,.scenario{overflow-wrap:anywhere}.two-columns>*{min-width:0}
+
+.metrics strong.stale-reference{color:var(--muted)}@media(max-width:600px){.quality-table thead{display:none}.quality-table tr{display:block;padding:12px;border-bottom:1px solid var(--line)}.quality-table td{display:block;padding:3px 0;border:0;max-width:none}.quality-table td:first-child{font-weight:600;color:var(--green)}}
