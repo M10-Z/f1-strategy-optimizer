@@ -21,7 +21,7 @@ def test_prefix_initialization_has_no_future_reads_and_no_double_tyre_count(monk
     app, case, frozen, assumptions = setup()
     monkeypatch.setattr(app, "_data", lambda _: deepcopy(assumptions))
     a = app.assumptions(case, "leclerc")
-    forecasts = {f["driver_id"]: f for f in frozen["observation_forecasts"]}
+    forecasts = app.quality(case)["drivers"]
     p = a["planning"]
     for car in p["state"]["cars"]:
         curve = p["tyres"][car["compound"]]
@@ -31,9 +31,7 @@ def test_prefix_initialization_has_no_future_reads_and_no_double_tyre_count(monk
             + curve["degradation"] * car["tyre_age"]
             - p["physics"]["reference_lap_time"]
         )
-        assert next_lap == pytest.approx(
-            forecasts[car["driver"]]["default_prediction"]["lap"]["value_seconds"]
-        )
+        assert next_lap == pytest.approx(forecasts[car["driver"]]["candidate"]["value_seconds"])
         assert car["tyre_inventory"] is None
     assert (
         p["state"]["completed_laps"]

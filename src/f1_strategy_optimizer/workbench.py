@@ -104,15 +104,32 @@ class Workbench:
             ],
         }
 
+    def quality_context(self, case):
+        race, frozen = self.cases[case]
+        if "quality_context" not in race:
+            return None
+        return self._data(race["quality_context"])[frozen["decision_sha256"]]
+
+    def quality(self, case):
+        from .prefix_quality import assess_prefix
+
+        return assess_prefix(self.cases[case][1], self.quality_context(case))
+
     def decision(self, case):
         _, frozen = self.cases[case]
-        return {"frozen": frozen, "workbench_version": self.commit}
+        return {
+            "frozen": frozen,
+            "workbench_version": self.commit,
+            "prefix_quality": self.quality(case),
+        }
 
     def assumptions(self, case, driver, field="nearby", drivers=None):
         from .workbench_inputs import prefix_assumptions
 
         race, frozen = self.cases[case]
-        return prefix_assumptions(frozen, self._data(race["assumptions"]), driver, field, drivers)
+        return prefix_assumptions(
+            frozen, self._data(race["assumptions"]), driver, field, drivers, self.quality(case)
+        )
 
     def start(self, document):
         case, driver = document["case"], document["driver"]
@@ -245,6 +262,8 @@ class Workbench:
             "dataset_file_sha256": self.data_hashes,
             "selection": {"case": case, "driver": driver, "race": race["name"]},
             "frozen_decision": frozen,
+            "prefix_context": self.quality_context(case),
+            "prefix_quality": self.quality(case),
             "assumptions": job["assumptions"],
             "assumptions_sha256": job["assumptions_sha256"],
             "exploration": job["report"],

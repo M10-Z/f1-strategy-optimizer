@@ -11,8 +11,11 @@ from copy import deepcopy
 from .event_replay import verify_frozen
 
 
-def prefix_assumptions(frozen, template, ego, field="nearby", drivers=None):
+def prefix_assumptions(frozen, template, ego, field="nearby", drivers=None, quality=None):
     verify_frozen(frozen)
+    from .prefix_quality import assess_prefix
+
+    quality = quality or assess_prefix(frozen)
     cars = {c["id"]: c for c in frozen["state"]["cars"]}
     if ego not in cars or field not in {"nearby", "all", "custom"}:
         raise ValueError("选择有效车手及 nearby / all / custom 车阵")
@@ -41,7 +44,6 @@ def prefix_assumptions(frozen, template, ego, field="nearby", drivers=None):
         )
     result = deepcopy(template)
     planning = result["planning"]
-    forecasts = {f["driver_id"]: f for f in frozen["observation_forecasts"]}
     boundary = cars[ego]["completed_laps"]["value"]
     # Null boundary is intentionally not converted to a plausible race lap.
     planning["state"].update(
@@ -58,7 +60,7 @@ def prefix_assumptions(frozen, template, ego, field="nearby", drivers=None):
         c = cars[driver]
         compound = c["compound"]["value"]
         age = c["estimated_completed_tyre_age"]["value"]
-        pace = forecasts[driver]["default_prediction"]["lap"]["value_seconds"]
+        pace = quality["drivers"][driver]["candidate"]["value_seconds"]
         curve = planning["tyres"].get(compound)
         # The engine adds the next-lap tyre contribution. Subtract it here to
         # avoid counting observed tyre degradation twice when seeding base pace.
@@ -99,8 +101,9 @@ def prefix_assumptions(frozen, template, ego, field="nearby", drivers=None):
         f"Visible-prefix initialization at {frozen['cutoff']}; {field} selection. "
         f"Report gaps subtract {offset} s and are projected to the ego's completed-lap "
         "boundary, not synchronized measurements. Tyre age/compound retain prefix values. "
-        "Base pace = prefix-median forecast minus assumed next-lap tyre contribution; "
-        "not identified vehicle pace. Missing values remain null. All selected cars are "
+        "Base pace = fresh visible-segment median minus assumed next-lap tyre contribution; "
+        "not identified vehicle pace. Stale/transition/unstable evidence yields null pace. "
+        "Missing values remain null. All selected cars are "
         "ASSUMED ACTIVE; activity is unknown. Historical pit count=0 and used_compounds="
         "current compound are explicit counter assumptions, not observed history. "
         "Conditions, curves, physics, future opponent stay-out and scenarios remain "

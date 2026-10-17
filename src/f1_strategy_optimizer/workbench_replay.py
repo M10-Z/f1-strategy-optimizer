@@ -15,6 +15,13 @@ def replay_record(record):
     if digest(document) != expected:
         raise ValueError("导出记录哈希不匹配；文件已改变或不完整")
     frozen, assumptions = document["frozen_decision"], document["assumptions"]
+    if "prefix_quality" in document:
+        from .prefix_quality import assess_prefix
+
+        if digest(assess_prefix(frozen, document.get("prefix_context"))) != digest(
+            document["prefix_quality"]
+        ):
+            raise ValueError("前缀质量分析或其版本与导出不同")
     verify_frozen(frozen)
     if digest(assumptions) != document["assumptions_sha256"]:
         raise ValueError("假设哈希不匹配")

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "reservation_commit": "f63db027cc481534c5ca9279816e286bc5193b1e",
+  "reservation_sha256": "b081b8b143efc39c3785829b6e00b7a2f9c4c365964453fa8349ab3c8fc33be8",
+  "policy": {
+    "lap_max_age_seconds": 180,
+    "control_max_age_seconds": 180,
+    "segment_window": 3,
+    "min_segment_samples": 3,
+    "max_segment_range_seconds": 4.0
+  },
+  "source_sha256": {
+    "examples/freshness-validation-reservation.json": "b081b8b143efc39c3785829b6e00b7a2f9c4c365964453fa8349ab3c8fc33be8",
+    "scripts/validate_freshness_reserved.py": "baf4d0ec487d4225da63155c7e5bf56a1eca9c3ca9339aaba58e305ca02faf79",
+    "src/f1_strategy_optimizer/__init__.py": "e1dba07fe0e88df52e57ca138621d9a8732e854a8ecb4599752fcfdde270accb",
+    "src/f1_strategy_optimizer/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "src/f1_strategy_optimizer/artifacts.py": "0abf8baf62d6de0f280b45fe6c35e4f10754ea7c13553d96774b1a1611382949",
+    "src/f1_strategy_optimizer/competition.py": "33d8296116edc9af800d29d0880f635d89ea5792a3fd0df3d38ea884c66827d7",
+    "src/f1_strategy_optimizer/config.py": "c9bc44e5f34e15215fcb40d62083844b09937a4910ba175d992616071d781e86",
+    "src/f1_strategy_optimizer/event_replay.py": "0a33d0f48ab7acf359df895a31a4e2d17407a6bb28912ffb30b9abd608961936",
+    "src/f1_strategy_optimizer/event_sources.py": "066d45bd9fcef9162fdb780816849a985b04947fc4c22af3b12f139c47c81b35",
+    "src/f1_strategy_optimizer/forecast_diagnostics.py": "4f7937a38f9bcf3fa7bd41d650e7e86e930eeb3e19d2a7e32c48f38457feef4a",
+    "src/f1_strategy_optimizer/freshness_evaluation.py": "91164b02e5984c70d13692623917928c0a2cf3bcb9be2443d9e8aaa6d26b5c01",
+    "src/f1_strategy_optimizer/freshness_sources.py": "30ef646197afeb167758eca6722cb052cd83cf2d7fef886f5cb6bac7337d8bed",
+    "src/f1_strategy_optimizer/holdout_audit_erratum.py": "d576eafc9a66509fe56a6a6cc4f0c74492812459f204526a9eeba6885406327a",
+    "src/f1_strategy_optimizer/holdout_evaluation.py": "95d96a9aacf647aebdfeca8e2b93b8815feec69a44472af10e753f6d443dde1a",
+    "src/f1_strategy_optimizer/holdout_identity_erratum.py": "623c245b6c7b36450ec68110bf33a3b3ce3c4d46e9af9b87bbea0634dc379789",
+    "src/f1_strategy_optimizer/holdout_sources.py": "7b2431881e552207cc848017533d2da94bfcd706bd71c30c72f0db14aaa92ce5",
+    "src/f1_strategy_optimizer/joint_planner.py": "fc96292e1fc732a1c96cae891c7bf36d21d91db4b07eff294d3cd0a0db181ecd",
+    "src/f1_strategy_optimizer/models.py": "1e23ffffaa79397095f1a4e06254479d5aed7b8a2c3c8560ddb61806ee590334",
+    "src/f1_strategy_optimizer/prefix_quality.py": "3b35362e39b5c4b0c2f4e2e81b4cff428414866f688fcc8babd6d0a7f93ecd8d",
+    "src/f1_strategy_optimizer/race_constraints.py": "1b52d2ab882a7df1957a46750bd6131519e6082ef83285e7098938fdb851809a",
+    "src/f1_strategy_optimizer/race_planner.py": "14b4649582e19c8b6dde13007c45aaf0b26b765bc703e9cf9d871f21ec5eab7b",
+    "src/f1_strategy_optimizer/replay.py": "3be8d360638d59bcdb684a0d5a5cef4eb02a9869d132a277eddea9950b53ff36",
+    "src/f1_strategy_optimizer/rolling.py": "da256987e000ffa1bccad667b7110fabaf504604b28ae80f222d18d8a2f413ca",
+    "src/f1_strategy_optimizer/solver.py": "15970a340627445d8a8bae1937ff7dff5482c75a5ffdf9ad441a1c5caa5c7805",
+    "src/f1_strategy_optimizer/strategy_exploration.py": "f0e7fadf95150f805d4c3bb2e724898d24218c86a70db612bc4731d841f84d14",
+    "tests/test_prefix_quality.py": "b4682f0ca04f905b8c9a87684cf993dd42eb844904a3700f7f9dbea18aab2449"
+  },
+  "source_schema_policy": "Reuse strict identity/receipt/page validation; predeclared optional pit-audit blank/null duration stays null, never a feature",
+  "scoring": "Fixed original targets; paired same-target MAE; separate post-event proxy, prefix missing, target missing, publication boundary, abstention, scored; no posthoc sample tuning",
+  "new_event_outcome_requests_at_freeze": 0,
+  "metadata_only_resolved_identity": {
+    "session_key": 9574,
+    "round": 14,
+    "scheduled_start": "2024-07-28T13:00:00Z"
+  },
+  "source_failure": "Keep selected Belgian event; record failure without retries, alternate hosts or substitute event",
+  "claim": "A selective conditional observational candidate; no calibrated probability or real strategy benefit claim"
+}
