@@ -40,7 +40,8 @@
       "coverage no worse than v1 in any development event",
       "pooled applicable coverage >=0.50",
       "equal-event paired p95 ratio <=1.10",
-      "no future timestamps or stale input predictions"
+      "no future timestamps or stale input predictions",
+      "equal-event paired MAE ratio <=1.0; no accuracy regression for advancing to new final data"
     ],
     "tie_break": "lower macro MAE ratio; within 0.01 prefer guarded_last",
     "no_eligible": "retain baseline and report inconclusive; no additional candidate search"
@@ -49,5 +50,6 @@
   "final_stage": "only after bounded comparison select 3 unread 2024 events using cached calendar/session metadata, preregister exact identities and thresholds, freeze all source/prior hashes, acquire each once with ordinary bounded GET/cache; all forecasts persisted before scoring; no event substitution",
   "ranking": "paired sensitivity with same existing manual scenario assumptions and selected driver subset; source only prefix pace change; no factual causal strategy benefit",
   "source_semantics": "OpenF1 docs visited 2026-10-17: lap start approximate; pit date not explicitly defined as entry/exit; resolve or mark unknown. Documentation only, no new race observations read.",
-  "no_deployment": true
+  "no_deployment": true,
+  "pit_prior_exclusion_detail": "at least three prior clean laps with <=4s range; exclude known control interruptions; negative median residual floored at zero; no clipping of evaluation targets"
 }
