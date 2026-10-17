@@ -23,7 +23,7 @@ def main():
     for path in (repo / "delivery").iterdir():
         if path.is_file():
             shutil.copy2(path, stage / path.name)
-    for name in ("LICENSE", "pyproject.toml"):
+    for name in ("LICENSE", "pyproject.toml", "README.md"):
         shutil.copy2(repo / name, stage / name)
     (stage / "reports").mkdir()
     for name in ("freshness-validation.zh-CN.md", "freshness-validation-evidence.json"):
