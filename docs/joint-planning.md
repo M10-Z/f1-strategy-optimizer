@@ -66,7 +66,8 @@ multi-car pace/traffic/limited passing; reactive opponents; hypothetical SC/VSC/
 optional fresh-stock/rule subsets; bounded two-stop plans; single-ego rolling replanning; shared
 team queues; now two-car joint snapshot planning with explicit individual/cooperative scoring.
 
-Still absent: calibrated real position accuracy, observed-snapshot replay adapter, used-set reuse,
+The [normalized snapshot replay adapter](replay.md) now checks next-lap outcomes separately.
+Still absent: calibrated real position accuracy, automatic raw-cache alignment, used-set reuse,
 complete event regulations, sub-lap/pit-lane dynamics, lapped traffic, penalties/retirements/red
 flags and joint adaptive control. Scenario weights are user assumptions. No new mechanism is
 needed before the next evidence gate: obtain trusted data, then validate the existing model.

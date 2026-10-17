@@ -77,9 +77,10 @@ unknown stock stays explicitly unknown, never invented.
 
 The existing JSON snapshot accepts these observed state fields plus **separately labeled
 assumptions** for vehicle pace, tyre curves, pit loss and scenario weights. Public lap pace is
-confounded by traffic/fuel/driver behavior. Automatic historical snapshot reconstruction and
-position replay evaluation are not implemented. The first data-backed iteration should build
-that narrow adapter and measure existing transition errors; do not feed known future SC/weather
+confounded by traffic/fuel/driver behavior. Automatic historical snapshot reconstruction
+from raw caches is not implemented. The [normalized replay adapter](replay.md) now evaluates
+trusted decision/outcome exports; a raw-cache exporter still needs source-specific alignment.
+Measure existing transition errors; do not feed known future SC/weather
 or rival actions into a historical decision. One segment permits a smoke validation, not reliable
 probability calibration; held-out races are needed for broader accuracy claims.
 

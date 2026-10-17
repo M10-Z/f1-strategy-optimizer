@@ -21,7 +21,9 @@ No implementation can claim to include every race factor or guarantee the best r
 - Heterogeneous base pace, tyre aging, lap-resolution traffic/limited passing, fixed plans,
   responsive undercut/overcut policies, hypothetical SC/VSC and wet-penalty events.
 - Information boundaries: simultaneous actions hidden, future events simulator-only,
-  past-stop timestamps and scenario availability checked; no historical replay adapter yet.
+  past-stop timestamps and scenario availability checked.
+- Timestamped normalized-export replay with separate outcomes, next-lap action-matched errors,
+  train/holdout boundaries and explicit coverage. Raw-cache alignment still needs source evidence.
 
 ## Next steps and evidence gates
 

@@ -33,6 +33,9 @@ output directory; see [resources and replanning](docs/resources-and-replanning.m
 Two teammates can now be planned jointly with `examples/competition-joint.json`; individual
 ego rank remains the default objective, and explicit cooperation reports each driver's cost.
 See [joint planning](docs/joint-planning.md) and [trusted cache/CSV imports](docs/real-data-import.md).
+A timestamped normalized-export evaluator is available as `f1-replay`; it compares frozen
+decisions with separate next-lap outcomes and reports action-matched coverage. See the
+[replay contract and synthetic example](docs/replay.md). Real race accuracy remains unmeasured.
 The current terminal menu remains
 the single-car research interface. See [architecture, timing semantics and limits](docs/competition.md)
 and the [blocked real-data attempt](docs/real-validation-2026-10-17.md).

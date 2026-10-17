@@ -4,6 +4,10 @@
 
 ## 0.1.0 — unreleased
 
+- Add timestamped normalized replay imports with isolated decision/outcome packets, training
+  cutoffs, same-lap/full-field checks, position/time/stay-out comparisons and action-matched
+  next-lap errors. Report partition coverage, paired intersections and rejected cases; unknown
+  metrics stay null. Add synthetic fixtures and record a renewed proxy-level source denial.
 - Add bounded two-car joint snapshot planning with independent tyre stock, shared pit queues,
   default ego-rank scoring and explicit cooperative tradeoffs. Report exact budget omissions
   and per-driver costs. Document trusted cache/CSV imports; normalize driver/event whitespace

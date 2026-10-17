@@ -48,7 +48,8 @@ event list; policies receive no forecast/event list. Scenarios must be declared 
 with `available_at_lap <= decision_lap`. Historical-future scenario types are rejected.
 These checks enforce API information boundaries, not the truth of user-supplied provenance.
 A real replay adapter must derive beliefs only from earlier information; relabeling known
-future events as hypotheses would still be hindsight leakage. That adapter is not implemented.
+future events as hypotheses would still be hindsight leakage. The [normalized replay adapter](replay.md)
+checks timestamped exports; automatic raw-cache reconstruction/alignment is not implemented.
 
 ## Traffic, events and uncertainty
 

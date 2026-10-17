@@ -30,6 +30,8 @@ JSON/Markdown 报告按情景加权完赛名次、再按最差名次排序，并
 现可用 `examples/competition-joint.json` 同时规划两辆队友车；默认仍优先目标车名次，
 显式合作会报告每车代价。详见[双车联合规划](docs/joint-planning.zh-CN.md)及
 [可信缓存/CSV 导入](docs/real-data-import.zh-CN.md)。
+新增 `f1-replay` 时间戳导出评估器，冻结决策后独立读取下一圈结果，报告全场行动匹配下
+的覆盖与误差。详见[回放契约与合成样例](docs/replay.zh-CN.md)；真实比赛精度仍未测得。
 终端菜单目前仍是单车研究入口。详见[多车架构与边界](docs/competition.zh-CN.md)
 及[真实数据验证阻塞记录](docs/real-validation-2026-10-17.zh-CN.md)。
 

@@ -1,0 +1,261 @@
+{
+  "schema_version": 1,
+  "provenance": {
+    "kind": "synthetic",
+    "source": "Original manually constructed two-case software fixture",
+    "uri": "synthetic://f1-strategy-optimizer/replay-example-v1",
+    "acquired_at": "2026-10-17T12:10:00Z",
+    "processing": "Handwritten snapshots and later outcomes; no real cache or fitted parameters"
+  },
+  "splits": {
+    "training_end_at": "2023-12-31T23:59:59Z",
+    "holdout_start_at": "2024-01-01T00:00:00Z"
+  },
+  "max_total_rollouts": 100,
+  "cases": [
+    {
+      "case_id": "paired-flat",
+      "partition": "development",
+      "decision": {
+        "at": "2023-03-01T12:00:00Z",
+        "observed_at": "2023-03-01T12:00:00Z",
+        "available_at": "2023-03-01T12:00:00Z",
+        "assumptions_available_at": "2023-03-01T12:00:00Z",
+        "field_complete": true,
+        "driver_completed_laps": {
+          "E": 4,
+          "R": 4
+        },
+        "model_kind": "assumed",
+        "model_data_end_at": null,
+        "planning": {
+          "source": "Original synthetic fixture; assumed pace and weights, not observed race data",
+          "state": {
+            "season": 2023,
+            "event": "SYNTHETIC-REPLAY",
+            "completed_laps": 4,
+            "total_laps": 6,
+            "cars": [
+              {
+                "driver": "E",
+                "base_lap_time": 99,
+                "compound": "SOFT",
+                "tyre_age": 2,
+                "gap_seconds": 0,
+                "team": "A",
+                "tyre_inventory": {
+                  "HARD": 1
+                }
+              },
+              {
+                "driver": "R",
+                "base_lap_time": 100,
+                "compound": "SOFT",
+                "tyre_age": 2,
+                "gap_seconds": 1,
+                "team": "B",
+                "tyre_inventory": {
+                  "HARD": 1
+                }
+              }
+            ],
+            "track_status": "GREEN",
+            "weather": "DRY",
+            "track_temp": 35
+          },
+          "physics": {
+            "pit_loss": 20
+          },
+          "tyres": {
+            "SOFT": {
+              "base_time": 100,
+              "degradation": 0
+            },
+            "HARD": {
+              "base_time": 100,
+              "degradation": 0
+            }
+          },
+          "ego": "E",
+          "opponents": {
+            "R": {
+              "kind": "fixed",
+              "stops": []
+            }
+          },
+          "scenarios": [
+            {
+              "name": "declared-dry",
+              "weight": 1,
+              "available_at_lap": 4
+            }
+          ],
+          "candidates": {
+            "compounds": [
+              "HARD"
+            ],
+            "pit_laps": [
+              4
+            ],
+            "max_stops": 1,
+            "max_rollouts": 100
+          }
+        }
+      },
+      "outcome": {
+        "observed_at": "2023-03-01T12:02:00Z",
+        "available_at": "2023-03-01T12:02:01Z",
+        "completed_laps": 5,
+        "field_complete": true,
+        "pit_actions_complete": true,
+        "pit_after_lap": 4,
+        "pit_actions": {},
+        "track_status": "GREEN",
+        "weather": "DRY",
+        "cars": [
+          {
+            "driver": "E",
+            "position": 1,
+            "gap_seconds": 0,
+            "compound": "SOFT",
+            "tyre_age": 3,
+            "completed_laps": 5
+          },
+          {
+            "driver": "R",
+            "position": 2,
+            "gap_seconds": 2.4,
+            "compound": "SOFT",
+            "tyre_age": 3,
+            "completed_laps": 5
+          }
+        ]
+      }
+    },
+    {
+      "case_id": "countermove",
+      "partition": "holdout",
+      "decision": {
+        "at": "2024-03-01T12:00:00Z",
+        "observed_at": "2024-03-01T12:00:00Z",
+        "available_at": "2024-03-01T12:00:00Z",
+        "assumptions_available_at": "2024-03-01T12:00:00Z",
+        "field_complete": true,
+        "driver_completed_laps": {
+          "E": 4,
+          "R": 4
+        },
+        "model_kind": "assumed",
+        "model_data_end_at": null,
+        "planning": {
+          "source": "Original synthetic fixture; assumed pace and weights, not observed race data",
+          "state": {
+            "season": 2024,
+            "event": "SYNTHETIC-REPLAY",
+            "completed_laps": 4,
+            "total_laps": 8,
+            "cars": [
+              {
+                "driver": "E",
+                "base_lap_time": 100,
+                "compound": "SOFT",
+                "tyre_age": 8,
+                "gap_seconds": 0,
+                "team": "A",
+                "tyre_inventory": {
+                  "HARD": 1
+                }
+              },
+              {
+                "driver": "R",
+                "base_lap_time": 99,
+                "compound": "SOFT",
+                "tyre_age": 8,
+                "gap_seconds": 0.2,
+                "team": "B",
+                "tyre_inventory": {
+                  "HARD": 1
+                }
+              }
+            ],
+            "track_status": "GREEN",
+            "weather": "DRY",
+            "track_temp": 35
+          },
+          "physics": {
+            "pit_loss": 5
+          },
+          "tyres": {
+            "SOFT": {
+              "base_time": 100,
+              "degradation": 0.5
+            },
+            "HARD": {
+              "base_time": 101,
+              "degradation": 0.15
+            }
+          },
+          "ego": "E",
+          "opponents": {
+            "R": {
+              "kind": "reactive",
+              "rival": "E",
+              "compound": "HARD",
+              "planned_lap": 6,
+              "window_start": 4,
+              "window_end": 7,
+              "response_gap": 30
+            }
+          },
+          "scenarios": [
+            {
+              "name": "declared-dry",
+              "weight": 1,
+              "available_at_lap": 4
+            }
+          ],
+          "candidates": {
+            "compounds": [
+              "HARD"
+            ],
+            "pit_laps": [
+              4,
+              5
+            ],
+            "max_stops": 1,
+            "max_rollouts": 100
+          }
+        }
+      },
+      "outcome": {
+        "observed_at": "2024-03-01T12:02:00Z",
+        "available_at": "2024-03-01T12:02:01Z",
+        "completed_laps": 5,
+        "field_complete": true,
+        "pit_actions_complete": true,
+        "pit_after_lap": 4,
+        "pit_actions": {},
+        "track_status": "GREEN",
+        "weather": "DRY",
+        "cars": [
+          {
+            "driver": "R",
+            "position": 1,
+            "gap_seconds": 0,
+            "compound": "SOFT",
+            "tyre_age": 9,
+            "completed_laps": 5
+          },
+          {
+            "driver": "E",
+            "position": 2,
+            "gap_seconds": 0.6,
+            "compound": "SOFT",
+            "tyre_age": 9,
+            "completed_laps": 5
+          }
+        ]
+      }
+    }
+  ]
+}
