@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "events": [
+    {
+      "season": 2024,
+      "slug": "spanish",
+      "name": "Spanish Grand Prix",
+      "circuit": "catalunya",
+      "country": "Spain",
+      "openf1_circuit": "Catalunya",
+      "round": 10,
+      "scheduled_start": "2024-06-23T13:00:00+00:00",
+      "session": {
+        "session_key": 9539,
+        "session_type": "Race",
+        "session_name": "Race",
+        "date_start": "2024-06-23T13:00:00+00:00",
+        "date_end": "2024-06-23T15:00:00+00:00",
+        "meeting_key": 1238,
+        "circuit_key": 15,
+        "circuit_short_name": "Catalunya",
+        "country_key": 1,
+        "country_code": "ESP",
+        "country_name": "Spain",
+        "location": "Barcelona",
+        "gmt_offset": "02:00:00",
+        "year": 2024,
+        "is_cancelled": false
+      },
+      "status": "selected"
+    },
+    {
+      "season": 2024,
+      "slug": "hungarian",
+      "name": "Hungarian Grand Prix",
+      "circuit": "hungaroring",
+      "country": "Hungary",
+      "openf1_circuit": "Hungaroring",
+      "round": 13,
+      "scheduled_start": "2024-07-21T13:00:00+00:00",
+      "session": {
+        "session_key": 9566,
+        "session_type": "Race",
+        "session_name": "Race",
+        "date_start": "2024-07-21T13:00:00+00:00",
+        "date_end": "2024-07-21T15:00:00+00:00",
+        "meeting_key": 1241,
+        "circuit_key": 4,
+        "circuit_short_name": "Hungaroring",
+        "country_key": 14,
+        "country_code": "HUN",
+        "country_name": "Hungary",
+        "location": "Budapest",
+        "gmt_offset": "02:00:00",
+        "year": 2024,
+        "is_cancelled": false
+      },
+      "status": "selected"
+    },
+    {
+      "season": 2024,
+      "slug": "dutch",
+      "name": "Dutch Grand Prix",
+      "circuit": "zandvoort",
+      "country": "Netherlands",
+      "openf1_circuit": "Zandvoort",
+      "round": 15,
+      "scheduled_start": "2024-08-25T13:00:00+00:00",
+      "session": {
+        "session_key": 9582,
+        "session_type": "Race",
+        "session_name": "Race",
+        "date_start": "2024-08-25T13:00:00+00:00",
+        "date_end": "2024-08-25T15:00:00+00:00",
+        "meeting_key": 1243,
+        "circuit_key": 55,
+        "circuit_short_name": "Zandvoort",
+        "country_key": 133,
+        "country_code": "NED",
+        "country_name": "Netherlands",
+        "location": "Zandvoort",
+        "gmt_offset": "02:00:00",
+        "year": 2024,
+        "is_cancelled": false
+      },
+      "status": "selected"
+    }
+  ],
+  "selection_basis": "Metadata-only circuit diversity: Catalunya permanent circuit, Hungaroring slower layout, Zandvoort coastal layout. No outcome/weather/error-based selection; no weather coverage claim. None has an existing local outcome cache.",
+  "candidate": "guarded_last",
+  "prior": {
+    "in_seconds": 3.0390000000000015,
+    "out_seconds": 19.737000000000002,
+    "sample_count": 100,
+    "training_events": [
+      "bahrain",
+      "monaco",
+      "british",
+      "italian"
+    ],
+    "meaning": "Completed-pair observational residual prior, not causal pit loss"
+  },
+  "development_selection_sha256": "1eb138fdff56706719748c2598261dbd1cd1b7727bbe4ffedabfd8563ffc936b",
+  "sampling": {
+    "offset_seconds": [
+      600,
+      900,
+      1200,
+      1500,
+      1800,
+      2100,
+      2400,
+      2700,
+      3000,
+      3300,
+      3600,
+      3900,
+      4200,
+      4500,
+      4800,
+      5100,
+      5400,
+      5700,
+      6000,
+      6300,
+      6600,
+      6900,
+      7200
+    ],
+    "anchor": "official scheduled race start",
+    "drivers": "all same-event registered drivers",
+    "no_retiming": true
+  },
+  "acceptance": {
+    "equal_event_paired_mae_ratio_at_most": 0.9,
+    "equal_event_paired_p95_ratio_at_most": 1.1,
+    "per_event_paired_mae_ratio_at_most": 1.25,
+    "pooled_applicable_coverage_at_least": 0.65,
+    "coverage_not_lower_than_v1_each_event": true,
+    "minimum_paired_total": 300,
+    "minimum_paired_each_event": 100,
+    "future_and_stale_violations": 0,
+    "all_three_events_required": true
+  },
+  "primary": "Unconditional proxy scores on ALL original fixed targets; never select branch from future action. Paired ratios vs original eight-lap prefix median; per-event and pooled counts disclosed.",
+  "secondary": "Action-matched stay and planned two-lap pit branch diagnostics only. At least 20 matched planned-pit targets required even for a cohort-specific descriptive accuracy claim; no causal benefits. Post-completed-pit exact immediate target remains unavailable without trustworthy exit-time evidence.",
+  "budget": {
+    "maximum_requests": 75,
+    "maximum_total_bytes": 30000000,
+    "maximum_bytes_per_response": 20000000,
+    "minimum_openf1_spacing_seconds": 2.1,
+    "retries": 0,
+    "substitutions": false
+  },
+  "metadata_receipts": [
+    {
+      "file": "metadata/jolpica-schedule.body",
+      "sha256": "16ede12f875c4b6be9da5534131947a635a50e8eb371ad490bd1f7bf0c676bba",
+      "bytes": 14941,
+      "metadata_sha256": "c80b2fc626b21c1c00af5fed2cf9fbda7f36885ade99ee59ae21a4628b91197f",
+      "url": "https://api.jolpi.ca/ergast/f1/2024/?limit=100",
+      "retrieved_at_utc": "2026-10-17T19:51:06.997301+00:00"
+    },
+    {
+      "file": "metadata/openf1-sessions.body",
+      "sha256": "0802447b8798abea1959794a9e215b7c05bf033913ea63f5380c154d8ed285b5",
+      "bytes": 8583,
+      "metadata_sha256": "7898a436d378fbbb316fd9d8de7025d8f9759b2f3bd9fa11dae3017a2b9cf05c",
+      "url": "https://api.openf1.org/v1/sessions?year=2024&session_name=Race",
+      "retrieved_at_utc": "2026-10-17T19:51:08.667592+00:00"
+    }
+  ],
+  "original_belgian_result": "sealed; excluded from training, selection, thresholds and this new test. Original improvement 3.75%, failed 10% gate.",
+  "freeze_order": [
+    "commit this exact cohort",
+    "freeze candidate/source/config/prior hashes",
+    "acquire each event once, cache raw HTTP receipts",
+    "persist ALL available event predictions before ANY score",
+    "one evaluation; no tuning or substitution afterwards"
+  ],
+  "failure": "Incomplete source or metric gate failure remains failed/inconclusive; never substitute a different race",
+  "license_scope": "Historical non-commercial local research; no public redistribution/deployment in this task"
+}
