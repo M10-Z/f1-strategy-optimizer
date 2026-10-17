@@ -27,6 +27,9 @@ JSON/Markdown 报告按情景加权完赛名次、再按最差名次排序，并
 滚动重规划、同队进站排队和车队名次和目标，但不是完整竞赛合法性检查器。
 将示例参数替换为 `examples/competition-resources.json` 并使用新输出目录即可体验；
 详见[资源约束与滚动规划](docs/resources-and-replanning.zh-CN.md)。
+现可用 `examples/competition-joint.json` 同时规划两辆队友车；默认仍优先目标车名次，
+显式合作会报告每车代价。详见[双车联合规划](docs/joint-planning.zh-CN.md)及
+[可信缓存/CSV 导入](docs/real-data-import.zh-CN.md)。
 终端菜单目前仍是单车研究入口。详见[多车架构与边界](docs/competition.zh-CN.md)
 及[真实数据验证阻塞记录](docs/real-validation-2026-10-17.zh-CN.md)。
 

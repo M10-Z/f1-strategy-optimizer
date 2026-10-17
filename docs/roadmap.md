@@ -17,6 +17,7 @@ No implementation can claim to include every race factor or guarantee the best r
 - Multi-car visible snapshots, bounded two-stop candidate planning and weighted position risk.
 - Finite fresh tyre stock, explicit season/event rule subsets, persistent rolling replanning.
 - Same-team pit-box queues and optional team rank-sum scoring of ego plans.
+- Two-car joint snapshot search, explicit cooperative tradeoffs and exact budget omissions.
 - Heterogeneous base pace, tyre aging, lap-resolution traffic/limited passing, fixed plans,
   responsive undercut/overcut policies, hypothetical SC/VSC and wet-penalty events.
 - Information boundaries: simultaneous actions hidden, future events simulator-only,
@@ -37,8 +38,8 @@ No implementation can claim to include every race factor or guarantee the best r
 3. **Better traffic and race environment.** Calibrate passing/DRS, lapped traffic, fuel and pace
    evolution, SC deployment/restarts, wet/intermediate pace and weather response from evidence.
    Current heuristic parameters and example weights must not be promoted to fitted probabilities.
-4. **Team operations and disruptions.** Extend existing same-boundary queues and team rank-sum
-   scoring to joint teammate decisions, pit-lane dynamics and explicit cooperation constraints.
+4. **Team operations and disruptions.** Joint teammate snapshot planning is now implemented;
+   validate it before adding joint adaptive decisions, pit-lane dynamics or cooperation constraints.
    Add penalties, failures,
    retirements and red-flag restarts as observable event/state transitions. Estimate hazards and
    distributions only when suitable historical exposure/labels exist; otherwise use declared
@@ -49,3 +50,5 @@ No implementation can claim to include every race factor or guarantee the best r
 
 The [competition guide](competition.md) states current approximations. The
 [real-validation attempt](real-validation-2026-10-17.md) records the unresolved access blocker.
+The next gate is [trusted data import](real-data-import.md) and validation of existing mechanisms;
+further mechanism expansion is paused until that evidence is available.

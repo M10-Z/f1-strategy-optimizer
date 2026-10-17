@@ -1,0 +1,130 @@
+{
+  "source": "Original synthetic joint-team conflict fixture; no empirical calibration",
+  "state": {
+    "completed_laps": 0,
+    "total_laps": 5,
+    "cars": [
+      {
+        "driver": "E",
+        "base_lap_time": 102,
+        "compound": "SOFT",
+        "tyre_age": 14,
+        "gap_seconds": 0.0,
+        "team": "T",
+        "tyre_inventory": {
+          "HARD": 1
+        }
+      },
+      {
+        "driver": "M",
+        "base_lap_time": 100,
+        "compound": "SOFT",
+        "tyre_age": 10,
+        "gap_seconds": 0.5,
+        "team": "T",
+        "tyre_inventory": {
+          "HARD": 1
+        }
+      },
+      {
+        "driver": "R",
+        "base_lap_time": 100,
+        "compound": "SOFT",
+        "tyre_age": 6,
+        "gap_seconds": 1.0,
+        "team": null,
+        "tyre_inventory": {
+          "HARD": 1
+        }
+      },
+      {
+        "driver": "S",
+        "base_lap_time": 102,
+        "compound": "SOFT",
+        "tyre_age": 10,
+        "gap_seconds": 1.5,
+        "team": null,
+        "tyre_inventory": {
+          "HARD": 1
+        }
+      }
+    ]
+  },
+  "physics": {
+    "pit_loss": 3,
+    "pit_service_time": 3
+  },
+  "tyres": {
+    "SOFT": {
+      "base_time": 100,
+      "degradation": 0.5
+    },
+    "HARD": {
+      "base_time": 101,
+      "degradation": 0.1
+    }
+  },
+  "ego": "E",
+  "opponents": {
+    "R": {
+      "kind": "fixed",
+      "stops": [
+        {
+          "after_lap": 2,
+          "compound": "HARD"
+        }
+      ]
+    },
+    "S": {
+      "kind": "reactive",
+      "rival": "E",
+      "compound": "HARD",
+      "planned_lap": 3,
+      "window_start": 0,
+      "window_end": 4,
+      "response_gap": 30
+    }
+  },
+  "scenarios": [
+    {
+      "name": "declared-dry",
+      "weight": 1,
+      "available_at_lap": 0
+    }
+  ],
+  "candidates": {
+    "compounds": [
+      "HARD"
+    ],
+    "pit_laps": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "max_stops": 1,
+    "max_rollouts": 200
+  },
+  "joint": {
+    "teammate": "M",
+    "candidates": {
+      "compounds": [
+        "HARD"
+      ],
+      "pit_laps": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "max_stops": 1
+    },
+    "max_joint_candidates": 100
+  },
+  "objective": {
+    "mode": "team_rank_sum",
+    "team": "T"
+  }
+}

@@ -97,5 +97,6 @@ counter that makes a shorter own elapsed time finish worse. A paired-realization
 decisions identical until a hidden event becomes observed. CLI tests check finished and partial
 reports. See the [iteration record](resources-validation-2026-10-17.md) for full checks.
 
-Next evidence: trusted timing access, observation-only replay, used-set identity, official event
-profiles/exceptions and joint team planning. [Data access remains blocked](real-validation-2026-10-17.md).
+Two-car joint snapshot planning is now available through the separate
+[joint API](joint-planning.md). Next evidence: trusted timing access and observation-only replay;
+used-set identity and official event profiles remain open. [Data access remains blocked](real-validation-2026-10-17.md).

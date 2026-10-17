@@ -124,9 +124,12 @@ def validate_laps(df: pd.DataFrame) -> pd.DataFrame:
         raise ValueError("Only explicit SOFT/MEDIUM/HARD labels are supported")
     if data["Driver"].isna().any() or data["Driver"].astype(str).str.strip().eq("").any():
         raise ValueError("Driver cannot be missing")
+    data["Driver"] = data["Driver"].astype("string").str.strip()
     event_keys = ["Event"] if "Event" in data else []
-    if event_keys and (data["Event"].isna().any() or data["Event"].nunique() != 1):
-        raise ValueError("Fit one event/track at a time")
+    if event_keys:
+        data["Event"] = data["Event"].astype("string").str.strip()
+        if data["Event"].isna().any() or data["Event"].eq("").any() or data["Event"].nunique() != 1:
+            raise ValueError("Fit one nonempty event/track at a time")
     if data.duplicated(["Year", *event_keys, "Driver", "LapNumber"]).any():
         raise ValueError("Duplicate driver laps detected")
     return data

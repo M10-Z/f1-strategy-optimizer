@@ -30,6 +30,9 @@ explicit race-specific rule subsets, up to two future stops per search, rolling 
 same-team pit-box waits and an optional team rank-sum objective. It is not a full sporting
 compliance checker. Try `examples/competition-resources.json` with the same command and a new
 output directory; see [resources and replanning](docs/resources-and-replanning.md).
+Two teammates can now be planned jointly with `examples/competition-joint.json`; individual
+ego rank remains the default objective, and explicit cooperation reports each driver's cost.
+See [joint planning](docs/joint-planning.md) and [trusted cache/CSV imports](docs/real-data-import.md).
 The current terminal menu remains
 the single-car research interface. See [architecture, timing semantics and limits](docs/competition.md)
 and the [blocked real-data attempt](docs/real-validation-2026-10-17.md).

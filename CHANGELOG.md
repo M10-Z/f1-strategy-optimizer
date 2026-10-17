@@ -4,6 +4,10 @@
 
 ## 0.1.0 — unreleased
 
+- Add bounded two-car joint snapshot planning with independent tyre stock, shared pit queues,
+  default ego-rank scoring and explicit cooperative tradeoffs. Report exact budget omissions
+  and per-driver costs. Document trusted cache/CSV imports; normalize driver/event whitespace
+  before duplicate checks and reject blank event names.
 - Add optional finite fresh tyre inventory, versioned season/event rule subsets, bounded
   two-stop search and rolling replanning with persistent resources/history. Add same-team
   pit-box waits and team rank-sum scoring; retain the first planner API. Export infeasibility,

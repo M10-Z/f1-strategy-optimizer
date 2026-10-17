@@ -67,5 +67,6 @@ f1-race-plan --scenario examples/competition-resources.json --output-dir output/
 这些是**软件行为证据，不是真实预测精度或策略收益**。
 完整检查见[本轮验证记录](resources-validation-2026-10-17.md)。
 
-下一步是可信计时数据、只读过去的回放、旧胎身份、官方赛事例外与双车联合规划。
+独立的[双车联合快照 API](joint-planning.zh-CN.md)现已可用。下一步是可信计时数据与
+只读过去的回放；旧胎身份和官方赛事例外仍未实现。
 [数据访问仍受阻](real-validation-2026-10-17.zh-CN.md)。

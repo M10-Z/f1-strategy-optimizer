@@ -17,6 +17,7 @@ hypotheses; it is not a game-theoretic optimum, calibrated forecast or race-read
 | Competition physics | `Physics`, `simulate` | Simultaneous pit decisions, paid time losses, tyre aging, constrained passing and neutralization |
 | Position objective | `candidate_actions`, `candidate_plans`, `plan_positions` | Legacy one-stop API plus bounded two-stop plans; position or team rank-sum objective |
 | Resources and control | `CompetitionRules`, `rolling_plan` | Explicit stock/rule feasibility, same-team queues, one observed lap at a time |
+| Joint control | `joint_planner.plan_joint_positions` | Two-car finite snapshot search with explicit per-driver tradeoffs and omitted ranges |
 | Offline entry point | `race_planner`, `f1-race-plan` | JSON input, recorded assumptions/hash/versions, ranked JSON and readable Markdown |
 
 The deterministic solver remains a baseline for isolated model-relative time optimization.
@@ -108,6 +109,7 @@ behavior. It must not be presented as an identified causal vehicle-performance p
 Immediate next work is trusted data access plus snapshot/replay validation and physical checks
 on observed gaps, passes, pit losses and opponent responses. Fresh-set inventory, explicit
 rule subsets, rolling two-stop planning and simple team queues are now implemented; used-set
-reuse, joint teammate planning, failures, penalties, lapped traffic and red flags remain open.
+reuse, joint adaptive control, failures, penalties, lapped traffic and red flags remain open.
+Two-car snapshot search is described in the [joint guide](joint-planning.md).
 Event distributions require evidence before calibration. No module claims to enumerate every
 factor that can affect a race. The [roadmap](roadmap.md) records these priorities.

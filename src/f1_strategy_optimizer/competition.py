@@ -658,6 +658,10 @@ def plan_positions(
                     "finish_gap_seconds": rollout.final_state.gaps()[ego],
                     "ego_elapsed_seconds": rollout.final_state.car(ego).elapsed
                     - initial.car(ego).elapsed,
+                    "driver_elapsed_seconds": {
+                        c.driver: c.elapsed - initial.car(c.driver).elapsed
+                        for c in rollout.final_state.cars
+                    },
                     "pit_history": [asdict(p) for p in rollout.pit_history],
                     "final_resources": {
                         c.driver: {

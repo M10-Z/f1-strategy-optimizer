@@ -23,6 +23,7 @@ from .competition import (
     plan_positions,
 )
 from .config import finite_number, positive_int
+from .joint_planner import plan_joint_positions
 from .race_constraints import CompetitionRules
 from .rolling import rolling_plan
 
@@ -73,7 +74,7 @@ def plan_from_document(document: dict) -> dict:
         "scenarios",
         "candidates",
     }
-    optional = {"risk_top_k", "observed_pits", "rules", "objective", "rolling"}
+    optional = {"risk_top_k", "observed_pits", "rules", "objective", "rolling", "joint"}
     if required - set(document) or set(document) - required - optional:
         raise ValueError(
             "Scenario document needs source/state/physics/tyres/ego/opponents/scenarios/candidates"
@@ -135,20 +136,56 @@ def plan_from_document(document: dict) -> dict:
     rules = CompetitionRules(**document.get("rules", {}))
     objective = PlanningObjective(**document.get("objective", {}))
     history = tuple(PitRecord(**p) for p in document.get("observed_pits", []))
-    result = plan_positions(
-        model,
-        state,
-        physics,
-        document["ego"],
-        opponents,
-        actions,
-        tuple(scenarios),
-        document.get("risk_top_k", 3),
-        history,
-        rules,
-        objective,
-        max_rollouts,
-    )
+    if "joint" in document:
+        if "rolling" in document:
+            raise ValueError(
+                "Joint planning is a snapshot search; joint rolling is not implemented"
+            )
+        joint = dict(document["joint"])
+        if set(joint) - {"teammate", "candidates", "max_joint_candidates"}:
+            raise ValueError("Unknown joint planning settings")
+        teammate = joint["teammate"]
+        grid = dict(joint["candidates"])
+        if set(grid) - {"compounds", "pit_laps", "max_stops", "max_candidates"}:
+            raise ValueError("Unknown teammate candidate settings")
+        mate_actions = candidate_plans(
+            state,
+            tuple(grid["compounds"]),
+            tuple(grid["pit_laps"]),
+            grid.get("max_stops", 1),
+            grid.get("max_candidates", 500),
+        )
+        result = plan_joint_positions(
+            model,
+            state,
+            physics,
+            document["ego"],
+            teammate,
+            opponents,
+            {document["ego"]: actions, teammate: mate_actions},
+            tuple(scenarios),
+            document.get("risk_top_k", 3),
+            history,
+            rules,
+            objective,
+            joint.get("max_joint_candidates", 500),
+            max_rollouts,
+        )
+    else:
+        result = plan_positions(
+            model,
+            state,
+            physics,
+            document["ego"],
+            opponents,
+            actions,
+            tuple(scenarios),
+            document.get("risk_top_k", 3),
+            history,
+            rules,
+            objective,
+            max_rollouts,
+        )
     if "rolling" in document:
         settings = dict(document["rolling"])
         realized = dict(settings.pop("realization"))
@@ -260,6 +297,27 @@ def main(argv=None):
             )
         lines += ["", f"k = {report['risk_top_k']}", "", report["pace_notice"], "", "## Limits", ""]
         lines += [f"- {limit}" for limit in report["limits"]]
+        if "controlled_drivers" in report and report["ranking"]:
+            lines += [
+                "",
+                "## Joint recommendation: per-driver costs",
+                "",
+                "Negative reference delta means improvement; positive best-plan cost means "
+                "a worse mean rank than that driver's best evaluated pair. "
+                "These are simulated comparisons within the searched grid.",
+                "",
+                "| Driver | Mean rank | Queue seconds | Rank delta vs reference | "
+                "Rank cost vs individual best |",
+                "|---|---:|---:|---:|---:|",
+            ]
+            for driver, metrics in report["recommended_per_driver"].items():
+                delta = metrics["rank_delta_vs_reference"]
+                lines.append(
+                    f"| {driver} | {metrics['expected_finish_position']:.3f} | "
+                    f"{metrics['expected_queue_seconds']:.3f} | "
+                    f"{delta if delta is not None else 'unavailable'} | "
+                    f"{metrics['rank_cost_vs_individual_best_evaluated']:.3f} |"
+                )
         if "rolling_simulation" in report:
             rolling = report["rolling_simulation"]
             lines += [
