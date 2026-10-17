@@ -4,6 +4,8 @@
 
 ## 0.1.0 — unreleased
 
+- Add a loopback browser workbench with bundled real Bahrain snapshots, explicit editable assumptions, cancellable simulation jobs, gated outcome reveal and evidence/version exports.
+
 - Reserve three whole-race holdouts before further tuning; select conservative observation defaults from Bahrain development. Add outcome-only error groups, a bounded explicit-assumption strategy explorer with provenance and sensitivity, and a versioned local UI contract.
 
 - Add verified Bahrain archive adapters and `f1-event-replay`: common UTC prefixes, explicit

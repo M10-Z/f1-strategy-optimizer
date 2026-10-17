@@ -24,9 +24,13 @@ f1-race-plan = "f1_strategy_optimizer.race_planner:main"
 f1-replay = "f1_strategy_optimizer.replay:main"
 f1-event-replay = "f1_strategy_optimizer.event_replay:main"
 f1-strategy-explore = "f1_strategy_optimizer.strategy_exploration:main"
+f1-workbench = "f1_strategy_optimizer.workbench:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+f1_strategy_optimizer = ["workbench_static/*", "workbench_data/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -2,9 +2,8 @@
 
 [中文](exploration-ui-contract.zh-CN.md)
 
-This contract is for a later local UI. No web app, service, deployment or outcome download is
-included. Three independent operations keep archived evidence, assumptions and revealed
-outcomes visible to the user.
+The [local workbench](workbench.md) implements this contract. Three independent operations
+keep archived evidence, assumptions and revealed outcomes visible to the user.
 
 | Operation | Python API | JSON/output contract |
 |---|---|---|

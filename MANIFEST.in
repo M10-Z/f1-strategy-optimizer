@@ -6,6 +6,8 @@ include start.cmd
 recursive-include docs *.md
 recursive-include docs/assets *.png
 recursive-include examples *.json
+recursive-include src/f1_strategy_optimizer/workbench_static *.html *.css *.js
+recursive-include src/f1_strategy_optimizer/workbench_data *.json *.gz
 recursive-include tests *.py
 prune cache
 prune output

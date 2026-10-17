@@ -1,5 +1,7 @@
 # F1 Strategy Optimizer
 
+[Local browser workbench](docs/workbench.md)：`python -m f1_strategy_optimizer.workbench` → http://127.0.0.1:8765
+
 [中文说明](README.zh-CN.md) · [Methodology](docs/methodology.md) · [Contributing](CONTRIBUTING.md)
 
 An offline-first Python research toolkit moving toward **position-oriented strategy planning

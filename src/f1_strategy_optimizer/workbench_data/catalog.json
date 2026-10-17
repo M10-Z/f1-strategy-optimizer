@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "races": [
+    {
+      "id": "bahrain-2023",
+      "name": "2023 巴林大奖赛 · 真实归档示例",
+      "partition": "development",
+      "decisions": "decisions.json.gz",
+      "reveals": "reveals.json.gz",
+      "evidence": "evidence.json.gz",
+      "assumptions": "assumptions.json"
+    }
+  ],
+  "file_sha256": {
+    "assumptions.json": "1ceffcd61530a7e09a654ad40d7cdb8a2b02f3a03f82fb823020338af4683fb9",
+    "decisions.json.gz": "9f9705221f3cbe6dd43c0379532d59be53472f3a97d31399a252cce02769a344",
+    "evidence.json.gz": "f0f34bd1284884d9ff6200f3f7af5e4e3a74025f64fc76a9c6c048e387b66f1e",
+    "reveals.json.gz": "c85ab94eb5e90ab411623aa0d013ccf0abebe663f955998519a17adb8d756092"
+  }
+}

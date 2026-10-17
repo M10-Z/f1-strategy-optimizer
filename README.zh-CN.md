@@ -1,5 +1,7 @@
 # F1 进站策略优化器
 
+[本地交互网页工作台](docs/workbench.zh-CN.md)：`python -m f1_strategy_optimizer.workbench` → http://127.0.0.1:8765
+
 [English](README.md)
 
 面向研究与可复现实验的 Python 工具，核心目标升级为**考虑车辆性能差异与对手响应的

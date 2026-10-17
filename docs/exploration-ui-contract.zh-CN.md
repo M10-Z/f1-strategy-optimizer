@@ -2,7 +2,7 @@
 
 [English / 完整字段与命令](exploration-ui-contract.md)
 
-本轮交付 Python/JSON 接口与离线示例，不实现网页或服务。后续本地 UI 分开调用：
+本契约定义 Python/JSON 接口与离线示例；[本地网页工作台](workbench.zh-CN.md)已按以下边界实现。UI 分开调用：
 
 | 操作 | API | 主要输出 |
 |---|---|---|

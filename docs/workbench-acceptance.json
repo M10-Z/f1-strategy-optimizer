@@ -1,0 +1,37 @@
+{
+  "browser": "headless system Chromium via Playwright",
+  "desktop": {
+    "width": 1440,
+    "height": 1000
+  },
+  "mobile": {
+    "width": 390,
+    "height": 844
+  },
+  "page_ready_seconds": 0.3097350039970479,
+  "comparison_wall_seconds": 1.2336055369996757,
+  "backend_status": "完成 · 0.37 秒 · 56 rollouts",
+  "mobile_widths": {
+    "scroll": 390,
+    "view": 390
+  },
+  "browser_errors": [],
+  "reveal_requested_only_after_comparison": true,
+  "driver_and_cutoff_switch_passed": true,
+  "stale_export_disabled": true,
+  "invalid_json_feedback_passed": true,
+  "real_timeout_feedback_passed": true,
+  "export_bytes": 462391,
+  "regression": {
+    "passed": 269,
+    "warnings": 31,
+    "runtime_seconds": 14.42
+  },
+  "ruff": "passed",
+  "build": "wheel and sdist passed",
+  "isolated_wheel_server": "passed from /tmp; bundled assets and 3 actual frozen cases loaded",
+  "screenshots": {
+    "workbench-desktop-comparison.png": "bb5a6c8d31b0cfcaceb9db927f6a621ab78c9b873222441060972ef57234ea1f",
+    "workbench-mobile-comparison.png": "bf2ef8b1a7aa9ee9724d3e309f85e90733db9bf0b087f41caaf51866efb50767"
+  }
+}

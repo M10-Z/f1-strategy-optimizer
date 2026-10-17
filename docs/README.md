@@ -25,3 +25,5 @@ wizard supports both languages; low-level engine diagnostics can remain English.
 命令行参数、标识符和技术日志字段保留原拼写。终端向导支持中英文，底层引擎诊断可能使用英文。
 
 - [Forecast/exploration UI contract](exploration-ui-contract.md) · [预测/探索 UI 接口](exploration-ui-contract.zh-CN.md)
+
+- [Local workbench](workbench.md) · [本地网页工作台](workbench.zh-CN.md)
