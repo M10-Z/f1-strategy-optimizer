@@ -2,25 +2,46 @@
 
 [中文说明](roadmap.zh-CN.md)
 
-## 0.1 implemented
+## Product objective
 
-- Explicit model/config API, terminal settlement and tyre-age boundary fixes.
-- Offline synthetic demo, JSON/CSV manifests, headless plots and source-tree compatibility.
-- Grouped fitting, explicit priors, prior-year validation and sensitivity scenarios.
-- Deterministic per-lap pit-loss overrides, minimum stints and per-compound age constraints.
-- Exhaustive small-race oracle, input/data/CLI regressions, packaging and CI configuration.
+Plan for finishing position against opponents with heterogeneous car performance and visible
+responses. Single-car minimum time is a component baseline, not the final product objective.
+No implementation can claim to include every race factor or guarantee the best real result.
 
-- Bilingual terminal wizard, one-question screens, on-demand help, back navigation and results.
-- Consistent training-only backtest artifacts, explicit exploration model roles, normalized
-  lap exports, chronological split counts and held-out evaluation coverage.
+## Implemented research foundations
 
-## Next research milestones
+- Explicit tyre/config APIs, corrected deterministic DP and independent exhaustive oracle.
+- Grouped fits, chronological holdout with training-only baseline/coverage, JSON/CSV provenance.
+- Bilingual terminal research wizard, synthetic demo, scenarios, packaging and offline tests.
+- FastF1 message loading and known deleted-lap flags; explicit cleaning exclusion reasons.
+- Multi-car visible snapshots, one-stop candidate planning and weighted finish-position risk.
+- Heterogeneous base pace, tyre aging, lap-resolution traffic/limited passing, fixed plans,
+  responsive undercut/overcut policies, hypothetical SC/VSC and wet-penalty events.
+- Information boundaries: simultaneous actions hidden, future events simulator-only,
+  past-stop timestamps and scenario availability checked; no historical replay adapter yet.
 
-- Calibrate fuel/temperature terms with independent evidence; quantify parameter uncertainty.
-- Evaluate held-out real events and report errors before claiming realistic predictions.
-- Model tyre inventory, used tyre sets, traffic, time-varying race pace and pit queues.
-- Add wet/intermediate models and carefully versioned event-specific rules.
-- Compare stochastic policies under uncertain SC/VSC events; avoid future-information leakage.
-- Extend interactive scenario exploration on validated core interfaces.
+## Next steps and evidence gates
 
-These items require additional models or evidence and are not advertised as current features.
+1. **Real-data access and validation.** Timing endpoints currently return proxy 403. Use trusted
+   cached/normalized data or approved access; build decision snapshots from prior observations.
+   Validate gap/position transitions, overtakes, pit losses and opponent response windows on
+   held-out races. Report model coverage, position calibration, downside and failure cases;
+   historical replay is not causal proof of hypothetical strategy gains.
+2. **Feasible adaptive planning.** Add tyre inventory, used-set ages, legal compound constraints,
+   multiple stops and replanning with persistent observable history. Compare policies under
+   pace/opponent uncertainty declared before the held-out decision. Keep exact single-car
+   optimality claims separate from finite multi-car candidate search.
+3. **Better traffic and race environment.** Calibrate passing/DRS, lapped traffic, fuel and pace
+   evolution, SC deployment/restarts, wet/intermediate pace and weather response from evidence.
+   Current heuristic parameters and example weights must not be promoted to fitted probabilities.
+4. **Team operations and disruptions.** Add team identifiers, shared pit-box queues/double
+   stacking, teammate objectives and explicit cooperation constraints. Add penalties, failures,
+   retirements and red-flag restarts as observable event/state transitions. Estimate hazards and
+   distributions only when suitable historical exposure/labels exist; otherwise use declared
+   stress scenarios and show sensitivity rather than invented likelihoods.
+5. **Decision workflow.** Extend the terminal/UI with inspectable snapshots, assumption editing,
+   response traces and risk preferences after core validation. Live advice/deployment is not
+   part of the current scope.
+
+The [competition guide](competition.md) states current approximations. The
+[real-validation attempt](real-validation-2026-10-17.md) records the unresolved access blocker.

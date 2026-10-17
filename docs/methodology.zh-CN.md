@@ -2,6 +2,9 @@
 
 [English](methodology.md)
 
+本页说明单车确定性基线及圈速模型验证；名次导向的多车规划详见
+[竞争策略指南](competition.zh-CN.md)。
+
 ## 状态与终点语义
 
 第 L 圈开始时的状态为 `(compound, age, used_mask, capped_stint_count)`，分别表示配方、胎龄、已用配方掩码及截断的赛段数。胎龄用于计算即将行驶这一圈，第一圈胎龄为 1；累计成本不含第 L 圈。计入这一圈后：

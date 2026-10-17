@@ -4,6 +4,12 @@
 
 ## 0.1.0 — unreleased
 
+- Add an offline position-oriented multi-car planner (`f1-race-plan`) with heterogeneous
+  vehicle pace, restricted passing, fixed and reactive opponents, SC/VSC/weather scenarios,
+  position distributions and downside reporting. Scenario weights are explicit uncalibrated
+  assumptions; future events and simultaneous rival actions are excluded from policy views.
+  Add a synthetic four-car example and an evidence-gated competition roadmap. The single-car
+  time optimizer remains available as a research baseline.
 - Load race control messages in both FastF1 adapters and reject unknown deleted-lap flags.
   Report overlapping metadata exclusions and subsequent numeric exclusions. Backtests now
   compare against a training-only per-compound median baseline on the same held-out laps.

@@ -2,6 +2,9 @@
 
 [中文说明](methodology.zh-CN.md)
 
+This page documents the deterministic single-car baseline and lap-model validation.
+For the position-oriented multi-car planner, see [competition planning](competition.md).
+
 ## State and terminal semantics
 
 At the START of lap L, a state is `(compound, age, used_mask, capped_stint_count)`.

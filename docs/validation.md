@@ -50,6 +50,35 @@ baseline); no FutureWarning failures. This iteration did not run hosted CI, othe
 combinations, or download/validate real races. These results establish software behavior
 with synthetic fixtures, not real-world predictive accuracy.
 
+## Position-planning iteration — 2026-10-17
+
+The next iteration changes the product objective to finish position against responsive,
+heterogeneous opponents. Before that change, seven additional data/baseline cases brought
+the suite to 110 tests; four deleted-lap/message regressions failed before their fixes.
+The multi-car module adds 20 cases, bringing the local Linux/Python 3.12.14 suite to
+**130 passing tests** with `-W error::FutureWarning`. Ruff lint/format and diff checks pass.
+There are 31 instances of the existing timedelta deprecation warning family after adding
+more fixtures; no warning is used as evidence of race-model accuracy.
+
+The competition checks include independently summed lap/pit costs, tyre reset, blocked versus
+permitted overtakes, SC/VSC passing restrictions and pit-driven order changes, bounded SC
+gap closure, distinct fixed/undercut/overcut timing, delayed weather observation, current-status
+pit pricing, known-history replanning, rejected future information, weighted position risk,
+rank-first selection despite a faster time-only alternative, the existing fitted-model
+interface, and CLI provenance/overwrite protection. A fixed-versus-reactive ablation confirms
+that opponent responses change finishing positions and recommendations.
+
+The installed `f1-race-plan` entry point passes the four-car example. sdist/wheel build and a
+source-external installed-wheel smoke check pass, using isolated Python with the environment's
+scientific dependencies. The example covers 13 candidates and four declared hypothetical
+stress scenarios; generated artifacts are in `output/position-plan-iteration/` (untracked).
+The [competition guide](competition.md) records measured synthetic outputs and limitations.
+
+Real timing downloads were denied by the proxy; there are **no real finishing-position,
+lap-error or strategy-benefit results**. See the [access attempt](real-validation-2026-10-17.md).
+No physical parameter or event probability was calibrated. Hosted CI and other platforms
+have not been run in this environment.
+
 ## Distribution boundary
 
 The first publication uses a reviewed source snapshot, without prior development Git

@@ -2,10 +2,33 @@
 
 [中文说明](README.zh-CN.md) · [Methodology](docs/methodology.md) · [Contributing](CONTRIBUTING.md)
 
-An offline-first Python research toolkit for **deterministic, model-relative pit strategy
-optimization**. Fit tyre-age curves, solve a constrained race with dynamic programming,
-validate on a later season, and compare explicit scenarios. This is an independent project,
-not an official FIA, Formula 1 or Pirelli tool.
+An offline-first Python research toolkit moving toward **position-oriented strategy planning
+against opponents with different vehicle performance**. The first multi-car planner compares
+finish-position distributions under explicit hypothetical scenarios and responsive opponents.
+The existing deterministic single-car optimizer remains a model-relative baseline and tyre-model
+research tool. This is an independent project, not an official FIA, Formula 1 or Pirelli tool.
+
+## Multi-car position planning
+
+After installation, run the original synthetic four-car example:
+
+```sh
+f1-race-plan --scenario examples/competition.json --output-dir output/position-plan
+# From a source checkout: python -m f1_strategy_optimizer.race_planner --scenario ... --output-dir ...
+```
+
+The input snapshot contains gaps, vehicle pace, tyres/ages, remaining distance and visible
+track/weather conditions. Candidates include staying out and changing tyres at different
+pit boundaries. Opponents follow fixed plans or react to observed undercuts/overcuts.
+Traffic, restricted passing, SC/VSC and weather changes affect the simulated outcome.
+JSON and Markdown outputs rank candidates by scenario-weighted finish position, then worst
+position, and expose the position distribution, downside share and every opponent response.
+
+**Scenario weights and physics are assumptions, not calibrated probabilities or guaranteed
+optimal race advice.** This first version handles same-lap cars and one planned ego stop;
+it does not enforce tyre inventory or sporting legality. The current terminal menu remains
+the single-car research interface. See [architecture, timing semantics and limits](docs/competition.md)
+and the [blocked real-data attempt](docs/real-validation-2026-10-17.md).
 
 ## Interactive terminal menu
 
@@ -111,7 +134,7 @@ Models are explicit objects; independent fits never overwrite a global model. Im
 the package or fitting a model does not create caches, plots or output directories.
 Plotting is available separately in `f1_strategy_optimizer.plotting`.
 
-## Rules and sensitivity
+## Single-car rules and sensitivity
 
 ```sh
 f1-strategy demo --rules examples/rules/simplified-dry.json --scenario examples/scenarios/reduced-pit-loss.json --model-parameters examples/model-parameters.json --compare --output-dir output/scenario
@@ -129,7 +152,7 @@ reoptimizes starting compounds, pit losses, temperatures, degradation floors and
 reduced-loss lap. It prices the baseline schedule in each same scenario for comparison.
 For a forced starting compound, a positive difference is a constraint cost, not a bug.
 
-## Scientific scope
+## Single-car research scope
 
 - Fits within year/driver/stint groups to reduce intercept confounding; uses a median group
   baseline. Fuel correction is applied to both slopes and baselines.

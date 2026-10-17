@@ -6,6 +6,7 @@ Every guide has English and Chinese editions. / 每份指南均提供英文和�
 |---|---|---|
 | Getting started / 入门 | [README](../README.md) | [使用说明](../README.zh-CN.md) |
 | Methodology / 方法 | [Methodology](methodology.md) | [方法与局限](methodology.zh-CN.md) |
+| Position planning / 名次规划 | [Competition planner](competition.md) | [多车策略规划](competition.zh-CN.md) |
 | Data and rules / 数据与规则 | [Data and rules](data-and-rules.md) | [数据、规则与来源](data-and-rules.zh-CN.md) |
 | Driver analysis / 车手分析 | [Driver analysis](driver-analysis.md) | [车手分析](driver-analysis.zh-CN.md) |
 | Migration / 迁移 | [Migration](migration.md) | [迁移说明](migration.zh-CN.md) |

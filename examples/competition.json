@@ -1,0 +1,50 @@
+{
+  "source": "Original synthetic four-car snapshot; all pace, event and response parameters are illustrative, not calibrated F1 observations",
+  "ego": "EGO",
+  "state": {
+    "completed_laps": 45,
+    "total_laps": 53,
+    "track_status": "GREEN",
+    "weather": "DRY",
+    "track_temp": 35.0,
+    "cars": [
+      {"driver": "LEADER", "base_lap_time": 99.0, "compound": "MEDIUM", "tyre_age": 14, "gap_seconds": 0.0},
+      {"driver": "EGO", "base_lap_time": 99.5, "compound": "SOFT", "tyre_age": 16, "gap_seconds": 0.9},
+      {"driver": "FAST", "base_lap_time": 98.9, "compound": "HARD", "tyre_age": 12, "gap_seconds": 2.2},
+      {"driver": "TRAFFIC", "base_lap_time": 100.8, "compound": "HARD", "tyre_age": 5, "gap_seconds": 4.0}
+    ]
+  },
+  "tyres": {
+    "SOFT": {"base_time": 100.0, "degradation": 0.18},
+    "MEDIUM": {"base_time": 100.35, "degradation": 0.1},
+    "HARD": {"base_time": 100.7, "degradation": 0.06},
+    "INTERMEDIATE": {"base_time": 104.0, "degradation": 0.08}
+  },
+  "physics": {
+    "reference_lap_time": 100.0,
+    "pit_loss": 20.0,
+    "following_gap": 0.2,
+    "passing_advantage": 0.8,
+    "passing_cost": 0.3,
+    "sc_pace_factor": 1.4,
+    "vsc_pace_factor": 1.25,
+    "sc_pit_factor": 0.5,
+    "vsc_pit_factor": 0.7,
+    "sc_gap": 1.0,
+    "sc_catchup_per_lap": 5.0,
+    "wet_penalties": {"SOFT": 12.0, "MEDIUM": 13.0, "HARD": 14.0, "INTERMEDIATE": 0.0}
+  },
+  "opponents": {
+    "LEADER": {"kind": "reactive", "rival": "EGO", "compound": "HARD", "planned_lap": 49, "window_start": 45, "window_end": 51, "mode": "cover_undercut", "response_gap": 25.0},
+    "FAST": {"kind": "reactive", "rival": "EGO", "compound": "MEDIUM", "planned_lap": 49, "window_start": 45, "window_end": 51, "mode": "overcut", "overcut_laps": 1, "response_gap": 25.0},
+    "TRAFFIC": {"kind": "fixed", "stops": [{"after_lap": 50, "compound": "SOFT"}]}
+  },
+  "scenarios": [
+    {"name": "green-dry-assumption", "weight": 1, "available_at_lap": 45, "events": []},
+    {"name": "illustrative-sc", "weight": 1, "available_at_lap": 45, "events": [{"lap": 48, "track_status": "SC"}, {"lap": 50, "track_status": "GREEN"}]},
+    {"name": "illustrative-vsc", "weight": 1, "available_at_lap": 45, "events": [{"lap": 46, "track_status": "VSC"}, {"lap": 48, "track_status": "GREEN"}]},
+    {"name": "illustrative-rain", "weight": 1, "available_at_lap": 45, "events": [{"lap": 49, "weather": "WET"}]}
+  ],
+  "candidates": {"pit_laps": [45, 47, 49, 51], "compounds": ["MEDIUM", "HARD", "INTERMEDIATE"]},
+  "risk_top_k": 2
+}

@@ -4,35 +4,18 @@ import argparse
 import csv
 import hashlib
 import json
-import platform
 from dataclasses import asdict
-from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 
 import pandas as pd
 
 from .analysis import backtest, compare_scenarios
+from .artifacts import _versions, write_json
 from .config import RaceConfig, RuleSet
 from .data import fetch_cycle_data
 from .models import ModelParameters, fit_model, synthetic_laps, validate_laps
 from .plotting import plot_model, plot_strategies
 from .solver import solve
-
-
-def _versions() -> dict:
-    result = {"python": platform.python_version()}
-    for name in ("f1-strategy-optimizer", "numpy", "pandas", "matplotlib", "fastf1"):
-        try:
-            result[name] = version(name)
-        except PackageNotFoundError:
-            result[name] = "not installed"
-    return result
-
-
-def write_json(path: Path, value) -> None:
-    path.write_text(
-        json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8"
-    )
 
 
 def _parser() -> argparse.ArgumentParser:

@@ -1,4 +1,4 @@
-"""Deterministic, model-relative pit strategy optimization. No import-time I/O."""
+"""Position-oriented scenario planning and deterministic strategy research baselines."""
 
 from .config import RaceConfig, RuleSet
 from .models import ModelParameters, TyreCurve, TyreModel, fit_model
