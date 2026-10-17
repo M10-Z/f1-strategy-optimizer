@@ -183,6 +183,8 @@ For a forced starting compound, a positive difference is a constraint cost, not 
 See [methodology](docs/methodology.md), [data provenance](docs/data-and-rules.md),
 [migration notes](docs/migration.md), [validation record](docs/validation.md) and [roadmap](docs/roadmap.md).
 
+Forecast defaults, explicit-assumption strategy exploration and the next local UI contract: [guide](docs/exploration-ui-contract.md). Whole-race holdouts are [reserved before tuning](examples/whole-race-holdout-lock.json); Bahrain remains development data.
+
 ## Development
 
 ```sh

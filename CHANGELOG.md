@@ -4,6 +4,8 @@
 
 ## 0.1.0 — unreleased
 
+- Reserve three whole-race holdouts before further tuning; select conservative observation defaults from Bahrain development. Add outcome-only error groups, a bounded explicit-assumption strategy explorer with provenance and sensitivity, and a versioned local UI contract.
+
 - Add verified Bahrain archive adapters and `f1-event-replay`: common UTC prefixes, explicit
   assumed delays, frozen forecasts, isolated factual observation scoring and null strategy
   recommendations when intervention evidence is missing. Record real development coverage,

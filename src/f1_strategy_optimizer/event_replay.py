@@ -56,9 +56,13 @@ class EventTimePolicy:
     max_lap_slope: float = 1.0
     max_gap_slope: float = 0.2
     seed: int = 0
+    lap_method: str = "prefix_median"
+    gap_method: str = "persistence"
 
     def __post_init__(self):
         for key, value in asdict(self).items():
+            if key in {"lap_method", "gap_method"}:
+                continue
             if not number(value) or value < 0:
                 raise ValueError(f"{key} must be finite and nonnegative")
         for key in ("lap_window", "min_lap_samples", "seed"):
@@ -70,6 +74,15 @@ class EventTimePolicy:
             raise ValueError("gap_horizon_seconds must be 1..300")
         if self.gap_window_seconds <= 0:
             raise ValueError("gap_window_seconds must be positive")
+        if self.lap_method not in {
+            "prefix_median",
+            "context_median",
+            "prefix_linear",
+            "last_eligible_completed",
+        }:
+            raise ValueError("Unknown lap_method")
+        if self.gap_method not in {"persistence", "prefix_linear"}:
+            raise ValueError("Unknown gap_method")
 
     @property
     def delay(self):
@@ -331,6 +344,7 @@ def freeze_decision(archive, cutoff, policy=None):
             "predictions": None,
             "reason": "insufficient_prefix_laps",
             "training_available_at": history[-1]["assumed_available_at"] if history else None,
+            "selected_method": policy.lap_method,
         }
         if current is not None and len(history) >= policy.min_lap_samples:
             line = fit_line(
@@ -347,11 +361,34 @@ def freeze_decision(archive, cutoff, policy=None):
                 fit=line,
                 reason=None,
             )
+            stint_start = car["compound"].get("event_at")
+            same_stint = [
+                r for r in history if stint_start and dt(r["start_at"]) >= dt(stint_start)
+            ]
+            use_context = len(same_stint) >= policy.min_lap_samples
+            pool = same_stint if use_context else history
+            row["lap"]["predictions"]["context_median"] = statistics.median(
+                r["lap_duration"] for r in pool
+            )
+            row["lap"]["context"] = {
+                "same_visible_stint_samples": len(same_stint),
+                "context_pool_used": "same_stint" if use_context else "prefix_fallback",
+                "eligible_sample_count": len(history),
+                "eligible_range_seconds": max(r["lap_duration"] for r in history)
+                - min(r["lap_duration"] for r in history),
+                "last_eligible_age_seconds": (
+                    at - dt(history[-1]["completion_at"])
+                ).total_seconds(),
+                "warning": "future pit/control/weather events are unknown; no causal pace claim",
+            }
         gaps = car["interval_history"]
         row["gap"] = {
             "horizon": iso(horizon),
             "predictions": None,
             "reason": "insufficient_or_stale_numeric_interval_prefix",
+            "selected_method": policy.gap_method,
+            "target_semantics": "last newly available nonnegative numeric report at fixed horizon",
+            "input_age_seconds": car["gap_seconds"].get("age_seconds"),
         }
         if car["gap_seconds"]["value"] is not None and len(gaps) >= 2:
             line = fit_line(
@@ -368,6 +405,19 @@ def freeze_decision(archive, cutoff, policy=None):
                 fit=line,
                 reason=None,
             )
+        row["default_prediction"] = {
+            kind: {
+                "method": row[kind]["selected_method"],
+                "value_seconds": row[kind]["predictions"][row[kind]["selected_method"]]
+                if row[kind]["predictions"]
+                else None,
+                "status": "available_observation_forecast"
+                if row[kind]["predictions"]
+                else "unavailable",
+                "reason": row[kind]["reason"],
+            }
+            for kind in ("lap", "gap")
+        }
         forecasts.append(row)
     blockers = [
         "unknown_verified_action_effective_time",
@@ -390,6 +440,10 @@ def freeze_decision(archive, cutoff, policy=None):
         "state": state,
         "observation_forecasts": forecasts,
         "observation_forecast_semantics": "unconditional factual prediction; not an intervention",
+        "forecast_policy_version": 2,
+        "default_selection_provenance": (
+            "Bahrain development v1 favored prefix median/persistence; not holdout selection"
+        ),
         "strategy": {
             "recommendation": None,
             "missing_fields": blockers,
@@ -453,6 +507,7 @@ def evaluate_frozen(frozen, archive):
                     "errors": score(forecast["predictions"], target["lap_duration"]),
                     "action_matching": "not_applicable_to_unconditional_forecast",
                 }
+        lap_result["selected_method"] = forecast.get("selected_method")
         result["lap"] = lap_result
         forecast = prediction["gap"]
         gap_result = {"status": "excluded", "reason": forecast["reason"], "errors": None}
@@ -480,6 +535,7 @@ def evaluate_frozen(frozen, archive):
                     "errors": score(forecast["predictions"], target["gap_to_leader"]),
                     "action_matching": "not_applicable_to_unconditional_forecast",
                 }
+        gap_result["selected_method"] = forecast.get("selected_method")
         result["gap"] = gap_result
         results.append(result)
     verify_frozen(frozen)
@@ -517,6 +573,14 @@ def summarize(evaluations):
             or None,
             "metric": "full_lap_duration" if kind == "lap" else "last_available_gap_report",
             "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+            "default_method_counts": dict(Counter(r.get("selected_method") for r in scored)),
+            "default_mae_seconds": statistics.mean(
+                r["errors"][r["selected_method"]]
+                for r in scored
+                if r.get("selected_method") in r["errors"]
+            )
+            if any(r.get("selected_method") in r["errors"] for r in scored)
+            else None,
         }
     return summary
 
@@ -532,6 +596,9 @@ def run_archive(archive, cutoffs, output_dir, policy=None):
     # Durable freeze precedes every outcome evaluation in the batch.
     write_json(output / "decisions.json", frozen)
     evaluations = [evaluate_frozen(f, archive) for f in frozen]
+    from .forecast_diagnostics import diagnose
+
+    diagnostics = diagnose(archive, frozen, evaluations)
     summary = summarize(evaluations)
     report = {
         "summary": summary,
@@ -540,6 +607,7 @@ def run_archive(archive, cutoffs, output_dir, policy=None):
         "source_manifest": archive["source_manifest"],
         "source_audit": archive["audit"],
         "versions": _versions(),
+        "posthoc_diagnostics": diagnostics,
         "limitations": [
             "Bahrain is development, not independent holdout",
             "Assumed event-time delay; historical publication times unavailable",

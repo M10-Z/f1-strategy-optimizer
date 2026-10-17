@@ -74,3 +74,7 @@ when options cannot be supported. Before expanding strategy mechanisms, audit an
 slice and action timing, compare delay assumptions, and fix an entire unseen race and scoring
 rules before tuning. Never randomly split adjacent laps. Commercial source rights require a
 separate assessment.
+
+## Conservative defaults and assumption explorer
+
+The default forecast now selects prefix median and gap persistence using prior Bahrain development evidence. Context median is an experimental comparator. Factual strategy scoring stays blocked, while an independent explicit-assumption explorer can produce simulated options. See the [UI/API contract](exploration-ui-contract.md) and [whole-race reservation](../examples/whole-race-holdout-lock.json).

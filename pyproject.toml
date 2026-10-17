@@ -23,6 +23,7 @@ f1-menu = "f1_strategy_optimizer.terminal:main"
 f1-race-plan = "f1_strategy_optimizer.race_planner:main"
 f1-replay = "f1_strategy_optimizer.replay:main"
 f1-event-replay = "f1_strategy_optimizer.event_replay:main"
+f1-strategy-explore = "f1_strategy_optimizer.strategy_exploration:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

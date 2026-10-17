@@ -1,0 +1,253 @@
+{
+  "schema_version": 1,
+  "acknowledgement": {
+    "exploratory_only": true,
+    "same_lap_abstraction": true,
+    "asynchronous_gap_projection": true,
+    "no_verified_action_boundary": true,
+    "no_actual_future_used": true,
+    "uncalibrated_scenarios": true
+  },
+  "action_boundary": {
+    "kind": "abstract_next_pit_entry_boundary",
+    "effective_at": null,
+    "after_lap": 8,
+    "rationale": "For a frozen 2023-03-05T15:18:00Z research observation only. The next real pit-entry UTC is unknown. Map all four cars to an abstract after-lap-8 boundary; do not execute as a live pit call."
+  },
+  "field_assumptions": {
+    "state_alignment": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "Hand-entered projection of four selected drivers to one shared after-lap-8 research boundary. Gaps, tyre ages and counters are illustrative overrides; the six modeled laps 9..14 are a short horizon, not the actual race finish."
+    },
+    "conditions": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "GREEN, DRY and 32 C are manual research assumptions, not deductions from absent race-control messages or zero rainfall."
+    },
+    "pace_and_physics": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "Hand-selected base pace, pit loss and simple traffic physics for illustrating an interface. No fit, forecast calibration or optimization against actual future data."
+    },
+    "inventory": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "Stocks are unknown. Null inventories explicitly enable an unlimited-stock mathematical model; no inventory feasibility claim is permitted. Prior pit counters and used compounds are also illustrative."
+    },
+    "opponents": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "All three future stop policies are hypothetical choices, including fixed plans and a reactive rule. No real later action or final result is supplied."
+    },
+    "scenarios": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "Green and one arbitrary VSC timing are alternative hypothetical cases with equal subjective weights. They are not actual future observations or calibrated probabilities."
+    },
+    "rules": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "No mandatory-stop, compound-diversity or maximum-age race constraint is imposed in this short illustrative horizon. This is not a full-event regulatory feasibility check."
+    },
+    "tyres": {
+      "source": "Manual illustrative research assumptions; historical availability unknown",
+      "rationale": "Hand-selected linear compound offsets and degradation slopes; no post-cutoff lap or actual later stint is used."
+    }
+  },
+  "inventory_policy": {
+    "kind": "unknown_unlimited_model",
+    "acknowledged": true
+  },
+  "model_subset": {
+    "drivers": [
+      "max_verstappen",
+      "leclerc",
+      "perez",
+      "sainz"
+    ],
+    "acknowledged": true,
+    "rationale": "Model four of the 20 frozen 2023 Bahrain drivers for a compact UI example. Every reported rank is within this four-driver model only. Excluded cars and their traffic are not simulated."
+  },
+  "planning": {
+    "source": "Hand-entered exploratory assumptions intended for the 2023-03-05T15:18:00Z frozen Bahrain prefix. No actual future, final classification, calibrated probability or claimed causal strategy gain.",
+    "ego": "leclerc",
+    "state": {
+      "season": 2023,
+      "event": "2023-Bahrain-four-driver-short-horizon-research",
+      "completed_laps": 8,
+      "total_laps": 14,
+      "track_status": "GREEN",
+      "weather": "DRY",
+      "track_temp": 32.0,
+      "cars": [
+        {
+          "driver": "max_verstappen",
+          "team": "Red Bull Racing",
+          "base_lap_time": 98.5,
+          "compound": "SOFT",
+          "tyre_age": 8,
+          "gap_seconds": 0.0,
+          "tyre_inventory": null,
+          "used_compounds": [
+            "SOFT"
+          ],
+          "pit_stops": 0
+        },
+        {
+          "driver": "leclerc",
+          "team": "Ferrari",
+          "base_lap_time": 98.7,
+          "compound": "SOFT",
+          "tyre_age": 8,
+          "gap_seconds": 2.0,
+          "tyre_inventory": null,
+          "used_compounds": [
+            "SOFT"
+          ],
+          "pit_stops": 0
+        },
+        {
+          "driver": "perez",
+          "team": "Red Bull Racing",
+          "base_lap_time": 98.8,
+          "compound": "SOFT",
+          "tyre_age": 8,
+          "gap_seconds": 4.0,
+          "tyre_inventory": null,
+          "used_compounds": [
+            "SOFT"
+          ],
+          "pit_stops": 0
+        },
+        {
+          "driver": "sainz",
+          "team": "Ferrari",
+          "base_lap_time": 99.0,
+          "compound": "SOFT",
+          "tyre_age": 8,
+          "gap_seconds": 6.0,
+          "tyre_inventory": null,
+          "used_compounds": [
+            "SOFT"
+          ],
+          "pit_stops": 0
+        }
+      ]
+    },
+    "physics": {
+      "reference_lap_time": 100.0,
+      "pit_loss": 22.0,
+      "following_gap": 0.25,
+      "passing_advantage": 0.8,
+      "passing_cost": 0.3,
+      "sc_pace_factor": 1.4,
+      "vsc_pace_factor": 1.25,
+      "sc_pit_factor": 0.5,
+      "vsc_pit_factor": 0.7,
+      "sc_gap": 1.0,
+      "sc_catchup_per_lap": 5.0,
+      "wet_penalties": {},
+      "pit_service_time": 3.0
+    },
+    "tyres": {
+      "SOFT": {
+        "base_time": 100.0,
+        "degradation": 0.18
+      },
+      "MEDIUM": {
+        "base_time": 100.35,
+        "degradation": 0.1
+      },
+      "HARD": {
+        "base_time": 100.7,
+        "degradation": 0.06
+      }
+    },
+    "opponents": {
+      "max_verstappen": {
+        "kind": "fixed",
+        "stops": []
+      },
+      "perez": {
+        "kind": "fixed",
+        "stops": [
+          {
+            "after_lap": 11,
+            "compound": "HARD"
+          }
+        ]
+      },
+      "sainz": {
+        "kind": "reactive",
+        "rival": "leclerc",
+        "compound": "MEDIUM",
+        "planned_lap": 12,
+        "window_start": 8,
+        "window_end": 13,
+        "mode": "cover_undercut",
+        "response_gap": 12.0
+      }
+    },
+    "scenarios": [
+      {
+        "name": "hypothetical-green",
+        "weight": 1.0,
+        "available_at_lap": 8,
+        "kind": "hypothetical",
+        "weight_kind": "user_supplied",
+        "events": []
+      },
+      {
+        "name": "arbitrary-VSC-illustration",
+        "weight": 1.0,
+        "available_at_lap": 8,
+        "kind": "hypothetical",
+        "weight_kind": "user_supplied",
+        "events": [
+          {
+            "lap": 11,
+            "track_status": "VSC"
+          },
+          {
+            "lap": 13,
+            "track_status": "GREEN"
+          }
+        ]
+      }
+    ],
+    "candidates": {
+      "pit_laps": [
+        8,
+        10,
+        12
+      ],
+      "compounds": [
+        "MEDIUM",
+        "HARD"
+      ],
+      "max_stops": 1,
+      "max_candidates": 20,
+      "max_rollouts": 40
+    },
+    "risk_top_k": 2,
+    "rules": {},
+    "objective": {
+      "mode": "driver_position"
+    }
+  },
+  "sensitivity": [
+    {
+      "name": "lower-assumed-pit-loss",
+      "path": "physics.pit_loss",
+      "value": 16.0,
+      "rationale": "One hand-selected lower pit-loss assumption; all other baseline inputs remain fixed."
+    },
+    {
+      "name": "higher-assumed-pit-loss",
+      "path": "physics.pit_loss",
+      "value": 28.0,
+      "rationale": "One hand-selected higher pit-loss assumption; not an empirical confidence bound."
+    },
+    {
+      "name": "higher-hard-degradation",
+      "path": "tyres.HARD.degradation",
+      "value": 0.12,
+      "rationale": "Double one illustrative slope; finite sensitivity does not validate the tyre model."
+    }
+  ],
+  "max_total_rollouts": 200
+}

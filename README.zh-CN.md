@@ -172,5 +172,7 @@ f1-strategy demo --rules examples/rules/simplified-dry.json --scenario examples/
 
 格式检查可执行 `python -m ruff check .` 和 `python -m ruff format --check src tests main.py _compat.py data_engine.py degradation_model.py dp_solver.py environment.py`。
 
+保守预测、显式假设策略探索与后续本地 UI 接口见[指南](docs/exploration-ui-contract.zh-CN.md)。[整场留出](examples/whole-race-holdout-lock.json)已预注册，巴林仍只用于开发。
+
 全部文档见 [文档索引](docs/README.md)，更新见 [更新日志](CHANGELOG.zh-CN.md)，
 许可含 [中文参考译文](LICENSE.zh-CN.md)。

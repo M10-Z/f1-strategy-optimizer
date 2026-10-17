@@ -1,0 +1,253 @@
+{
+  "partition": "Bahrain 2023 development only",
+  "holdout_lock_commit": "719cdc89c7ba17e31501673bd8761069353e1a96",
+  "holdout_lock_sha256": "4bec84cd95a98cb35c8caf48c54ada5802f52d2188e1dd5699e69d676a2adb64",
+  "holdout_outcomes_accessed": false,
+  "tests": "245 passed; one full regression run",
+  "benchmark_summaries": {
+    "original": {
+      "partition": "development",
+      "cases": 10,
+      "strategy_scored": 0,
+      "strategy_metrics": null,
+      "lap": {
+        "attempted": 200,
+        "scored": 126,
+        "excluded": {
+          "insufficient_prefix_laps": 40,
+          "target_missing_no_retirement_inference": 31,
+          "target_already_started": 3
+        },
+        "mae_seconds": {
+          "context_median": 1.6934484126984128,
+          "last_eligible_completed": 3.0732460317460313,
+          "prefix_linear": 2.9649449437025703,
+          "prefix_median": 1.7415833333333337
+        },
+        "paired_linear_minus_baseline_mae_seconds": {
+          "context_median": 1.2714965310041575,
+          "last_eligible_completed": -0.10830108804346095,
+          "prefix_median": 1.2233616103692366
+        },
+        "metric": "full_lap_duration",
+        "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+        "default_method_counts": {
+          "prefix_median": 126
+        },
+        "default_mae_seconds": 1.7415833333333337
+      },
+      "gap": {
+        "attempted": 200,
+        "scored": 124,
+        "excluded": {
+          "insufficient_or_stale_numeric_interval_prefix": 74,
+          "invalid_or_null_interval_outcome": 2
+        },
+        "mae_seconds": {
+          "persistence": 3.5967580645161292,
+          "prefix_linear": 5.0240892992323385
+        },
+        "paired_linear_minus_baseline_mae_seconds": {
+          "persistence": 1.4273312347162093
+        },
+        "metric": "last_available_gap_report",
+        "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+        "default_method_counts": {
+          "persistence": 124
+        },
+        "default_mae_seconds": 3.5967580645161292
+      }
+    },
+    "expanded": {
+      "partition": "development",
+      "cases": 18,
+      "strategy_scored": 0,
+      "strategy_metrics": null,
+      "lap": {
+        "attempted": 360,
+        "scored": 309,
+        "excluded": {
+          "target_missing_no_retirement_inference": 43,
+          "target_already_started": 6,
+          "target_duration_unknown": 2
+        },
+        "mae_seconds": {
+          "context_median": 2.4112411003236245,
+          "last_eligible_completed": 3.69157281553398,
+          "prefix_linear": 3.4770025329629815,
+          "prefix_median": 2.4684724919093846
+        },
+        "paired_linear_minus_baseline_mae_seconds": {
+          "context_median": 1.065761432639357,
+          "last_eligible_completed": -0.21457028257099875,
+          "prefix_median": 1.008530041053597
+        },
+        "metric": "full_lap_duration",
+        "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+        "default_method_counts": {
+          "prefix_median": 309
+        },
+        "default_mae_seconds": 2.4684724919093846
+      },
+      "gap": {
+        "attempted": 360,
+        "scored": 251,
+        "excluded": {
+          "insufficient_or_stale_numeric_interval_prefix": 92,
+          "stale_interval_outcome": 14,
+          "invalid_or_null_interval_outcome": 3
+        },
+        "mae_seconds": {
+          "persistence": 3.2621952191235066,
+          "prefix_linear": 3.2768536008222955
+        },
+        "paired_linear_minus_baseline_mae_seconds": {
+          "persistence": 0.014658381698788858
+        },
+        "metric": "last_available_gap_report",
+        "selection": "fixed cutoffs; no future condition/action-based sample filtering",
+        "default_method_counts": {
+          "persistence": 251
+        },
+        "default_mae_seconds": 3.2621952191235066
+      }
+    }
+  },
+  "source_manifest_sha256": "3e1187bf69bfacf7d53a5b7d792eb528bbe2fae568e4015a27612a9fe6cf88c6",
+  "exploration": {
+    "decision_sha256": "ab977a49e72b0c4bd1fe8580d21e064deb72918e3594b6bbc09cc682b7751ab7",
+    "assumptions_sha256": "5bb668a9191b687acd7476ecf1da8bdf4bab7939ec49149f4fddb536792f2fea",
+    "engine_source_sha256": {
+      "strategy_exploration.py": "6cc840daeb5ae62ebc622c973c066fa6793ba4ea610fc2710da9bb9f174d0d25",
+      "competition.py": "33d8296116edc9af800d29d0880f635d89ea5792a3fd0df3d38ea884c66827d7",
+      "race_planner.py": "14b4649582e19c8b6dde13007c45aaf0b26b765bc703e9cf9d871f21ec5eab7b",
+      "config.py": "c9bc44e5f34e15215fcb40d62083844b09937a4910ba175d992616071d781e86",
+      "race_constraints.py": "1b52d2ab882a7df1957a46750bd6131519e6082ef83285e7098938fdb851809a",
+      "event_replay.py": "0a33d0f48ab7acf359df895a31a4e2d17407a6bb28912ffb30b9abd608961936",
+      "replay.py": "3be8d360638d59bcdb684a0d5a5cef4eb02a9869d132a277eddea9950b53ff36",
+      "artifacts.py": "0abf8baf62d6de0f280b45fe6c35e4f10754ea7c13553d96774b1a1611382949"
+    },
+    "budget": {
+      "limit": 200,
+      "preflight_rollout_upper_bound": 56,
+      "rollouts_executed": 56,
+      "searches": 4
+    },
+    "top3": [
+      {
+        "label": "stay-out",
+        "expected_finish_position": 2.0,
+        "worst_finish_position": 2
+      },
+      {
+        "label": "pit-after-12-HARD",
+        "expected_finish_position": 2.0,
+        "worst_finish_position": 2
+      },
+      {
+        "label": "pit-after-12-MEDIUM",
+        "expected_finish_position": 2.0,
+        "worst_finish_position": 2
+      }
+    ],
+    "model_scope": {
+      "kind": "model_subset",
+      "drivers": [
+        "leclerc",
+        "max_verstappen",
+        "perez",
+        "sainz"
+      ],
+      "excluded_drivers": [
+        "albon",
+        "alonso",
+        "bottas",
+        "de_vries",
+        "gasly",
+        "hamilton",
+        "hulkenberg",
+        "kevin_magnussen",
+        "norris",
+        "ocon",
+        "piastri",
+        "russell",
+        "sargeant",
+        "stroll",
+        "tsunoda",
+        "zhou"
+      ],
+      "modeled_driver_count": 4,
+      "frozen_driver_count": 20,
+      "rank_semantics": "WITHIN MODEL SUBSET ONLY; NOT FULL RACE CLASSIFICATION",
+      "rationale": "Model four of the 20 frozen 2023 Bahrain drivers for a compact UI example. Every reported rank is within this four-driver model only. Excluded cars and their traffic are not simulated."
+    },
+    "model_horizon": {
+      "after_lap": 8,
+      "through_lap": 14,
+      "modeled_laps": 6
+    },
+    "sensitivity": {
+      "baseline_winner": "stay-out",
+      "cases": [
+        {
+          "name": "lower-assumed-pit-loss",
+          "path": "physics.pit_loss",
+          "original_value": 22.0,
+          "assumed_value": 16.0,
+          "rationale": "One hand-selected lower pit-loss assumption; all other baseline inputs remain fixed.",
+          "resolved_input_sha256": "39cb17150d1cb9513b4f9dd305848f89528f1742af797f6968324acdf1ebde18",
+          "winner": "stay-out",
+          "winner_changed": false,
+          "winner_expected_position": 2.0,
+          "baseline_plan_rank_in_variant": 1,
+          "baseline_plan_expected_position": 2.0,
+          "status": "feasible"
+        },
+        {
+          "name": "higher-assumed-pit-loss",
+          "path": "physics.pit_loss",
+          "original_value": 22.0,
+          "assumed_value": 28.0,
+          "rationale": "One hand-selected higher pit-loss assumption; not an empirical confidence bound.",
+          "resolved_input_sha256": "ecd3f5ba2c6b70e4c9ed8a88b3eb30b3686e64d3a137556d090ea9370316ee5b",
+          "winner": "stay-out",
+          "winner_changed": false,
+          "winner_expected_position": 2.0,
+          "baseline_plan_rank_in_variant": 1,
+          "baseline_plan_expected_position": 2.0,
+          "status": "feasible"
+        },
+        {
+          "name": "higher-hard-degradation",
+          "path": "tyres.HARD.degradation",
+          "original_value": 0.06,
+          "assumed_value": 0.12,
+          "rationale": "Double one illustrative slope; finite sensitivity does not validate the tyre model.",
+          "resolved_input_sha256": "cb3be2b530328162309abc1a2f675217a1047b7b37d17ee30e8b3a35a6061088",
+          "winner": "stay-out",
+          "winner_changed": false,
+          "winner_expected_position": 2.0,
+          "baseline_plan_rank_in_variant": 1,
+          "baseline_plan_expected_position": 2.0,
+          "status": "feasible"
+        }
+      ],
+      "winner_labels": [
+        "stay-out"
+      ],
+      "winning_position_range": [
+        2.0,
+        2.0
+      ],
+      "notice": "Finite declared perturbations only; no reversal does not establish robustness"
+    }
+  },
+  "artifact_sha256": {
+    "output/bahrain-conservative-original/decisions.json": "429e8d601c23c4711c73882a18ffd70675db1b0ec0a1ff2bb753dc30d3fa0433",
+    "output/bahrain-conservative-original/evaluation.json": "6963347e7d4e7c51e30f7cca3cf3e0f8b64b080a3aa184cd8c0a540f254e7885",
+    "output/bahrain-conservative-expanded/decisions.json": "6d14e27ce956b73ed28cfbf7f48cb5f2047ed5a312bf32388fb648649b41157c",
+    "output/bahrain-conservative-expanded/evaluation.json": "e569d0014fa20d114dcbb916e42f6303321af6b7f2aebf1991e8c0d31ab1defb",
+    "output/bahrain-assumption-exploration/exploration.json": "5d802538ae12aa3a3451bdd4cf9f0f85654772018b64258aee3afd91a75054c0",
+    "output/bahrain-assumption-exploration/resolved-inputs.json": "16abe7d560d166fad0cccd739bd3f9e864eb0863c0ef2e9f99f82a43cd3ee283"
+  }
+}

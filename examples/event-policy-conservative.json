@@ -1,0 +1,6 @@
+{
+  "lap_method": "prefix_median",
+  "gap_method": "persistence",
+  "publication_delay_seconds": 2,
+  "timing_margin_seconds": 1
+}

@@ -244,3 +244,63 @@ def test_zero_numeric_gap_is_not_floored_to_positive_error():
     frozen = freeze_decision(data, at(450))
     assert frozen["observation_forecasts"][0]["gap"]["predictions"]["prefix_linear"] == 0
     assert evaluate_frozen(frozen, data)["drivers"][0]["gap"]["errors"]["prefix_linear"] == 0
+
+
+def test_conservative_defaults_are_frozen_and_scored_on_same_targets():
+    data = archive()
+    frozen = freeze_decision(data, at(450))
+    row = frozen["observation_forecasts"][0]
+    assert row["default_prediction"]["lap"]["method"] == "prefix_median"
+    assert row["default_prediction"]["gap"]["method"] == "persistence"
+    summary = summarize([evaluate_frozen(frozen, data)])
+    for kind, method in (("lap", "prefix_median"), ("gap", "persistence")):
+        assert summary[kind]["default_mae_seconds"] == summary[kind]["mae_seconds"][method]
+        assert summary[kind]["default_method_counts"] == {method: summary[kind]["scored"]}
+
+
+def test_context_median_uses_visible_stint_or_declared_fallback():
+    data = archive()
+    fallback = freeze_decision(data, at(550))["observation_forecasts"][0]["lap"]
+    assert fallback["context"]["context_pool_used"] == "prefix_fallback"
+    for stint in data["stints"]:
+        if stint["stint_number"] == 2:
+            stint["lap_start"] = 4
+    frozen = freeze_decision(data, at(750), EventTimePolicy(lap_method="context_median"))
+    lap = frozen["observation_forecasts"][0]["lap"]
+    assert lap["context"]["context_pool_used"] == "same_stint"
+    assert lap["predictions"]["context_median"] == 95.5
+    assert lap["selected_method"] == "context_median"
+
+
+@pytest.mark.parametrize("kwargs", [{"lap_method": "oracle"}, {"gap_method": "oracle"}])
+def test_unknown_forecast_methods_fail_closed(kwargs):
+    with pytest.raises(ValueError, match="Unknown"):
+        EventTimePolicy(**kwargs)
+
+
+def test_posthoc_groups_cannot_change_frozen_forecasts_or_scoring_denominators():
+    from f1_strategy_optimizer.forecast_diagnostics import diagnose
+
+    data = archive()
+    frozen = freeze_decision(data, at(450))
+    evaluation = evaluate_frozen(frozen, data)
+    before = diagnose(data, [frozen], [evaluation])
+    data["pitstops"] = [{"driverId": "1", "lap": 6}]
+    after = diagnose(data, [frozen], [evaluation])
+    assert before["lap_groups"] != after["lap_groups"]
+    assert freeze_decision(data, at(450)) == frozen
+    assert evaluate_frozen(frozen, data) == evaluation
+
+
+def test_control_ending_message_is_not_track_clear():
+    from f1_strategy_optimizer.forecast_diagnostics import _control_windows, _overlaps
+
+    messages = [
+        {"date": at(400), "message": "VIRTUAL SAFETY CAR DEPLOYED"},
+        {"date": at(450), "message": "VIRTUAL SAFETY CAR ENDING"},
+        {"date": at(500), "message": "TRACK CLEAR"},
+    ]
+    windows = _control_windows(messages)
+    assert windows == [{"kind": "VSC", "start": at(400), "end": at(500)}]
+    assert _overlaps(BASE + timedelta(seconds=460), BASE + timedelta(seconds=480), windows)
+    assert not _overlaps(BASE + timedelta(seconds=500), BASE + timedelta(seconds=550), windows)
