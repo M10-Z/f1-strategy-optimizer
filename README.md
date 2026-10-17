@@ -35,7 +35,11 @@ ego rank remains the default objective, and explicit cooperation reports each dr
 See [joint planning](docs/joint-planning.md) and [trusted cache/CSV imports](docs/real-data-import.md).
 A timestamped normalized-export evaluator is available as `f1-replay`; it compares frozen
 decisions with separate next-lap outcomes and reports action-matched coverage. See the
-[replay contract and synthetic example](docs/replay.md). Real race accuracy remains unmeasured.
+[replay contract and synthetic example](docs/replay.md). Action-matched real strategy accuracy
+remains unmeasured. `f1-event-replay` now imports verified Bahrain 2023 archives, reconstructs
+common UTC prefixes and evaluates frozen, unconditional lap-time/interval-report forecasts.
+See the [event-time contract](docs/event-replay.md) and [real development benchmark](docs/event-replay-validation-2026-10-17.md).
+Missing intervention timing keeps strategy candidates blocked; observation errors are not strategy gains.
 The current terminal menu remains
 the single-car research interface. See [architecture, timing semantics and limits](docs/competition.md)
 and the [blocked real-data attempt](docs/real-validation-2026-10-17.md).

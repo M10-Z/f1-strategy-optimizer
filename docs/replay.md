@@ -101,8 +101,13 @@ actual timing/messages and implement a narrow source-specific exporter with audi
 alignment; do not guess position, gap, pit boundaries or missing availability times. Cleaned lap
 CSV alone omits the pit/non-green context needed here.
 
-No trusted race export has been supplied. On 2026-10-17, one normal request to each previously
+Historical status from the earlier instance: no trusted race export had been supplied.
+On 2026-10-17, one normal request to each previously
 configured source again failed at proxy HTTPS CONNECT with 403; no origin HTTP response was
 received. See the [run record](replay-validation-2026-10-17.md). The next step is one trusted
 complete same-lap segment plus its later observation, followed by held-out-race coverage and
 failure analysis. Do not add further race mechanisms before testing the existing ones on evidence.
+
+The new instance subsequently acquired OpenF1/Jolpica Bahrain archives. The separate
+[event-time observation benchmark](event-replay.md) now reports real development errors;
+it keeps strict action-matched strategy metrics unavailable while action/state evidence is missing.

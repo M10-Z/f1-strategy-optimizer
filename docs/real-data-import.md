@@ -86,3 +86,7 @@ probability calibration; held-out races are needed for broader accuracy claims.
 
 Access to timing hosts is still [blocked](real-validation-2026-10-17.md). These instructions do
 not claim any real dataset was imported or evaluated in the synthetic development iterations.
+
+The later new-instance acquisition is available through the separate [verified archive adapter
+and event-time observation benchmark](event-replay.md). This does not make the two raw sources
+valid cleaned CSV or strict action-matched strategy packets without the documented additional evidence.

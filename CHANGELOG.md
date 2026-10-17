@@ -4,6 +4,11 @@
 
 ## 0.1.0 — unreleased
 
+- Add verified Bahrain archive adapters and `f1-event-replay`: common UTC prefixes, explicit
+  assumed delays, frozen forecasts, isolated factual observation scoring and null strategy
+  recommendations when intervention evidence is missing. Record real development coverage,
+  baseline errors, future-data invariance and the next product acceptance gates.
+
 - Add timestamped normalized replay imports with isolated decision/outcome packets, training
   cutoffs, same-lap/full-field checks, position/time/stay-out comparisons and action-matched
   next-lap errors. Report partition coverage, paired intersections and rejected cases; unknown

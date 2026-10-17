@@ -31,7 +31,11 @@ JSON/Markdown 报告按情景加权完赛名次、再按最差名次排序，并
 显式合作会报告每车代价。详见[双车联合规划](docs/joint-planning.zh-CN.md)及
 [可信缓存/CSV 导入](docs/real-data-import.zh-CN.md)。
 新增 `f1-replay` 时间戳导出评估器，冻结决策后独立读取下一圈结果，报告全场行动匹配下
-的覆盖与误差。详见[回放契约与合成样例](docs/replay.zh-CN.md)；真实比赛精度仍未测得。
+的覆盖与误差。详见[回放契约与合成样例](docs/replay.zh-CN.md)；真实行动匹配策略精度仍未测得。
+新增 `f1-event-replay`：校验巴林 2023 真实归档，按共同 UTC 截止重建前缀，冻结后评估
+无条件圈时/间距报文预测。见[事件时间契约](docs/event-replay.zh-CN.md)及
+[真实开发基准](docs/event-replay-validation-2026-10-17.zh-CN.md)。缺少行动时点证据时策略候选
+明确拒绝，观测预测误差不解释为策略收益。
 终端菜单目前仍是单车研究入口。详见[多车架构与边界](docs/competition.zh-CN.md)
 及[真实数据验证阻塞记录](docs/real-validation-2026-10-17.zh-CN.md)。
 

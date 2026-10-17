@@ -67,3 +67,6 @@ f1-strategy backtest --csv /path/to/cleaned-laps.csv --holdout-year 2024 \
 更多留出比赛。
 
 [计时域名访问仍受阻](real-validation-2026-10-17.zh-CN.md)。本轮没有导入或评估真实数据。
+
+后续新实例已取得另一批真实归档，见[来源校验与事件时间观测基准](event-replay.zh-CN.md)。
+这些原始响应仍不能直接当作已清洗 CSV 或完整行动匹配策略输入，需满足各自的额外证据契约。
