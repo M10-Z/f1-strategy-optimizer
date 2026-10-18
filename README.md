@@ -1,5 +1,7 @@
 # F1 Strategy Optimizer
 
+[Local raw receipt recorder / 本地原始接收记录](docs/raw-receiver.zh-CN.md)：有界追加日志与重放；仅本地/离线输入，未验证真实流。
+
 [Observation ingestion / 接入契约与离线门控](docs/observation-ingestion-contract.zh-CN.md)：v1 默认；v2 实验未通过；接收时间与历史假设延迟分开。
 
 [Action model v2 / 动作条件实验结果](docs/action-model-v2.zh-CN.md)：三场冻结评估精度未通过，覆盖提高；未替换默认模型。

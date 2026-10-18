@@ -1,0 +1,3 @@
+{"event_id":"demo-state","revision":0,"_id":100,"_key":"demo-state","kind":"lap_state","event_time":"2026-10-18T00:00:01+00:00","payload":{"current_lap":4}}
+{"event_id":"older-demo","revision":0,"_id":99,"_key":"older-demo","kind":"lap_state","event_time":"2026-10-18T00:00:00+00:00","payload":{"current_lap":3}}
+{"event_id":"demo-state","revision":1,"_id":101,"_key":"demo-state","kind":"lap_state","event_time":"2026-10-18T00:00:01+00:00","payload":{"current_lap":5}}

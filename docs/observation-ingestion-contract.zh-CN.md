@@ -26,6 +26,8 @@
 
 接收时钟早于事件时钟会被拒绝，等待明确时钟校准；系统不移动时间戳使其过关。来源授权、语义、车阵完整与真实实时能力仍需来源说明和可审计采集链。
 
+新增 [有界本地原始接收记录组件](raw-receiver.zh-CN.md) 可在本地调用入口保存 UTC/单调时间、原始字节、时钟声明、连接缺口和修订键。没有时钟证据时保持 unknown；声明误差上界通过 received_at_uncertainty_seconds 进入保守可用性时间。该组件尚未连接任何真实流，不恢复旧档案接收时间，也不解除现有目标限制。
+
 ## 可运行的离线校验
 
 `src/f1_strategy_optimizer/observation_import.py` 是独立暂存入口，没有修改冻结预测器、评分器或工作台默认模型。`examples/observation-envelope.json` 是合成示例，包含 null 接收时间、null 正文和晚到修订。

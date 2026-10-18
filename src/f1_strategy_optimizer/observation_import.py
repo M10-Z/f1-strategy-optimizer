@@ -103,8 +103,12 @@ def inspect_import(document, cutoff, *, mode="recorded_receipts", assumed_delay_
             if effective is not None and decided is not None and effective < decided:
                 raise ValueError("Action effective_at precedes decided_at")
             diagnostics["action_boundary_requires_external_validation"] += 1
-        available = received
+        uncertainty = row.get("received_at_uncertainty_seconds", 0)
+        _seconds(uncertainty, "received_at_uncertainty_seconds")
+        available = received + timedelta(seconds=uncertainty) if received else None
         basis = "imported_received_at_unverified" if received else "unknown"
+        if received and uncertainty:
+            basis = "imported_received_at_plus_declared_clock_bound_unverified"
         if received is None and event is not None and mode == "historical_approximation":
             available = event + timedelta(seconds=assumed_delay_seconds)
             basis = "assumed_delay_not_publication_time"
