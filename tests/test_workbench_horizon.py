@@ -23,15 +23,27 @@ def fixture(app, request):
     assert original is not None
     stream = "driver:leclerc:lap_state"
     return {
-        "schema_version": 1, "session_id": str(frozen["state"]["session"]["session_key"]),
-        "decision_sha256": frozen["decision_sha256"], "driver_id": "leclerc",
-        "data_kind": "synthetic_fixture", "required_streams": [stream],
+        "schema_version": 1,
+        "session_id": str(frozen["state"]["session"]["session_key"]),
+        "decision_sha256": frozen["decision_sha256"],
+        "driver_id": "leclerc",
+        "data_kind": "synthetic_fixture",
+        "required_streams": [stream],
         "original_immediate_target_lap": original,
-        "records": [{"event_id": "fixture-state", "stream": stream, "kind": "lap_state",
-                     "source": "synthetic-receipt-fixture", "session_id": "7953",
-                     "event_time": iso(dt(frozen["cutoff"]) - timedelta(seconds=1)),
-                     "received_at": frozen["cutoff"], "sequence": 1, "revision": 0,
-                     "payload": {"current_lap": original}}],
+        "records": [
+            {
+                "event_id": "fixture-state",
+                "stream": stream,
+                "kind": "lap_state",
+                "source": "synthetic-receipt-fixture",
+                "session_id": "7953",
+                "event_time": iso(dt(frozen["cutoff"]) - timedelta(seconds=1)),
+                "received_at": frozen["cutoff"],
+                "sequence": 1,
+                "revision": 0,
+                "payload": {"current_lap": original},
+            }
+        ],
     }
 
 
@@ -39,11 +51,14 @@ def test_cached_horizons_preserve_original_and_never_read_reveals(monkeypatch):
     app, request = selected()
     monkeypatch.setattr(app, "_data", lambda _: pytest.fail("Horizon opened dataset/outcomes"))
     exact = app.horizon(request)
-    later = app.horizon(request | {"horizon_request": {
-        "horizon": "first_unstarted_after_confirmation"}})
+    later = app.horizon(
+        request | {"horizon_request": {"horizon": "first_unstarted_after_confirmation"}}
+    )
     assert exact["selection"]["requested_horizon"] == "immediate_post_pit"
-    assert exact["selection"]["original_immediate_target_lap"] == (
-        later["selection"]["original_immediate_target_lap"])
+    assert (
+        exact["selection"]["original_immediate_target_lap"]
+        == (later["selection"]["original_immediate_target_lap"])
+    )
     assert later["selection"]["candidate_target_lap"] is not None
     assert later["selection"]["selected_target_lap"] is None
     assert later["selection"]["prediction"] is None
@@ -57,12 +72,22 @@ def test_late_revision_missing_receipt_and_import_identity_gates():
     app, request = selected()
     envelope = fixture(app, request)
     row = envelope["records"][0]
-    envelope["records"].append({**row, "revision": 1, "sequence": 2,
-                                 "received_at": iso(dt(row["received_at"])
-                                                    + timedelta(seconds=30)),
-                                 "payload": {"current_lap": 999}})
-    req = request | {"horizon_request": {"horizon": "first_unstarted_after_confirmation",
-                                        "mode": "recorded_receipts", "envelope": envelope}}
+    envelope["records"].append(
+        {
+            **row,
+            "revision": 1,
+            "sequence": 2,
+            "received_at": iso(dt(row["received_at"]) + timedelta(seconds=30)),
+            "payload": {"current_lap": 999},
+        }
+    )
+    req = request | {
+        "horizon_request": {
+            "horizon": "first_unstarted_after_confirmation",
+            "mode": "recorded_receipts",
+            "envelope": envelope,
+        }
+    }
     report = app.horizon(req)
     visible = report["availability"]["snapshot"]
     assert next(iter(visible.values()))["revision"] == 0

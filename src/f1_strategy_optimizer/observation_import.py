@@ -23,8 +23,15 @@ def _seconds(value, name):
     return value
 
 
-def inspect_import(document, cutoff, *, mode="recorded_receipts", assumed_delay_seconds=None,
-                   max_age_seconds=120, max_skew_seconds=2):
+def inspect_import(
+    document,
+    cutoff,
+    *,
+    mode="recorded_receipts",
+    assumed_delay_seconds=None,
+    max_age_seconds=120,
+    max_skew_seconds=2,
+):
     """Select as-of revisions and report missing/delayed/asynchronous observations.
 
     Required streams are explicit per-source/per-driver keys. No field defaults,
@@ -92,14 +99,14 @@ def inspect_import(document, cutoff, *, mode="recorded_receipts", assumed_delay_
                 raise ValueError("Conflicting source sequence")
             sequences[seqkey] = key
         event = timestamp(row["event_time"], "event_time") if row.get("event_time") else None
-        received = (timestamp(row["received_at"], "received_at")
-                    if row.get("received_at") else None)
+        received = timestamp(row["received_at"], "received_at") if row.get("received_at") else None
         if event is not None and received is not None and received < event:
             raise ValueError("received_at precedes event_time; clock reconciliation required")
         if row["kind"] == "action":
             decided = timestamp(row["decided_at"], "decided_at") if row.get("decided_at") else None
-            effective = (timestamp(row["effective_at"], "effective_at")
-                         if row.get("effective_at") else None)
+            effective = (
+                timestamp(row["effective_at"], "effective_at") if row.get("effective_at") else None
+            )
             if effective is not None and decided is not None and effective < decided:
                 raise ValueError("Action effective_at precedes decided_at")
             diagnostics["action_boundary_requires_external_validation"] += 1
@@ -112,8 +119,11 @@ def inspect_import(document, cutoff, *, mode="recorded_receipts", assumed_delay_
         if received is None and event is not None and mode == "historical_approximation":
             available = event + timedelta(seconds=assumed_delay_seconds)
             basis = "assumed_delay_not_publication_time"
-        row = {**row, "available_at": iso(available) if available else None,
-               "availability_basis": basis}
+        row = {
+            **row,
+            "available_at": iso(available) if available else None,
+            "availability_basis": basis,
+        }
         rows.append(row)
         if event is None:
             diagnostics["missing_event_time"] += 1
@@ -145,37 +155,54 @@ def inspect_import(document, cutoff, *, mode="recorded_receipts", assumed_delay_
         if not version.get("event_time") or timestamp(version["event_time"], "event_time") > at:
             continue
         previous = latest.get(version["stream"])
-        order = (timestamp(version["event_time"], "event_time"),
-                 timestamp(version["available_at"], "available_at"), version["event_id"])
+        order = (
+            timestamp(version["event_time"], "event_time"),
+            timestamp(version["available_at"], "available_at"),
+            version["event_id"],
+        )
         if previous is None or order > previous[0]:
             latest[version["stream"]] = (order, version)
     snapshot = {stream: item[1] for stream, item in latest.items() if stream in required}
     missing = [s for s in required if s not in snapshot]
     null_payload = [s for s, row in snapshot.items() if row.get("payload") is None]
-    stale = [s for s, row in snapshot.items()
-             if (at - timestamp(row["event_time"], "event_time")).total_seconds()
-             > max_age_seconds]
+    stale = [
+        s
+        for s, row in snapshot.items()
+        if (at - timestamp(row["event_time"], "event_time")).total_seconds() > max_age_seconds
+    ]
     times = [timestamp(row["event_time"], "event_time") for row in snapshot.values()]
     skew = (max(times) - min(times)).total_seconds() if times else None
-    sequence_ok = (sequence_semantics == "unknown"
-                   or diagnostics["internal_sequence_gaps"] == 0)
-    quality = (not missing and not null_payload and not stale and skew <= max_skew_seconds
-               and sequence_ok)
+    sequence_ok = sequence_semantics == "unknown" or diagnostics["internal_sequence_gaps"] == 0
+    quality = (
+        not missing and not null_payload and not stale and skew <= max_skew_seconds and sequence_ok
+    )
     return {
-        "schema_version": 1, "session_id": session, "cutoff": iso(at), "mode": mode,
-        "label": ("HISTORICAL_APPROXIMATION_NOT_LIVE" if mode == "historical_approximation"
-                  else "IMPORTED_RECEIPTS_NOT_VERIFIED_LIVE"),
-        "input_sha256": digest(document), "assumed_delay_seconds": assumed_delay_seconds,
+        "schema_version": 1,
+        "session_id": session,
+        "cutoff": iso(at),
+        "mode": mode,
+        "label": (
+            "HISTORICAL_APPROXIMATION_NOT_LIVE"
+            if mode == "historical_approximation"
+            else "IMPORTED_RECEIPTS_NOT_VERIFIED_LIVE"
+        ),
+        "input_sha256": digest(document),
+        "assumed_delay_seconds": assumed_delay_seconds,
         "sequence_semantics": sequence_semantics,
         "policy": {"max_age_seconds": max_age_seconds, "max_skew_seconds": max_skew_seconds},
-        "records": rows, "snapshot": snapshot, "diagnostics": dict(diagnostics),
-        "missing_streams": missing, "null_payload_streams": null_payload,
-        "stale_streams": stale, "snapshot_skew_seconds": skew,
+        "records": rows,
+        "snapshot": snapshot,
+        "diagnostics": dict(diagnostics),
+        "missing_streams": missing,
+        "null_payload_streams": null_payload,
+        "stale_streams": stale,
+        "snapshot_skew_seconds": skew,
         "snapshot_checks_passed": quality,
-        "publication_time_verified": False, "model_eligible": False,
+        "publication_time_verified": False,
+        "model_eligible": False,
         "immediate_post_pit_target_enabled": False,
         "notice": "Offline staging only; source completeness, clocks, field and action boundaries "
-                  "need external evidence. Receipt time is not source publication time.",
+        "need external evidence. Receipt time is not source publication time.",
     }
 
 
@@ -191,13 +218,19 @@ def select_horizon(report, *, horizon, driver_stream, original_target_lap):
     if type(original_target_lap) is not int or original_target_lap < 1:
         raise ValueError("original_target_lap must be a positive integer")
     result = {
-        "requested_horizon": horizon, "original_immediate_target_lap": original_target_lap,
-        "confirmation_at": report["cutoff"], "selected_target_lap": None,
-        "candidate_target_lap": None, "prediction": None,
-        "availability_label": ("retrospective assumed availability"
-                               if report["mode"] == "historical_approximation"
-                               else "imported received_at; provenance unverified"),
-        "model_eligible": False, "reason": "immediate_next_lap_remains_blocked",
+        "requested_horizon": horizon,
+        "original_immediate_target_lap": original_target_lap,
+        "confirmation_at": report["cutoff"],
+        "selected_target_lap": None,
+        "candidate_target_lap": None,
+        "prediction": None,
+        "availability_label": (
+            "retrospective assumed availability"
+            if report["mode"] == "historical_approximation"
+            else "imported received_at; provenance unverified"
+        ),
+        "model_eligible": False,
+        "reason": "immediate_next_lap_remains_blocked",
     }
     if horizon == "immediate_post_pit":
         return result
@@ -220,8 +253,11 @@ def select_horizon(report, *, horizon, driver_stream, original_target_lap):
         return {**result, "reason": "unstarted_boundary_stale"}
     if not report["snapshot_checks_passed"]:
         return {**result, "reason": "snapshot_checks_failed"}
-    return {**result, "selected_target_lap": candidate,
-            "reason": "distinct_horizon_structurally_selected_external_validation_required"}
+    return {
+        **result,
+        "selected_target_lap": candidate,
+        "reason": "distinct_horizon_structurally_selected_external_validation_required",
+    }
 
 
 def main(argv=None):
@@ -229,26 +265,37 @@ def main(argv=None):
     parser.add_argument("input", type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--cutoff", required=True)
-    parser.add_argument("--mode", choices=["recorded_receipts", "historical_approximation"],
-                        default="recorded_receipts")
+    parser.add_argument(
+        "--mode",
+        choices=["recorded_receipts", "historical_approximation"],
+        default="recorded_receipts",
+    )
     parser.add_argument("--assumed-delay-seconds", type=float)
     parser.add_argument("--max-age-seconds", type=float, default=120)
     parser.add_argument("--max-skew-seconds", type=float, default=2)
-    parser.add_argument("--horizon", choices=["immediate_post_pit",
-                                             "first_unstarted_after_confirmation"])
+    parser.add_argument(
+        "--horizon", choices=["immediate_post_pit", "first_unstarted_after_confirmation"]
+    )
     parser.add_argument("--driver-stream")
     parser.add_argument("--original-target-lap", type=int)
     args = parser.parse_args(argv)
-    result = inspect_import(json.loads(args.input.read_text()), args.cutoff, mode=args.mode,
-                            assumed_delay_seconds=args.assumed_delay_seconds,
-                            max_age_seconds=args.max_age_seconds,
-                            max_skew_seconds=args.max_skew_seconds)
+    result = inspect_import(
+        json.loads(args.input.read_text()),
+        args.cutoff,
+        mode=args.mode,
+        assumed_delay_seconds=args.assumed_delay_seconds,
+        max_age_seconds=args.max_age_seconds,
+        max_skew_seconds=args.max_skew_seconds,
+    )
     if args.horizon:
         if not args.driver_stream or args.original_target_lap is None:
             parser.error("--horizon requires --driver-stream and --original-target-lap")
         result["horizon"] = select_horizon(
-            result, horizon=args.horizon, driver_stream=args.driver_stream,
-            original_target_lap=args.original_target_lap)
+            result,
+            horizon=args.horizon,
+            driver_stream=args.driver_stream,
+            original_target_lap=args.original_target_lap,
+        )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("x") as handle:
         json.dump(result, handle, indent=2, ensure_ascii=False, allow_nan=False)

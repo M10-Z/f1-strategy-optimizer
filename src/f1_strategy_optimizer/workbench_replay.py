@@ -22,8 +22,13 @@ def replay_record(record):
     if document.get("kind") == "local_workbench_horizon_record":
         if horizon is None:
             raise ValueError("缺少目标门控记录")
-        return {"status": "exact_match", "record_sha256": expected, **horizon,
-                "future_evidence_used": False, "kind": document["kind"]}
+        return {
+            "status": "exact_match",
+            "record_sha256": expected,
+            **horizon,
+            "future_evidence_used": False,
+            "kind": document["kind"],
+        }
     frozen, assumptions = document["frozen_decision"], document["assumptions"]
     if "prefix_quality" in document:
         from .prefix_quality import assess_prefix

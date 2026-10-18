@@ -10,8 +10,11 @@ from f1_strategy_optimizer import raw_receiver as receiver
 from f1_strategy_optimizer.observation_import import inspect_import
 
 BASE = 1792281600 * 10**9  # 2026-10-18 UTC, synthetic fixture epoch.
-EVIDENCE = {"source": "synthetic-clock", "max_error_seconds": 0,
-            "evidence_ref": "test-fixture-only-not-real-clock-validation"}
+EVIDENCE = {
+    "source": "synthetic-clock",
+    "max_error_seconds": 0,
+    "evidence_ref": "test-fixture-only-not-real-clock-validation",
+}
 
 
 class Clock:
@@ -26,16 +29,30 @@ class Clock:
 
 
 def logger(path, **kwargs):
-    return receiver.RawReceiver(path, source="synthetic-source", session_id="demo",
-                                collector_id="test-collector", input_kind="synthetic_demo",
-                                clock=kwargs.pop("clock", Clock()), **kwargs)
+    return receiver.RawReceiver(
+        path,
+        source="synthetic-source",
+        session_id="demo",
+        collector_id="test-collector",
+        input_kind="synthetic_demo",
+        clock=kwargs.pop("clock", Clock()),
+        **kwargs,
+    )
 
 
 def message(event="state", revision=0, seconds=1, **extra):
-    return json.dumps({"event_id": event, "revision": revision, "kind": "lap_state",
-                       "event_time": receiver.utc(BASE + seconds * 10**9),
-                       "payload": {"current_lap": 4}, "_id": 200 + revision,
-                       "_key": event, **extra}).encode()
+    return json.dumps(
+        {
+            "event_id": event,
+            "revision": revision,
+            "kind": "lap_state",
+            "event_time": receiver.utc(BASE + seconds * 10**9),
+            "payload": {"current_lap": 4},
+            "_id": 200 + revision,
+            "_key": event,
+            **extra,
+        }
+    ).encode()
 
 
 def gate(path, seconds=20):
@@ -48,6 +65,7 @@ def test_entry_stamp_precedes_decode_and_original_bytes_survive(tmp_path, monkey
     clock = Clock()
     original = receiver.json.loads
     with logger(path, clock=clock) as log:
+
         def check_decode(value):
             assert clock.count == 2  # Header, then receive entry sampled BEFORE decode.
             return original(value)
@@ -74,8 +92,9 @@ def test_entry_stamp_precedes_decode_and_original_bytes_survive(tmp_path, monkey
 
 def test_real_system_clock_records_only_this_local_call_not_historical_receipt(tmp_path):
     path = tmp_path / "system.jsonl"
-    with receiver.RawReceiver(path, source="local", session_id="s",
-                              collector_id="local-test") as log:
+    with receiver.RawReceiver(
+        path, source="local", session_id="s", collector_id="local-test"
+    ) as log:
         before = time.time_ns()
         row = log.receive(b"old archive content", stream="raw")
         after = time.time_ns()
@@ -117,10 +136,13 @@ def test_disconnect_gap_uses_monotonic_duration_and_reconnect_does_not_restore_c
     assert "synthetic-source:local_connection_coverage" in after["null_payload_streams"]
 
 
-@pytest.mark.parametrize("offset,warning", [(-10 * 10**9, "wall_clock_rollback"),
-                                            (10 * 10**9, "wall_monotonic_divergence")])
+@pytest.mark.parametrize(
+    "offset,warning",
+    [(-10 * 10**9, "wall_clock_rollback"), (10 * 10**9, "wall_monotonic_divergence")],
+)
 def test_utc_clock_step_preserved_raw_and_entire_calendar_time_adapter_quarantined(
-        tmp_path, offset, warning):
+    tmp_path, offset, warning
+):
     path = tmp_path / "clock.jsonl"
     with logger(path, clock=Clock({3: offset}), clock_evidence=EVIDENCE) as log:
         log.connection("connected")
@@ -170,13 +192,15 @@ def test_payload_size_failure_does_not_silently_claim_raw_was_saved(tmp_path):
             log.receive(b"too large", stream="raw")
     assert len(receiver.replay_log(path)) == 1
     assert json.loads(path.with_name(path.name + ".receipt.json").read_text())["status"] == (
-        "payload_limit_reached")
+        "payload_limit_reached"
+    )
 
 
 def test_capture_clock_injection_cannot_masquerade_as_system_input(tmp_path):
     with pytest.raises(ValueError, match="synthetic_demo"):
-        receiver.RawReceiver(tmp_path / "x", source="x", session_id="s", collector_id="c",
-                             clock=Clock())
+        receiver.RawReceiver(
+            tmp_path / "x", source="x", session_id="s", collector_id="c", clock=Clock()
+        )
 
 
 def test_declared_clock_error_delays_availability_without_rewriting_receipt(tmp_path):
@@ -195,7 +219,8 @@ def test_declared_clock_error_delays_availability_without_rewriting_receipt(tmp_
 
 
 def test_nan_payload_preserved_opaque_and_fsync_failure_cannot_be_replayed_as_success(
-        tmp_path, monkeypatch):
+    tmp_path, monkeypatch
+):
     path = tmp_path / "nan.jsonl"
     with logger(path) as log:
         log.receive(b'{"_id":NaN}', stream="raw")

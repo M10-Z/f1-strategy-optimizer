@@ -252,12 +252,15 @@ class Workbench:
 
         report = self.horizon(document)
         payload = {
-            "schema_version": 1, "kind": "local_workbench_horizon_record",
+            "schema_version": 1,
+            "kind": "local_workbench_horizon_record",
             "created_at_utc": datetime.now(timezone.utc).isoformat(),
-            "workbench_git_commit": self.commit, "versions": _versions(),
+            "workbench_git_commit": self.commit,
+            "versions": _versions(),
             "selection": {"case": document["case"], "driver": document["driver"]},
             "frozen_decision": self.cases[document["case"]][1],
-            "horizon_request": report["request"], "horizon_report": report,
+            "horizon_request": report["request"],
+            "horizon_report": report,
             "horizon_source_sha256": source_manifest(),
             "interpretation": "目标与可用性门控导出，无数值预测或模拟结果；未读取事实结果",
         }
@@ -291,7 +294,8 @@ class Workbench:
             },
             "dataset_file_sha256": self.data_hashes,
             "selection": {"case": case, "driver": driver, "race": race["name"]},
-            "horizon_request": horizon_report["request"], "horizon_report": horizon_report,
+            "horizon_request": horizon_report["request"],
+            "horizon_report": horizon_report,
             "horizon_source_sha256": source_manifest(),
             "frozen_decision": frozen,
             "prefix_context": self.quality_context(case),
