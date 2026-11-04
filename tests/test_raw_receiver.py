@@ -90,6 +90,29 @@ def test_entry_stamp_precedes_decode_and_original_bytes_survive(tmp_path, monkey
     assert all(r["received_at"] is None for r in envelope["records"])
 
 
+@pytest.mark.parametrize("opening,closing", [(b"[", b"]"), (b'{"nested":', b"}")])
+def test_deep_json_is_preserved_and_rejected_without_interrupting_capture(
+    tmp_path, opening, closing
+):
+    path = tmp_path / "deep.jsonl"
+    raw = opening * 10000 + b"0" + closing * 10000
+    assert len(raw) < receiver.MAX_PAYLOAD
+    with logger(path, clock_evidence=EVIDENCE) as log:
+        log.connection("connected")
+        row = log.receive(raw, stream="laps")
+        log.receive(message(event="after-deep-json"), stream="laps")
+    assert base64.b64decode(row["raw_base64"]) == raw
+    assert row["source_sequence"] is None
+    rows = receiver.replay_log(path)
+    assert base64.b64decode(rows[2]["raw_base64"]) == raw
+    envelope = receiver.to_envelope(path, required_streams=["laps"])
+    assert envelope["rejected_payloads"] == [
+        {"index": 2, "reason": "opaque_or_unsupported_payload"}
+    ]
+    assert any(record["event_id"] == "after-deep-json" for record in envelope["records"])
+    assert not envelope["model_eligible"]
+
+
 def test_real_system_clock_records_only_this_local_call_not_historical_receipt(tmp_path):
     path = tmp_path / "system.jsonl"
     with receiver.RawReceiver(
@@ -239,3 +262,138 @@ def test_nan_payload_preserved_opaque_and_fsync_failure_cannot_be_replayed_as_su
     log.close()
     with pytest.raises(ValueError):
         receiver.replay_log(path)
+
+
+def test_inspection_records_repeat_and_event_regression_without_reordering(tmp_path):
+    path = tmp_path / "inspect.jsonl"
+    with logger(path, source_schema_version="normalized-events-v1") as log:
+        log.connection("connected")
+        first = log.receive(message(seconds=2), stream="laps")
+        log.receive(message(seconds=2), stream="laps")
+        older = log.receive(message(revision=1, seconds=1), stream="laps")
+        log.receive(message(seconds=2), stream="other-stream")
+        log.connection("disconnected")
+        log.connection("connected")
+    before = path.read_bytes()
+    report = receiver.inspect_log(path)
+    assert report["message_count"] == 4
+    assert report["repeated_payload_observations"] == [
+        {"index": first["index"] + 1, "first_index": first["index"], "stream": "laps"}
+    ]
+    assert [row["index"] for row in report["event_time_regressions"]] == [older["index"]]
+    assert report["source_sequence_semantics"] == "unknown"
+    assert report["lost_message_count"] is None
+    assert report["disconnect_record_count"] == 1
+    assert len(report["closed_gaps"]) == 1
+    assert report["source_schema_version"] == "normalized-events-v1"
+    assert report["source_schema_version_status"] == "declared_not_verified"
+    assert path.read_bytes() == before
+    assert len([row for row in receiver.replay_log(path) if row["type"] == "message"]) == 4
+    envelope = receiver.to_envelope(path, required_streams=["laps"])
+    assert all(
+        row["capture"]["source_schema_version"] == "normalized-events-v1"
+        for row in envelope["records"]
+    )
+
+
+@pytest.mark.parametrize("raw", [b"opaque", b'{"event_time":"2026-10-18T00:00:00"}', b"[]"])
+def test_inspection_does_not_invent_missing_event_times(tmp_path, raw):
+    path = tmp_path / "unknown.jsonl"
+    with logger(path) as log:
+        row = log.receive(raw, stream="raw")
+    report = receiver.inspect_log(path)
+    assert report["uninterpretable_event_time_indices"] == [row["index"]]
+    assert report["event_time_regressions"] == []
+    assert report["source_schema_version"] is None
+    assert report["source_schema_version_status"] == "unknown"
+
+
+@pytest.mark.parametrize("version", ["", " ", 1, {}, "x" * 257])
+def test_invalid_schema_version_rejected_before_file_creation(tmp_path, version):
+    path = tmp_path / "bad.jsonl"
+    with pytest.raises(ValueError, match="schema version"):
+        logger(path, source_schema_version=version)
+    assert not path.exists()
+
+
+def test_old_capture_without_source_version_still_inspects(tmp_path):
+    path = tmp_path / "old.jsonl"
+    with logger(path) as log:
+        log.receive(message(), stream="laps")
+    rows = receiver.replay_log(path)
+    rows[0].pop("source_schema_version")
+    rows[0].pop("source_schema_version_status")
+    previous = None
+    for row in rows:
+        row.pop("record_sha256")
+        row["previous_sha256"] = previous
+        row["record_sha256"] = receiver.digest(row)
+        previous = row["record_sha256"]
+    raw = b"".join(receiver.canonical(row) + b"\n" for row in rows)
+    path.write_bytes(raw)
+    receipt_path = path.with_name(path.name + ".receipt.json")
+    receipt = json.loads(receipt_path.read_text())
+    receipt.update(
+        bytes=len(raw),
+        file_sha256=receiver.hashlib.sha256(raw).hexdigest(),
+        terminal_sha256=previous,
+    )
+    receipt_path.write_bytes(receiver.canonical(receipt) + b"\n")
+    assert receiver.inspect_log(path)["source_schema_version_status"] == "unknown"
+    envelope = receiver.to_envelope(path, required_streams=["laps"])
+    assert envelope["records"][0]["capture"]["source_schema_version"] is None
+
+
+def test_inspection_preserves_unclosed_gap_without_inventing_duration(tmp_path):
+    path = tmp_path / "open-gap.jsonl"
+    with logger(path) as log:
+        log.connection("connected")
+        first = log.connection("disconnected")
+        log.connection("disconnected")
+    report = receiver.inspect_log(path)
+    assert report["final_connection_state"] == "disconnected"
+    assert report["open_gap_start_index"] == first["index"]
+    assert report["coverage_gap_seen"] is True
+    assert report["closed_gaps"] == []
+    assert report["lost_message_count"] is None
+
+
+@pytest.mark.parametrize("grow_after_stat", [False, True])
+def test_oversized_receipt_is_bounded_even_after_stat(tmp_path, monkeypatch, grow_after_stat):
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    path = tmp_path / "receipt-limit.jsonl"
+    with logger(path) as log:
+        log.receive(message(), stream="laps")
+    receipt = path.with_name(path.name + ".receipt.json")
+    receipt.write_bytes(b" " * (receiver.MAX_RECEIPT_BYTES + 1))
+    if grow_after_stat:
+        original = Path.stat
+
+        def stale_stat(self, *args, **kwargs):
+            return (
+                SimpleNamespace(st_size=0) if self == receipt else original(self, *args, **kwargs)
+            )
+
+        monkeypatch.setattr(Path, "stat", stale_stat)
+    with pytest.raises(ValueError, match="Receipt byte limit"):
+        receiver.inspect_log(path)
+
+
+@pytest.mark.parametrize("number", ["NaN", "Infinity", "-Infinity"])
+def test_nonstandard_numbers_are_opaque_in_every_adapter(tmp_path, number):
+    path = tmp_path / "opaque-number.jsonl"
+    raw = (
+        '{"event_id":"e","kind":"lap_state","event_time":"2026-10-18T00:00:00Z",'
+        '"payload":{"value":' + number + "}}"
+    ).encode()
+    with logger(path) as log:
+        row = log.receive(raw, stream="laps")
+    assert base64.b64decode(receiver.replay_log(path)[1]["raw_base64"]) == raw
+    inspected = receiver.inspect_log(path)
+    assert inspected["uninterpretable_event_time_indices"] == [row["index"]]
+    assert inspected["event_time_regressions"] == []
+    assert receiver.to_envelope(path, required_streams=["laps"])["rejected_payloads"] == [
+        {"index": row["index"], "reason": "opaque_or_unsupported_payload"}
+    ]

@@ -14,6 +14,7 @@ from pathlib import Path
 MAX_BYTES = 16 * 1024 * 1024
 MAX_RECORDS = 10000
 MAX_PAYLOAD = 256 * 1024
+MAX_RECEIPT_BYTES = 64 * 1024
 
 
 def canonical(value):
@@ -55,6 +56,7 @@ class RawReceiver:
         collector_id,
         input_kind="local_callback",
         clock_evidence=None,
+        source_schema_version=None,
         clock=None,
         max_bytes=MAX_BYTES,
         max_records=MAX_RECORDS,
@@ -72,6 +74,14 @@ class RawReceiver:
             raise ValueError("Only local/offline input is implemented")
         if clock is not None and input_kind != "synthetic_demo":
             raise ValueError("Injected clocks require synthetic_demo labeling")
+        if source_schema_version is not None and (
+            not isinstance(source_schema_version, str)
+            or not source_schema_version.strip()
+            or len(source_schema_version) > 256
+        ):
+            raise ValueError(
+                "Source schema version must be null or a nonempty string up to 256 chars"
+            )
         for value in (max_bytes, max_records, max_payload):
             if type(value) is not int or value <= 0:
                 raise ValueError("Limits must be positive integers")
@@ -138,6 +148,10 @@ class RawReceiver:
                     "collector_id": collector_id,
                     "input_kind": input_kind,
                     "clock_evidence": evidence,
+                    "source_schema_version": source_schema_version,
+                    "source_schema_version_status": "declared_not_verified"
+                    if source_schema_version is not None
+                    else "unknown",
                     "limits": {
                         "max_bytes": max_bytes,
                         "max_records": max_records,
@@ -231,7 +245,9 @@ class RawReceiver:
         try:
             obj = json.loads(raw)
             canonical(obj)  # Nonstandard NaN/Infinity is not a usable key hint.
-        except (ValueError, UnicodeDecodeError):
+        except (ValueError, UnicodeDecodeError, RecursionError):
+            # Optional key parsing must not discard bounded original bytes, even
+            # when valid JSON exceeds the decoder/encoder's nesting limit.
             obj = None
         hints = obj if isinstance(obj, dict) else {}
         return self._append(
@@ -352,7 +368,14 @@ def replay_log(path, *, max_bytes=MAX_BYTES, max_records=MAX_RECORDS):
         rows.append(row)
     if rows[0]["type"] != "capture_start":
         raise ValueError("Missing capture header")
-    receipt = json.loads(path.with_name(path.name + ".receipt.json").read_text())
+    receipt_path = path.with_name(path.name + ".receipt.json")
+    if receipt_path.stat().st_size > MAX_RECEIPT_BYTES:
+        raise ValueError("Receipt byte limit exceeded")
+    with receipt_path.open("rb") as handle:
+        receipt_bytes = handle.read(MAX_RECEIPT_BYTES + 1)
+    if len(receipt_bytes) > MAX_RECEIPT_BYTES:
+        raise ValueError("Receipt byte limit exceeded")
+    receipt = json.loads(receipt_bytes)
     if (
         receipt["file_sha256"] != hashlib.sha256(data).hexdigest()
         or receipt["terminal_sha256"] != previous
@@ -364,6 +387,86 @@ def replay_log(path, *, max_bytes=MAX_BYTES, max_records=MAX_RECORDS):
     if receipt["status"] == "io_error":
         raise ValueError("Capture I/O failed; preserve raw evidence for inspection")
     return rows
+
+
+def inspect_log(path):
+    """Describe verified local receipt order without deduplication or loss claims."""
+    rows = replay_log(path)
+    seen, latest = {}, {}
+    repeats, regressions, unknown_times = [], [], []
+    messages = [row for row in rows if row["type"] == "message"]
+    for row in messages:
+        key = row["stream"], row["raw_sha256"]
+        if key in seen:
+            repeats.append(
+                {"index": row["index"], "first_index": seen[key], "stream": row["stream"]}
+            )
+        else:
+            seen[key] = row["index"]
+        try:
+            obj = json.loads(base64.b64decode(row["raw_base64"]))
+            canonical(obj)
+            if not isinstance(obj, dict) or not isinstance(obj.get("event_time"), str):
+                raise ValueError("No explicit normalized event timestamp")
+            event = datetime.fromisoformat(obj["event_time"].replace("Z", "+00:00"))
+            if event.tzinfo is None or event.utcoffset() is None:
+                raise ValueError("Timezone required")
+        except (ValueError, UnicodeDecodeError, RecursionError):
+            unknown_times.append(row["index"])
+            continue
+        previous = latest.get(row["stream"])
+        if previous is not None and event < previous[0]:
+            regressions.append(
+                {
+                    "index": row["index"],
+                    "stream": row["stream"],
+                    "event_time": obj["event_time"],
+                    "prior_max_index": previous[1],
+                    "prior_max_event_time": previous[0].isoformat(),
+                }
+            )
+        if previous is None or event > previous[0]:
+            latest[row["stream"]] = event, row["index"]
+    connection_rows = [row for row in rows if row["type"] == "connection"]
+    open_gap_index = None
+    for row in connection_rows:
+        if row["connection_state"] == "disconnected" and open_gap_index is None:
+            open_gap_index = row["index"]
+        elif row["connection_state"] == "connected":
+            open_gap_index = None
+    return {
+        "schema_version": 1,
+        "run_id": rows[0]["run_id"],
+        "message_count": len(messages),
+        "final_connection_state": connection_rows[-1]["connection_state"]
+        if connection_rows
+        else "unknown",
+        "open_gap_start_index": open_gap_index,
+        "coverage_gap_seen": any(row.get("coverage_gap_seen", False) for row in rows),
+        "repeated_payload_observations": repeats,
+        "event_time_regressions": regressions,
+        "uninterpretable_event_time_indices": unknown_times,
+        "disconnect_record_count": sum(
+            row["type"] == "connection" and row["connection_state"] == "disconnected"
+            for row in rows
+        ),
+        "closed_gaps": [
+            row["closed_gap"]
+            for row in rows
+            if row["type"] == "connection" and row["closed_gap"] is not None
+        ],
+        "lost_message_count": None,
+        "source_sequence_semantics": "unknown",
+        "source_schema_version": rows[0].get("source_schema_version"),
+        "source_schema_version_status": rows[0].get("source_schema_version_status", "unknown"),
+        "clock_warning_indices": [row["index"] for row in rows if row["clock_warnings"]],
+        "limitations": [
+            "Repeated bytes do not prove duplicate source events or retransmission",
+            "Event-time regression may be revision/delay; source ordering is unverified",
+            "No deduplication, sorting, gap repair, or missing-message count inference",
+            "Schema version is caller-declared metadata, not provider verification",
+        ],
+    }
 
 
 def to_envelope(path, *, required_streams, binding=None):
@@ -395,6 +498,8 @@ def to_envelope(path, *, required_streams, binding=None):
             "utc_tainted_run": tainted,
             "input_kind": header["input_kind"],
             "publication_time_verified": False,
+            "source_schema_version": header.get("source_schema_version"),
+            "source_schema_version_status": header.get("source_schema_version_status", "unknown"),
         }
         if row["type"] == "message":
             try:
@@ -425,7 +530,7 @@ def to_envelope(path, *, required_streams, binding=None):
                         "capture": capture,
                     }
                 )
-            except (ValueError, UnicodeDecodeError):
+            except (ValueError, UnicodeDecodeError, RecursionError):
                 rejected.append({"index": row["index"], "reason": "opaque_or_unsupported_payload"})
         if row["type"] in {"message", "connection"}:
             continuous = row["connection_state"] == "connected" and not row["coverage_gap_seen"]
@@ -480,8 +585,11 @@ def main(argv=None):
     for name in ("source", "session-id", "collector-id", "stream"):
         record.add_argument("--" + name, required=True)
     record.add_argument("--clock-evidence", type=Path)
+    record.add_argument("--source-schema-version")
     replay = sub.add_parser("replay")
     replay.add_argument("log", type=Path)
+    inspect = sub.add_parser("inspect")
+    inspect.add_argument("log", type=Path)
     export = sub.add_parser("export-envelope")
     export.add_argument("log", type=Path)
     export.add_argument("--required-stream", action="append", required=True)
@@ -496,6 +604,7 @@ def main(argv=None):
             collector_id=args.collector_id,
             input_kind="local_file_input",
             clock_evidence=evidence,
+            source_schema_version=args.source_schema_version,
         ) as receiver:
             receiver.connection("connected", reason="local file adapter opened; not a network feed")
             with args.input.open("rb") as handle:
@@ -503,6 +612,8 @@ def main(argv=None):
                     receiver.receive(line, stream=args.stream)
             receiver.connection("disconnected", reason="local file EOF; not a network disconnect")
         print(json.dumps({"log": str(args.log), "input_kind": "local_file_input"}))
+    elif args.command == "inspect":
+        print(json.dumps(inspect_log(args.log), ensure_ascii=False, indent=2))
     elif args.command == "replay":
         rows = replay_log(args.log)
         print(
