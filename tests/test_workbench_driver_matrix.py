@@ -127,6 +127,7 @@ def _check_input_path(file, opened):
 def _guard_input_reads():
     opened = []
     original_open, original_io_open = builtins.open, io.open
+    original_path_open = Path.open
 
     def checked_open(file, *args, **kwargs):
         _check_input_path(file, opened)
@@ -136,7 +137,16 @@ def _guard_input_reads():
         _check_input_path(file, opened)
         return original_io_open(file, *args, **kwargs)
 
-    with patch("builtins.open", checked_open), patch("io.open", checked_io_open):
+    def checked_path_open(path, *args, **kwargs):
+        # Python 3.10 pathlib uses its own accessor rather than io.open.
+        _check_input_path(path, opened)
+        return original_path_open(path, *args, **kwargs)
+
+    with (
+        patch("builtins.open", checked_open),
+        patch("io.open", checked_io_open),
+        patch.object(Path, "open", checked_path_open),
+    ):
         yield opened
 
 
