@@ -17,6 +17,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from .artifacts import _versions
 from .event_replay import digest, verify_frozen
+from .openf1_history import HistoryAPI, HistoryError
 
 ASSETS = Path(__file__).with_name("workbench_static")
 DEFAULT_DATA = Path(__file__).with_name("workbench_data")
@@ -46,7 +47,7 @@ def _worker(connection, frozen, assumptions):
 
 
 class Workbench:
-    def __init__(self, data_dir=DEFAULT_DATA, timeout=45):
+    def __init__(self, data_dir=DEFAULT_DATA, timeout=45, *, expected_races=None):
         self.root = Path(data_dir).resolve()
         self.timeout = timeout
         self.token = secrets.token_urlsafe(32)
@@ -55,7 +56,12 @@ class Workbench:
         self.revealed = {}
         self.races = {}
         self.cases = {}
+        self.history_api = HistoryAPI()
         catalog = _load(self.root / "catalog.json")
+        if expected_races is not None:
+            scope = [(row["id"], row["partition"]) for row in catalog["races"]]
+            if len(scope) != len(expected_races) or dict(scope) != expected_races:
+                raise ValueError("Catalog is restricted to the requested race/partition scope")
         self.data_hashes = catalog["file_sha256"]
         for row in catalog["races"]:
             race = deepcopy(row)
@@ -125,6 +131,14 @@ class Workbench:
             "frozen": frozen,
             "workbench_version": self.commit,
             "prefix_quality": self.quality(case),
+        }
+
+    def forecast(self, case, driver=None):
+        from .forecast_service import forecast_report
+
+        return {
+            "case": case,
+            **forecast_report(self.cases[case][1], self.quality_context(case), driver=driver),
         }
 
     def assumptions(self, case, driver, field="nearby", drivers=None):
@@ -343,10 +357,27 @@ class Handler(BaseHTTPRequestHandler):
         query = parse_qs(parsed.query)
         app = self.server.app
         try:
+            if parsed.path.startswith("/api/openf1/"):
+                routes = {
+                    "/api/openf1/sessions": (app.history_api.sessions, ("year",)),
+                    "/api/openf1/drivers": (app.history_api.drivers, ("session_key",)),
+                    "/api/openf1/history": (
+                        app.history_api.history,
+                        ("session_key", "driver_number"),
+                    ),
+                }
+                if parsed.path not in routes:
+                    return self._send({"error": "未找到历史数据接口"}, 404)
+                method, names = routes[parsed.path]
+                if set(query) != set(names) or any(len(query[name]) != 1 for name in names):
+                    raise HistoryError("历史数据接口参数缺失、重复或不支持")
+                return self._send(method(*(query[name][0] for name in names)))
             if parsed.path == "/api/catalog":
                 return self._send(app.catalog())
             if parsed.path == "/api/decision":
                 return self._send(app.decision(query["case"][0]))
+            if parsed.path == "/api/forecast":
+                return self._send(app.forecast(query["case"][0], query.get("driver", [None])[0]))
             if parsed.path == "/api/assumptions":
                 return self._send(
                     app.assumptions(
@@ -361,12 +392,15 @@ class Handler(BaseHTTPRequestHandler):
             files = {
                 "/": ("index.html", "text/html; charset=utf-8"),
                 "/app.js": ("app.js", "text/javascript; charset=utf-8"),
+                "/history.js": ("history.js", "text/javascript; charset=utf-8"),
                 "/style.css": ("style.css", "text/css; charset=utf-8"),
             }
             if parsed.path in files:
                 name, kind = files[parsed.path]
                 return self._send((ASSETS / name).read_bytes(), content_type=kind)
             self._send({"error": "未找到页面或接口"}, 404)
+        except HistoryError as exc:
+            self._send({"error": str(exc), "live": False}, exc.status)
         except (KeyError, ValueError, OSError, TypeError, StopIteration) as exc:
             self._send({"error": f"无法读取所选记录：{exc}"}, 400)
 

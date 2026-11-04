@@ -45,7 +45,7 @@ UTC 回拨、单调时钟回退，以及相邻 UTC/单调增量差超过默认�
 
 `to_envelope()` 接受本地原始消息中的**显式规范化 JSON**：event_id、kind、event_time、payload，revision 可缺失；stream/source/session 来自采集器。未知时钟或异常段保留原始 local_received_at、但不提供可用 received_at。未声明连接已建立的消息也不会进入可用快照。绑定浏览器时可另提供 decision_sha256、driver_id、original_immediate_target_lap，不能覆盖采集/session/时钟元数据。
 
-不可解码字节、FastF1 原始 list/CompletionMessage 或其他未支持格式全部先保存为原始字节，在规范化阶段明确列入 rejected_payloads；这里没有实现其语义解码器，更没有推断 pit exit。额外连接覆盖流必须保留，不能删除来制造门控通过。模型资格、源发布时间核验及即时目标开关继续为 false。
+不可解码字节、超过 JSON 解码/序列化嵌套深度限制但未超过单消息字节限额的正文、FastF1 原始 list/CompletionMessage 或其他未支持格式全部先保存为原始字节，在规范化阶段明确列入 rejected_payloads；这里没有实现其语义解码器，更没有推断 pit exit。额外连接覆盖流必须保留，不能删除来制造门控通过。模型资格、源发布时间核验及即时目标开关继续为 false。
 
 ## FastF1 兼容核对
 
@@ -65,3 +65,28 @@ python -m pytest tests/test_raw_receiver.py -q
 定向测试还覆盖入口先采样、二进制原样保存、非标准 NaN 原文保留、误差上界等待、单调回退、容量与单消息限额、已有文件拒绝覆盖、截断、失败 fsync 拒绝成功重放。完整回归及结构化证据见 `docs/raw-receiver-evidence.json` 和 `output/raw-receiver-demo-20261018/`。
 
 它只准备未来证据采集。可信时钟校准、pit exit 语义、源发布时间、同步活动/圈边界仍需外部获授权证据；没有因采到本地时间而自动解决这些缺口。
+
+## 2026-11-04：审计摘要与来源格式声明
+
+复核 [FastF1 官方 client.py](https://raw.githubusercontent.com/theOehrly/Fast-F1/master/fastf1/livetiming/client.py)：当前 `_on_message` 将接收时刻存入内存字段，用于超时监测；文件写出格式化消息并 flush，不附加该接收时刻。连接事件更新本地连接状态/日志，不能据此恢复逐消息历史发布时间。该分支会变化，本结论对应本次查看内容。
+
+[OpenF1 官方文档](https://openf1.org/docs/) 当前说明：2023年以来历史数据无需认证；实时数据需要订阅。字段中的事件日期不等于消息发布时间。本轮没有订阅、凭据配置或真实流连接。
+
+已有本地组件记录入口 UTC/单调时刻、原始字节、修订键、逐条哈希、断连和重连；所有重传与乱序原文都保留。此前缺少方便检查重复内容/事件时间回退的摘要，以及显式的来源格式版本声明，本轮补齐：
+
+```sh
+python -m f1_strategy_optimizer.raw_receiver inspect output/my-receipts/messages.jsonl
+```
+
+`inspect` 先核对完整日志及收据，然后提供：
+
+- `repeated_payload_observations`：同一 stream 中与此前完全相同的原始字节；记录当前和首次索引。相同内容可能是正常重复，不宣称已证实源事件重复/重传，不去重。
+- `event_time_regressions`：具有明确时区的规范 JSON `event_time` 早于该 stream 之前见过的最大事件时刻。可能是延迟或修订，不证明传输乱序；不从 `_id` 推断连续序列。
+- `uninterpretable_event_time_indices`：不支持的原文、缺时区/缺事件时间等，保持未知；不套用本地接收时间来补齐。
+- 断连记录数、关闭缺口的单调时间证据、时钟异常索引。丢失消息数仍为 null，重连不修复覆盖。
+
+`RawReceiver(..., source_schema_version="my-normalized-contract-v1")` 或命令行 `record-local --source-schema-version ...` 可声明该运行段使用的来源格式版本，写入哈希保护的首条记录并随 envelope 的 capture 元数据保留。仅标记 `declared_not_verified`，不验证提供方格式，不代表 API/模型版本。未声明或旧日志缺字段时为 unknown；格式变化应开启新日志，不能覆盖旧记录。原有每行 `schema_version=1` 仍是本地记录格式版本。
+
+摘要只读，既不删除重复消息、不排序、不修复缺口，也不改变模型门控。回归覆盖跨 stream 内容重复、不具时区的事件时间、真实格式版本缺失的旧日志兼容、无效声明提前拒绝及 envelope 元数据保留。所有检查均使用本地/合成输入。
+
+收据单独限制为64 KiB，并用上限+1字节有界读取，连stat检查之后的文件增长也会拒绝。`inspect` 与记录/导出采用相同严格 JSON 规则，NaN/Infinity 等非标准数值原文继续保留，但事件时间解释和规范化导出均拒绝，不能产生相互矛盾的可用性结论。
