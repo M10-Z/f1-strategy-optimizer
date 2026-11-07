@@ -393,6 +393,9 @@ class Handler(BaseHTTPRequestHandler):
                 "/": ("index.html", "text/html; charset=utf-8"),
                 "/app.js": ("app.js", "text/javascript; charset=utf-8"),
                 "/history.js": ("history.js", "text/javascript; charset=utf-8"),
+                "/navigation.js": ("navigation.js", "text/javascript; charset=utf-8"),
+                "/select.js": ("select.js", "text/javascript; charset=utf-8"),
+                "/paddock.svg": ("paddock.svg", "image/svg+xml"),
                 "/style.css": ("style.css", "text/css; charset=utf-8"),
             }
             if parsed.path in files:
@@ -400,7 +403,15 @@ class Handler(BaseHTTPRequestHandler):
                 return self._send((ASSETS / name).read_bytes(), content_type=kind)
             self._send({"error": "未找到页面或接口"}, 404)
         except HistoryError as exc:
-            self._send({"error": str(exc), "live": False}, exc.status)
+            self._send(
+                {
+                    "error": str(exc),
+                    "live": False,
+                    "error_code": exc.code,
+                    "upstream_http_status": exc.upstream_status,
+                },
+                exc.status,
+            )
         except (KeyError, ValueError, OSError, TypeError, StopIteration) as exc:
             self._send({"error": f"无法读取所选记录：{exc}"}, 400)
 

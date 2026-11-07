@@ -66,6 +66,9 @@ def solve(model: LapTimeModel, config: RaceConfig | None = None) -> PitStrategy:
     """Minimize time. State: compound, age, used-mask, capped stint count.
 
     Precompute all C*A lap costs once. No terminal pit transition exists.
+    Pit transitions share targets within a used-mask/stint-count group, so
+    only a new record-low completed cost in that group can improve them.
+    Stay transitions are never pruned: their future tyre ages still differ.
     Cost tables use O(S) memory; parent pointers require O(N*S).
     """
     config = config or RaceConfig()
@@ -85,6 +88,7 @@ def solve(model: LapTimeModel, config: RaceConfig | None = None) -> PitStrategy:
     best_state, best_cost = None, inf
     for lap in range(1, config.total_laps + 1):
         following = {}
+        best_pit_source = {}
         for state, elapsed in current.items():
             c, age, mask, stints = state
             completed_cost = elapsed + costs[c, age]
@@ -96,14 +100,18 @@ def solve(model: LapTimeModel, config: RaceConfig | None = None) -> PitStrategy:
             transitions = []
             if age < config.age_limit(c):
                 transitions.append(((c, age + 1, mask, stints), completed_cost, False))
-            for new_c in compounds:
-                next_state = (
-                    new_c,
-                    1,
-                    mask | bits[new_c],
-                    min(stints + 1, config.rules.min_stints),
-                )
-                transitions.append((next_state, completed_cost + config.loss_at(lap), True))
+            group = (mask, stints)
+            if completed_cost < best_pit_source.get(group, inf):
+                best_pit_source[group] = completed_cost
+                pit_cost = completed_cost + config.loss_at(lap)
+                for new_c in compounds:
+                    next_state = (
+                        new_c,
+                        1,
+                        mask | bits[new_c],
+                        min(stints + 1, config.rules.min_stints),
+                    )
+                    transitions.append((next_state, pit_cost, True))
             for target, value, did_pit in transitions:
                 if value < following.get(target, inf):
                     following[target] = value

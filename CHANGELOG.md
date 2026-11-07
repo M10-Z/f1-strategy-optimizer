@@ -4,6 +4,10 @@
 
 ## 0.1.0 — unreleased
 
+- Refresh the browser workbench with a red/black/white visual system, separate home/history/research routes, progressive selection controls, mobile navigation, and reduced-motion-aware interactions. Preserve frozen-data boundaries and explicit static-preview limitations.
+- Distinguish OpenF1 upstream HTTP, certificate, proxy/network and stale-cache errors without bypassing transport verification. Add frontend regressions to CI and check packaged navigation, selection and SVG assets.
+- Prune dominated deterministic DP pit-source expansions while preserving all age-specific stay paths and existing ties. Record 400 exact reference matches and a local synthetic 1.63–1.83× solver speedup, not a forecast-accuracy or real-race strategy gain.
+
 - Evaluate the three reserved 2024 races under frozen defaults; retain original rejection runs and two transparent British adapter errata. Report coverage and weaker-than-baseline default errors without retuning.
 
 - Add a loopback browser workbench with bundled real Bahrain snapshots, explicit editable assumptions, cancellable simulation jobs, gated outcome reveal and evidence/version exports.

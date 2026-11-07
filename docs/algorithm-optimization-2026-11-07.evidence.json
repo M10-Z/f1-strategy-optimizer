@@ -1,0 +1,216 @@
+{
+  "scope": "Deterministic solver runtime, not forecast accuracy or real strategy gains",
+  "data": "Original synthetic_laps(seed=42), plus seeded arbitrary positive cost tables",
+  "python": "3.13.5 | packaged by Anaconda, Inc. | (main, Jun 12 2025, 16:37:03) [MSC v.1929 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "reference_sha256": "15970a340627445d8a8bae1937ff7dff5482c75a5ffdf9ad441a1c5caa5c7805",
+  "candidate_sha256": "3415d98bca172c54ad67d89cbe934576ebb3f4633f8cc3aedc7f9cce9249f6b8",
+  "comparison": {
+    "cases": 400,
+    "exact_matches": 400,
+    "feasible": 388,
+    "infeasible": 12
+  },
+  "timing_protocol": "Two warmups then alternating before/after order; same process/model",
+  "benchmarks": [
+    {
+      "name": "synthetic_57_laps",
+      "laps": 57,
+      "minimum_stints": 1,
+      "exact_output_match": true,
+      "samples_seconds": {
+        "before": [
+          0.02910390000033658,
+          0.029442099999869242,
+          0.029989499991643243,
+          0.029661799999303184,
+          0.029709200010984205,
+          0.02968690000125207,
+          0.028916199997183867,
+          0.029618599990499206,
+          0.030363600002601743
+        ],
+        "after": [
+          0.017970100001548417,
+          0.01818009999988135,
+          0.017783399991458282,
+          0.01844359999813605,
+          0.018067600001813844,
+          0.0179162999993423,
+          0.017909800008055754,
+          0.01896590000251308,
+          0.018972699996083975
+        ]
+      },
+      "median_seconds": {
+        "before": 0.029661799999303184,
+        "after": 0.018067600001813844
+      },
+      "median_speedup": 1.641712236064855,
+      "strategy": {
+        "total_time": 5711.160350757706,
+        "pit_laps": [
+          16,
+          31
+        ],
+        "compounds_used": [
+          "SOFT",
+          "SOFT",
+          "HARD"
+        ],
+        "stint_lengths": [
+          16,
+          15,
+          26
+        ],
+        "compounds_set": [
+          "HARD",
+          "SOFT"
+        ],
+        "claim": "Optimal only under the supplied deterministic model and constraints"
+      }
+    },
+    {
+      "name": "synthetic_78_laps",
+      "laps": 78,
+      "minimum_stints": 1,
+      "exact_output_match": true,
+      "samples_seconds": {
+        "before": [
+          0.049286499997833744,
+          0.04877350000606384,
+          0.053177199995843694,
+          0.05166179999650922,
+          0.05010829999810085,
+          0.05148539999208879,
+          0.049977300004684366,
+          0.05120100000931416,
+          0.04993530000501778
+        ],
+        "after": [
+          0.029339000000618398,
+          0.029642099994816817,
+          0.03741850001097191,
+          0.03141400001186412,
+          0.029889899989939295,
+          0.03150860000459943,
+          0.030817700011539273,
+          0.030154899999615736,
+          0.0320579999970505
+        ]
+      },
+      "median_seconds": {
+        "before": 0.05010829999810085,
+        "after": 0.030817700011539273
+      },
+      "median_speedup": 1.625958458267115,
+      "strategy": {
+        "total_time": 7823.181335901384,
+        "pit_laps": [
+          29,
+          57
+        ],
+        "compounds_used": [
+          "HARD",
+          "HARD",
+          "MEDIUM"
+        ],
+        "stint_lengths": [
+          29,
+          28,
+          21
+        ],
+        "compounds_set": [
+          "HARD",
+          "MEDIUM"
+        ],
+        "claim": "Optimal only under the supplied deterministic model and constraints"
+      }
+    },
+    {
+      "name": "synthetic_57_laps_12_stints",
+      "laps": 57,
+      "minimum_stints": 12,
+      "exact_output_match": true,
+      "samples_seconds": {
+        "before": [
+          0.280529600000591,
+          0.28520680000656284,
+          0.28535079999710433,
+          0.27693039999576285,
+          0.29723339999327436,
+          0.2756812000006903,
+          0.28639960000873543,
+          0.2798672999924747,
+          0.3157086999999592
+        ],
+        "after": [
+          0.15698559999873396,
+          0.15402060000633355,
+          0.1561811999999918,
+          0.15522850000706967,
+          0.1736168999923393,
+          0.154900199995609,
+          0.15760380000574514,
+          0.15596679999725893,
+          0.16877699999895412
+        ]
+      },
+      "median_seconds": {
+        "before": 0.28520680000656284,
+        "after": 0.1561811999999918
+      },
+      "median_speedup": 1.826127600547171,
+      "strategy": {
+        "total_time": 5867.3952505817715,
+        "pit_laps": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35,
+          40,
+          45,
+          47,
+          52
+        ],
+        "compounds_used": [
+          "SOFT",
+          "SOFT",
+          "SOFT",
+          "SOFT",
+          "SOFT",
+          "SOFT",
+          "SOFT",
+          "SOFT",
+          "SOFT",
+          "MEDIUM",
+          "SOFT",
+          "SOFT"
+        ],
+        "stint_lengths": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          2,
+          5,
+          5
+        ],
+        "compounds_set": [
+          "MEDIUM",
+          "SOFT"
+        ],
+        "claim": "Optimal only under the supplied deterministic model and constraints"
+      }
+    }
+  ],
+  "limits": "One local machine; timings are noisy and not an end-to-end workbench benchmark"
+}

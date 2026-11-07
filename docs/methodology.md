@@ -27,6 +27,13 @@ and sums the schedule. Tests compare optima against an independent partition/pro
 Ties are deterministic by model compound order and state insertion order, not a secondary
 objective such as fewest stops.
 
+Within one lap, pit transitions from states with the same used mask and capped stint count
+have identical targets and pay the same pit loss. Only a new strict record-low completed
+cost in that group can improve a pit target. The solver skips other pit expansions, retaining
+every age-specific stay transition and the original traversal order. Thus tied schedules,
+parent reconstruction and the optimum remain unchanged. This dominance rule depends on the
+current shared pit-loss model; driver/compound-specific costs or inventory require a new proof.
+
 ## Complexity
 
 Let N = laps, C = compounds, A = maximum tyre age, K = minimum stint count.
@@ -34,6 +41,9 @@ The state upper bound per lap is S = C A 2^C K. Each state has at most C + 1 tra
 Time is O(N S (C + 1)), excluding model prediction. The rolling cost tables use O(S), but
 parent pointers use O(N S), so total memory is O(N S). With fixed C = 3, constants may be
 suppressed, but storing all parents does not remove the factor N from total memory.
+The pit-source filter reduces redundant expansions in practice, not this worst-case bound:
+every visited source could be a new record low. It adds at most O(2^C K) temporary entries
+per lap. See the [2026-11-07 local equivalence and runtime report](algorithm-optimization-2026-11-07.zh-CN.md).
 
 ## Estimating degradation
 

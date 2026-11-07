@@ -32,9 +32,11 @@ LIMITATIONS = [
 
 
 class HistoryError(ValueError):
-    def __init__(self, message, status=400):
+    def __init__(self, message, status=400, *, code=None, upstream_status=None):
         super().__init__(message)
         self.status = status
+        self.code = code
+        self.upstream_status = upstream_status
 
 
 class _NoRedirect(HTTPRedirectHandler):
@@ -149,16 +151,19 @@ class HistoryAPI:
             if any(not isinstance(row, dict) for row in rows):
                 raise HistoryError("历史API记录格式无效", 502)
         except (HTTPError, URLError, HTTPException, OSError, ValueError, RecursionError) as exc:
+            failure = self._failure(exc)
             if cached:
                 return deepcopy(cached["rows"]), {
                     **cached["receipt"],
                     "cache_status": "stale_fallback",
-                    "warning": "本次拉取失败，显示该同一查询此前缓存；不是新数据",
+                    "warning": f"本次拉取失败，显示该同一查询此前缓存；不是新数据。{failure}",
+                    "refresh_error_code": failure.code,
+                    "refresh_upstream_http_status": failure.upstream_status,
                 }
-            status = 429 if isinstance(exc, HTTPError) and exc.code == 429 else 502
-            if isinstance(exc, HistoryError):
-                raise exc
-            raise HistoryError("历史API暂不可用或响应无效；没有替代或编造数据", status) from exc
+            if failure is exc:
+                raise
+            raise failure from exc
+
         receipt = {
             "url": url,
             "request_started_at_utc": started,
@@ -187,6 +192,41 @@ class HistoryAPI:
                 _, removed = self.cache.popitem(last=False)
                 self.cache_bytes -= removed["size"]
         return deepcopy(rows), dict(receipt)
+
+    @staticmethod
+    def _failure(exc):
+        """Explain upstream failures without exposing response bodies or credentials."""
+        if isinstance(exc, HistoryError):
+            return exc
+        if isinstance(exc, HTTPError):
+            upstream = exc.code
+            if upstream in {401, 403}:
+                return HistoryError(
+                    f"OpenF1拒绝本次历史数据访问（HTTP {upstream}）。"
+                    "本面板使用免凭据历史接口；尚不能确定拒绝原因。"
+                    "未自动重试、切换来源或接入实时数据。",
+                    502,
+                    code="upstream_access_denied",
+                    upstream_status=upstream,
+                )
+            if upstream == 429:
+                return HistoryError(
+                    "OpenF1请求频率受限（HTTP 429），请稍后手动重试；未自动重试。",
+                    429,
+                    code="upstream_rate_limited",
+                    upstream_status=upstream,
+                )
+            return HistoryError(
+                f"OpenF1历史接口返回HTTP {upstream}；没有替代或编造数据。",
+                502,
+                code="upstream_http_error",
+                upstream_status=upstream,
+            )
+        return HistoryError(
+            "历史API暂不可用或响应无效；没有替代或编造数据",
+            502,
+            code="upstream_unavailable",
+        )
 
     def _source(self, receipts):
         statuses = {row["cache_status"] for row in receipts}
