@@ -33,12 +33,14 @@ const row=(id,value)=>({driver_id:id,name:id,team:'Team',target_lap:12,predicted
 state.driver='a';state.forecast={summary:{available:1,abstained:1},cutoff:'2023-03-05T15:18:00Z',limitations:['历史回放'],drivers:[row('a',95.3),row('b',null)]};
 renderForecast();
 assert.equal(ids.get('forecast-drivers').children.length,2);
+assert.equal(ids.get('forecast-drivers').children[0].children[0].children[0]['aria-pressed'],'true');
+assert.equal(ids.get('forecast-drivers').children[1].children[0].children[0]['aria-pressed'],'false');
 assert.equal(ids.get('forecast-drivers').children[1].children[2].textContent,'暂不预测');
 assert.equal(ids.get('readiness-driver').textContent,'a');
 assert.equal(ids.get('readiness-time').textContent,'1:35.300');
 assert.equal(ids.get('readiness-target').textContent,'第 12 圈 · 估计圈时');
 assert.equal(ids.get('readiness-team').textContent,'Team');
-assert.match(ids.get('readiness-detail').textContent,/精度尚未达标/);
+assert.match(ids.get('readiness-detail').textContent,/历史估计/);
 assert.match(ids.get('forecast-count').textContent,/1 有估计值 \/ 1 暂不预测/);
 state.driver='b';renderForecast();assert.equal(ids.get('readiness-driver').textContent,'b');assert.equal(ids.get('readiness-time').textContent,'暂不预测');assert.equal(ids.get('readiness-detail').textContent,'证据过期');
 state.forecast={error:'service unavailable'};renderForecast();assert.equal(ids.get('forecast-drivers').children.length,0);assert.match(ids.get('forecast-status').textContent,/service unavailable/);assert.equal(ids.get('forecast-evidence').textContent,'');
@@ -48,6 +50,7 @@ state.driver='a';const visual=candidateVisual({stops:[{after_lap:12,compound:'HA
 assert.match(visual.children[0].children[0].textContent,/L12 后 → HARD/);
 assert.equal(visual.children[1].children[1].children[1].textContent,'P2 / 2');
 state.report={};state.job='old';state.busy=false;invalidate();assert.equal(state.report,null);assert.equal(state.job,null);assert.equal(ids.get('export').disabled,true);
+assert.equal(ids.get('compare')['aria-busy'],'false');
 assert.ok(!source.slice(source.lastIndexOf('(async()=>')).includes('/api/reveal'),'Startup must not reveal outcomes');
 assert.equal(context.test.lapTime(98.614),'1:38.614');
 assert.equal(context.test.lapTime(59.9999),'1:00.000');
@@ -131,5 +134,36 @@ assert.equal(state.loadingCase,true);assert.equal(state.frozen,null);assert.equa
 state.loadingCase=false;state.frozen={};state.driver='a';const sameSelectionReveal=context.test.reveal();invalidate();
 pending['/api/reveal'].resolve({evaluation:{lap:{errors:null,reason:'target_missing'},gap:{errors:null,reason:'target_missing'}}});await sameSelectionReveal;
 assert.ok(state.reveal,'A same-selection reveal must survive assumption edits');
+// Visual busy state follows the current job, never an older response or mere disablement.
+vm.runInContext('parseJson=()=>{}; validateAndSyncNumbers=()=>{}; validatePlanningHorizon=()=>{}; validateWeatherAssumptions=()=>{}; renderReport=()=>{};',context);
+state.loadingCase=false;state.frozen={};state.assumptions={planning:{}};state.busy=false;
+ids.get('ack').checked=true;
+let starts=[],polls=[],cancelled=[];
+context.stubApi=(url,document)=>{
+ if(url==='/api/explore'){const request=deferred();starts.push(request);return request.promise;}
+ if(url.startsWith('/api/jobs/')){const request=deferred();polls.push(request);return request.promise;}
+ if(url==='/api/cancel'){cancelled.push(document.job_id);return Promise.resolve({});}
+ throw Error('Unexpected motion-state request '+url);
+};
+vm.runInContext('api=(url,document)=>stubApi(url,document);',context);
+const successful={status:'succeeded',elapsed_seconds:0.1,report:{budget:{rollouts_executed:1}}};
+let run=context.test.compare();assert.equal(ids.get('compare')['aria-busy'],'true');
+await context.test.compare();assert.equal(starts.length,1,'Repeated submit must not start a second job');
+starts.at(-1).resolve({id:'first',timeout_seconds:45});await new Promise(setImmediate);
+polls.at(-1).resolve(successful);await run;assert.equal(ids.get('compare')['aria-busy'],'false');
+run=context.test.compare();starts.at(-1).resolve({id:'timeout',timeout_seconds:45});await new Promise(setImmediate);
+polls.at(-1).resolve({status:'timed_out',elapsed_seconds:45,error:'已停止'});await run;
+assert.equal(ids.get('compare')['aria-busy'],'false');assert.equal(ids.get('compare').disabled,false);
+run=context.test.compare();starts.at(-1).resolve({id:'cancelled',timeout_seconds:45});await new Promise(setImmediate);
+await ids.get('cancel').events.click();assert.equal(ids.get('compare')['aria-busy'],'true','Keep feedback until cancellation is confirmed');
+polls.at(-1).resolve({status:'cancelled',elapsed_seconds:0.1,error:'已取消'});await run;
+assert.equal(ids.get('compare')['aria-busy'],'false');
+const superseded=context.test.compare(),oldStart=starts.at(-1);invalidate();
+assert.equal(ids.get('compare')['aria-busy'],'false');
+const current=context.test.compare();oldStart.resolve({id:'superseded',timeout_seconds:45});await superseded;
+assert.ok(cancelled.includes('superseded'));assert.equal(ids.get('compare')['aria-busy'],'true','Late response must not clear a newer job indicator');
+starts.at(-1).resolve({id:'current',timeout_seconds:45});await new Promise(setImmediate);polls.at(-1).resolve(successful);await current;
+assert.equal(ids.get('compare')['aria-busy'],'false');
+console.log('PASS: pressed driver semantics, busy success/timeout/cancel/reset, duplicate submits and superseded jobs.');
 console.log('PASS: deferred case/driver interleaving, out-of-order snapshots, stale reveal, failed-load lockout.');
 console.log('PASS: DOM IDs, forecast/null rendering, driver switch, error/loading reset, model rank/stop rendering, stale-result invalidation, no startup reveal. Browser layout not tested.');

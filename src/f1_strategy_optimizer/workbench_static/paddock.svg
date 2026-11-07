@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 440" fill="none">
+ <defs>
+  <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" stroke="#b7b7c5" stroke-opacity=".12"/></pattern>
+  <linearGradient id="body" x1="290" y1="120" x2="350" y2="335" gradientUnits="userSpaceOnUse"><stop stop-color="#f4372b"/><stop offset="1" stop-color="#a80808"/></linearGradient>
+  <filter id="shadow" x="-100%" y="-30%" width="300%" height="170%"><feDropShadow dx="9" dy="14" stdDeviation="11" flood-color="#000000" flood-opacity=".2"/></filter>
+ </defs>
+ <rect x="16" y="16" width="608" height="408" rx="28" fill="url(#grid)"/>
+ <circle cx="333" cy="226" r="165" stroke="#92929f" stroke-opacity=".4"/>
+ <circle cx="333" cy="226" r="132" stroke="#92929f" stroke-opacity=".25" stroke-dasharray="3 9"/>
+ <path d="M-30 332C83 341 92 81 226 67S382 385 493 371 555 180 675 172" stroke="#5a5a69" stroke-width="51" stroke-linecap="round"/>
+ <path d="M-30 332C83 341 92 81 226 67S382 385 493 371 555 180 675 172" stroke="#343440" stroke-width="42" stroke-linecap="round"/>
+ <path d="M-30 332C83 341 92 81 226 67S382 385 493 371 555 180 675 172" stroke="#a0a0ad" stroke-width="1.5" stroke-dasharray="8 12"/>
+ <path d="M72 347C105 301 121 229 143 175M494 343C518 330 526 300 535 265" stroke="#e10600" stroke-width="5" stroke-dasharray="11 9"/>
+ <g transform="translate(20 -2) rotate(22 320 220)" filter="url(#shadow)">
+  <path d="M275 142L363 142M270 290H368" stroke="#767681" stroke-width="9"/>
+  <g fill="#121219"><rect x="263" y="121" width="23" height="49" rx="8"/><rect x="353" y="121" width="23" height="49" rx="8"/><rect x="258" y="267" width="28" height="61" rx="9"/><rect x="353" y="267" width="28" height="61" rx="9"/></g>
+  <g stroke="#5a5a67" stroke-width="2"><path d="M269 132V159M369 132V159M265 280V314M374 280V314"/></g>
+  <path d="M315 100Q320 91 325 100L331 172 346 198 350 274 335 312H305L290 274 294 198 309 172Z" fill="url(#body)" stroke="#7b0909" stroke-width="1.5"/>
+  <path d="M311 177H329L336 197V239L329 252H311L304 239V197Z" fill="#171720"/>
+  <path d="M307 205Q320 187 333 205L331 228H309Z" stroke="#bfc0c8" stroke-width="4"/>
+  <ellipse cx="320" cy="221" rx="7" ry="10" fill="#ffffff"/>
+  <path d="M317 105H323V174H317Z" fill="#ffffff"/>
+  <path d="M298 201L297 265 306 281M342 201L343 265 334 281" stroke="#ff8d83" stroke-width="3"/>
+  <path d="M283 111H357L361 123H279Z" fill="#d4100a" stroke="#ffb0a8" stroke-width="2"/>
+  <path d="M286 308H354V325H286Z" fill="#b40b08" stroke="#ef7770" stroke-width="2"/>
+  <path d="M307 272H333L328 300H312Z" fill="#d6241c"/>
+  <path d="M320 256V293" stroke="#ffffff" stroke-width="2"/>
+ </g>
+ <g stroke="#a2a2b1" stroke-width="1.5"><path d="M425 110H510L530 90M230 318H164L144 338"/><circle cx="425" cy="110" r="4" fill="#1c1c25"/><circle cx="230" cy="318" r="4" fill="#1c1c25"/></g>
+ <g fill="#c8c8d2" font-family="Arial,sans-serif" font-size="10" letter-spacing="2"><text x="466" y="78">STRATEGY LAB</text><text x="69" y="361">SIMULATION</text></g>
+ <g transform="translate(544 336)" fill="#e10600"><rect width="5" height="5"/><rect x="10" width="5" height="5"/><rect y="5" x="5" width="5" height="5"/><rect x="15" y="5" width="5" height="5"/><rect y="10" width="5" height="5"/><rect x="10" y="10" width="5" height="5"/></g>
+</svg>

@@ -164,3 +164,39 @@ def test_compound_age_limit_and_unknown_limit():
     assert all(n <= 1 for c, n in zip(result.compounds_used, result.stint_lengths) if c == "SOFT")
     with pytest.raises(ValueError, match="absent"):
         solve(model(SOFT=1, HARD=2), RaceConfig(compound_age_limits={"MEDIUM": 1}))
+
+
+@pytest.mark.parametrize("seed", range(25))
+def test_pit_dominance_with_irregular_costs_matches_exhaustive_oracle(seed):
+    """Pit-source dominance must never discard an age-specific stay transition."""
+    rng = random.Random(seed + 1000)
+    n = rng.randint(2, 5)
+
+    class TableModel:
+        compounds = ("WET", "A", "Z")
+        costs = {c: [rng.randint(1, 9) for _ in range(n)] for c in compounds}
+
+        def predict(self, compound, age, track_temp=35.0):
+            return self.costs[compound][age - 1]
+
+    m = TableModel()
+    config = RaceConfig(
+        total_laps=n,
+        pit_loss=rng.choice((0, 1, 8)),
+        compound_age_limits={c: rng.randint(1, n) for c in m.compounds},
+        starting_compound=rng.choice((None, *m.compounds)),
+        rules=RuleSet(min_compounds=rng.randint(1, min(n, 3)), min_stints=rng.randint(1, n)),
+        pit_loss_overrides={1: 0},
+    )
+    result = solve(m, config)
+    assert result.total_time == brute_force(m, config)
+    replay = evaluate_strategy(m, config, result.compounds_used, result.stint_lengths)
+    assert replay.to_dict() == result.to_dict()
+
+
+def test_equal_cost_pit_pruning_preserves_deterministic_tie_schedule():
+    result = solve(model(HARD=1, SOFT=1), RaceConfig(total_laps=6, pit_loss=0))
+    assert result.total_time == 6
+    assert result.compounds_used == ["SOFT", "HARD"]
+    assert result.stint_lengths == [5, 1]
+    assert result.pit_laps == [5]

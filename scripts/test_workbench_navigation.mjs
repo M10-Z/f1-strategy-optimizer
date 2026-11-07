@@ -1,0 +1,55 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+const root=new URL('../src/f1_strategy_optimizer/workbench_static/',import.meta.url);
+const source=fs.readFileSync(new URL('navigation.js',root),'utf8');
+function harness(modal=true){
+ const listeners={},events=[];let focused=null,scrolled=0,stepScrolled=0;
+ const element=(id,dataset={})=>({id,dataset,hidden:false,attrs:{},handlers:{},setAttribute(k,v){this.attrs[k]=v;},removeAttribute(k){delete this.attrs[k];},addEventListener(k,fn){this.handlers[k]=fn;},focus(){focused=this.id;},scrollIntoView(){stepScrolled++;}});
+ const pages=['home','history','research'].map(page=>element(page,{page}));
+ const panels=['select','data','setup','results'].map(step=>element(step,{step}));
+ const nav=['#/','#/history','#/research/select'].map(hash=>({...element(hash),hash}));
+ const tabs=panels.map(p=>({...element(p.id+'-tab'),hash:'#/research/'+p.dataset.step}));
+ const links=['#/','#/history',...tabs.map(t=>t.hash)].map(hash=>({...element('drawer'+hash),hash}));
+ const ids=Object.fromEntries(['home-title','history-page-title','research-title','main-content','navigation-drawer','navigation-open','navigation-close'].map(id=>[id,element(id)]));
+ const headings=Object.fromEntries(panels.map(p=>[p.id,element(p.id+'-heading')]));
+ const drawer=ids['navigation-drawer'],opener=ids['navigation-open'];opener.hidden=true;drawer.open=false;
+ drawer.querySelectorAll=()=>links;
+ drawer.close=()=>{drawer.open=false;opener.focus();drawer.handlers.close?.();};
+ if(modal)drawer.showModal=()=>{drawer.open=true;ids['navigation-close'].focus();};
+ const location={hash:''};
+ const window={addEventListener(k,fn){listeners[k]=fn;},dispatchEvent(e){events.push(e.detail);},scrollTo(){scrolled++;}};
+ const document={documentElement:{dataset:{}},querySelectorAll(q){return {'[data-page]':pages,'[data-step]':panels,'.app-nav a':nav,'.research-tabs a':tabs,'[data-nav-route]':links}[q]||[];},querySelector(q){const match=q.match(/^\[data-step="(.+)"\] h2$/);return match?headings[match[1]]:null;},getElementById(id){return ids[id]||null;}};
+ vm.runInNewContext(source,{document,window,location,CustomEvent:class{constructor(type,data){this.type=type;Object.assign(this,data);}}});
+ return {pages,panels,nav,tabs,links,drawer,opener,ids,document,location,window,listeners,events,focused:()=>focused,scrolled:()=>scrolled,stepScrolled:()=>stepScrolled};
+}
+const h=harness();
+assert.equal(h.pages.filter(p=>!p.hidden)[0].dataset.page,'home');assert.equal(h.focused(),null);
+for(const [hash,page,step] of [['#/history','history'],['#/research/setup','research','setup'],['#observed','research','data'],['#/research/results','research','results'],['#/','home'],['#unknown','home']]){
+ h.location.hash=hash;h.listeners.hashchange();assert.equal(h.pages.filter(p=>!p.hidden)[0].dataset.page,page);
+ if(step)assert.equal(h.panels.filter(p=>!p.hidden)[0].dataset.step,step);
+ assert.equal(h.nav.filter(l=>l.attrs['aria-current']==='page').length,1);
+ assert.equal(h.links.filter(l=>l.attrs['aria-current']==='page').length,1);
+ assert.equal(h.tabs.filter(l=>l.attrs['aria-current']==='step').length,page==='research'?1:0);
+}
+assert.equal(h.scrolled(),4);assert.equal(h.stepScrolled(),2);
+h.location.hash='#/history';h.window.F1Navigation.showResults();assert.equal(h.location.hash,'#/history','Completion must not steal navigation');
+h.location.hash='#/research/setup';h.window.F1Navigation.showResults();assert.equal(h.location.hash,'/research/results');
+assert.equal(h.events.length,7);
+assert.equal(h.opener.hidden,false);
+h.opener.handlers.click();assert.equal(h.drawer.open,true);assert.equal(h.opener.attrs['aria-expanded'],'true');assert.equal(h.document.documentElement.dataset.navigationOpen,'true');
+h.drawer.handlers.click({target:h.ids['navigation-close']});assert.equal(h.drawer.open,true,'Inside clicks must not close');
+h.drawer.handlers.click({target:h.drawer});assert.equal(h.drawer.open,false);assert.equal(h.focused(),'navigation-open');assert.equal(h.opener.attrs['aria-expanded'],'false');
+h.opener.handlers.click();h.opener.handlers.click();assert.equal(h.drawer.open,false,'Repeated toggle must not leave a modal');
+h.opener.handlers.click();h.ids['navigation-close'].handlers.click();assert.equal(h.drawer.open,false);
+h.opener.handlers.click();h.drawer.close();assert.equal(h.document.documentElement.dataset.navigationOpen,undefined,'Native Escape/close must release scroll lock');
+h.opener.handlers.click();h.location.hash='#/history';h.listeners.hashchange();assert.equal(h.drawer.open,false,'Browser navigation closes drawer');assert.equal(h.focused(),'history-page-title');
+let prevented=0;const link=h.links.find(l=>l.hash==='#/research/data');
+h.opener.handlers.click();link.handlers.click({button:0,ctrlKey:true,preventDefault(){prevented++;}});assert.equal(h.drawer.open,true,'Modified link clicks retain native behavior');assert.equal(prevented,0);
+h.location.hash='#/research/data';link.handlers.click({button:0,preventDefault(){prevented++;}});assert.equal(h.drawer.open,false);assert.equal(prevented,1);assert.equal(h.focused(),'research-title','Same-route navigation still moves focus into content');
+const fallback=harness(false);assert.equal(fallback.opener.hidden,true);assert.equal(fallback.document.documentElement.dataset.drawerReady,undefined,'Global links remain fallback when dialog is unavailable');
+const html=fs.readFileSync(new URL('index.html',root),'utf8');
+assert.match(html,/<dialog[^>]+aria-labelledby="navigation-title"/);assert.match(html,/id="navigation-close"[^>]+autofocus/);
+assert.equal((html.match(/id="navigation-drawer"/g)||[]).length,1);
+const css=fs.readFileSync(new URL('style.css',root),'utf8');assert.match(css,/@media \(prefers-reduced-motion: no-preference\)/);assert.match(css,/\.research-tabs \{ position: sticky;/);
+console.log('PASS: routes, same-step focus, retained history/selection flow, native dialog open/close/repeat/backdrop/Back, native fallback, modified links, current states and reduced-motion guards. Browser layout tested separately.');

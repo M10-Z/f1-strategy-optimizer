@@ -460,3 +460,113 @@ def test_cache_snapshot_is_rechecked_after_acquiring_network_gate(monkeypatch, i
     assert len(opener.calls) == (3 if interleaving == "evicted" else 2)
     if interleaving == "refreshed":
         assert results[0]["source"]["cache_status"] == "hit"
+
+
+@pytest.mark.parametrize(
+    "upstream,status,code",
+    [
+        (401, 502, "upstream_access_denied"),
+        (403, 502, "upstream_access_denied"),
+        (429, 429, "upstream_rate_limited"),
+        (503, 502, "upstream_http_error"),
+    ],
+)
+def test_upstream_failures_are_actionable_without_body_disclosure(upstream, status, code):
+    service, opener = api()
+
+    def denied(request, timeout):
+        opener.calls.append(request.full_url)
+        raise HTTPError(request.full_url, upstream, "private upstream detail", {}, None)
+
+    opener.open = denied
+    with pytest.raises(HistoryError) as error:
+        service.sessions(2023)
+    assert error.value.status == status
+    assert error.value.upstream_status == upstream
+    assert error.value.code == code
+    assert str(upstream) in str(error.value)
+    assert "private upstream detail" not in str(error.value)
+    assert len(opener.calls) == 1
+    assert not service.cache
+
+
+def test_access_denial_stale_receipt_keeps_original_success_and_refresh_diagnostics():
+    service, opener = api()
+    original = service.sessions(2023)["source"]
+    service.ttl = -1
+
+    def denied(request, timeout):
+        raise HTTPError(request.full_url, 401, "private upstream detail", {}, None)
+
+    opener.open = denied
+    source = service.sessions(2023)["source"]
+    assert source["cache_status"] == "stale_fallback"
+    assert source["received_at_utc"] == original["received_at_utc"]
+    receipt = source["receipts"][0]
+    assert receipt["http_status"] == 200
+    assert receipt["refresh_upstream_http_status"] == 401
+    assert receipt["refresh_error_code"] == "upstream_access_denied"
+    assert "401" in source["warnings"][0]
+    assert "private upstream detail" not in json.dumps(source)
+
+
+def test_http_history_exposes_upstream_status_without_reading_frozen_outcomes():
+    app = Workbench()
+    service, opener = api()
+    app.history_api = service
+
+    def denied(request, timeout):
+        opener.calls.append(request.full_url)
+        raise HTTPError(request.full_url, 401, "private upstream detail", {}, None)
+
+    opener.open = denied
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    server.app = app
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        with pytest.raises(HTTPError) as error:
+            urlopen(f"http://127.0.0.1:{server.server_port}/api/openf1/sessions?year=2023")
+        assert error.value.code == 502
+        payload = json.load(error.value)
+        assert payload["upstream_http_status"] == 401
+        assert payload["error_code"] == "upstream_access_denied"
+        assert payload["live"] is False
+        assert "private upstream detail" not in payload["error"]
+        assert len(opener.calls) == 1
+        assert app.jobs == {} and app.revealed == {}
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)
+
+
+def test_new_ui_assets_use_explicit_static_allowlist(tmp_path, monkeypatch):
+    from f1_strategy_optimizer import workbench
+
+    assets = {
+        "navigation.js": "text/javascript; charset=utf-8",
+        "select.js": "text/javascript; charset=utf-8",
+        "paddock.svg": "image/svg+xml",
+    }
+    for name in (*assets, "not-public.txt"):
+        (tmp_path / name).write_bytes(b"fixture")
+    monkeypatch.setattr(workbench, "ASSETS", tmp_path)
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    server.app = Workbench()
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    base = f"http://127.0.0.1:{server.server_port}"
+    try:
+        for name, content_type in assets.items():
+            with urlopen(f"{base}/{name}", timeout=5) as response:
+                assert response.headers["Content-Type"] == content_type
+                assert response.read() == b"fixture"
+        for path in ("/not-public.txt", "/../not-public.txt", "/workbench_static/select.js"):
+            with pytest.raises(HTTPError) as error:
+                urlopen(base + path, timeout=5)
+            assert error.value.code == 404
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)
